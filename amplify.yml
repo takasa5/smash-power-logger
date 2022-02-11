@@ -7,7 +7,7 @@ frontend:
     build:
       commands: 
         - yarn webpack
-        - echo "API=$API" >> .env
+        - echo "API=$API" >> ./dist/.env
   artifacts:
     baseDirectory: ./dist/
     files:
