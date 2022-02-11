@@ -1,5 +1,8 @@
 const path = require("path");
+
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const Dotenv = require("dotenv-webpack");
+
 
 module.exports = {
     mode: process.env.NODE_ENV || "development",
@@ -32,6 +35,9 @@ module.exports = {
     plugins: [
         // 出力する際のファイル名を指定する
         new MiniCssExtractPlugin({ filename: "[name].css" }),
+        new Dotenv({
+            path: path.resolve(__dirname, ".env"),
+        })
     ],
     devServer: {
         static: {

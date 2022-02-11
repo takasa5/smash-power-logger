@@ -10,5 +10,9 @@
   },
   "scripts": {
     "start": "webpack-dev-server"
+  },
+  "dependencies": {
+    "dotenv-webpack": "^7.1.0",
+    "url-join": "^4.0.1"
   }
 }
