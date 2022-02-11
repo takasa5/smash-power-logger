@@ -2242,6 +2242,11 @@ toidentifier@1.0.1:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.1.tgz#3be34321a88a820ed1bd80dfaa33e479fbb8dd35"
   integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
 
+twitter-api-v2@^1.10.1:
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/twitter-api-v2/-/twitter-api-v2-1.10.1.tgz#a43f2571b0c984a52ea3851cb9985a4dc2a7ecda"
+  integrity sha512-aFfrBkoB2BwUKO4PO90NTuqyAnGE4uO73OGDC6UzGr8xtazYjlIe8XF9IYVaYWdBUWv/JzjgK0DeqSDp162oKQ==
+
 type-is@~1.6.18:
   version "1.6.18"
   resolved "https://registry.yarnpkg.com/type-is/-/type-is-1.6.18.tgz#4e552cd05df09467dcbc4ef739de89f2cf37c131"
