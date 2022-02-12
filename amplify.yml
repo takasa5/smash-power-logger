@@ -6,10 +6,9 @@ frontend:
         - yarn install
     build:
       commands: 
-        - yarn webpack
-        - echo "API=$API" >> .env
+        - yarn build
   artifacts:
-    baseDirectory: /
+    baseDirectory: /src/
     files:
       - '**/*'
   cache:
