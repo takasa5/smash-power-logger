@@ -5,18 +5,20 @@ export default async function(state, code) {
     // localStorageからuuidを取得
     const uuid = localStorage.getItem("uuid");
     // callbackAPIを叩いてユーザー情報を取得 
+    const body = {
+        uuid,
+        state,
+        code
+    };
+    console.log(body);
     const response = await fetch(
-        "https://6wx2hlt0bd.execute-api.ap-northeast-1.amazonaws.com/dev/callback",
+        "https://6wx2hlt0bd.execute-api.ap-northeast-1.amazonaws.com/dev/login",
         {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                uuid,
-                state,
-                code
-            })
+            body: JSON.stringify(body)
         }
     );
     // debug
@@ -25,6 +27,9 @@ export default async function(state, code) {
         return null;
     }
     const res = await response.json();
+    if (res.errorType) {
+        return null;
+    }
     const obj = JSON.parse(res.body);
     return obj;
 }
