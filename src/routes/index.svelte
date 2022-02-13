@@ -8,6 +8,7 @@
 			return {};
 		}
 		const query = new URLSearchParams(url.search);
+		console.log(url);
 		console.log(`state: ${query.get("state")}`);
 		console.log(`code: ${query.get("code")}`);
 		const userObj = await login(query.get("state"), query.get("code"));
