@@ -4,11 +4,12 @@
 
 	export async function load({ url, params, props, fetch, session, stuff }) {
 		// browser=trueでないとlocalStorageが使えないのでブロックする
-		console.log(browser);
 		if (!browser) {
 			return {};
 		}
 		const query = new URLSearchParams(url.search);
+		console.log(`state: ${query.get("state")}`);
+		console.log(`code: ${query.get("code")}`);
 		const userObj = await login(query.get("state"), query.get("code"));
 		const user = userObj ? JSON.stringify(userObj) : userObj;
 
