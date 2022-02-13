@@ -1,59 +1,59 @@
 <script context="module">
-	export const prerender = true;
+	import { browser } from "$app/env";
+	import login from "./_login";
+
+	export async function load({ url, params, props, fetch, session, stuff }) {
+		// browser=trueでないとlocalStorageが使えないのでブロックする
+		if (!browser) {
+			return {};
+		}
+		const query = new URLSearchParams(url.search);
+		const user = await login(query.get("state"), query.get("code"));
+
+		if (localStorage.getItem("uuid")) {
+			return {
+				props: {
+					uuid: localStorage.getItem("uuid"),
+					user
+				}
+			}
+		}
+
+        const response = await fetch(
+            "https://6wx2hlt0bd.execute-api.ap-northeast-1.amazonaws.com/dev/uuid",
+            {
+                method: "GET"
+            }
+        );
+        if (!response.ok) {
+            return {
+                error: "failed to get uuid"
+            }
+        }
+        const res = await response.json();
+        const uuid = JSON.parse(res.body).uuid;
+		localStorage.setItem("uuid", uuid);
+        return {
+            props: {
+				uuid,
+				user
+			}
+        }
+    }
 </script>
 
 <script>
-	import Counter from '$lib/Counter.svelte';
+	export let uuid, user;
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>Index</title>
 </svelte:head>
 
-<section>
-	<h1>
-		<div class="welcome">
-			<picture>
-				<source srcset="svelte-welcome.webp" type="image/webp" />
-				<img src="svelte-welcome.png" alt="Welcome" />
-			</picture>
-		</div>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/index.svelte</strong>
-	</h2>
-
-	<Counter />
-</section>
-
-<style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 1;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
-</style>
+loginUser: {user}
+<p>
+	<a href="/users/1">user 1</a>
+</p>
+<p>
+	<a href="https://6wx2hlt0bd.execute-api.ap-northeast-1.amazonaws.com/dev/login?uuid={uuid}">新規登録</a>
+</p>
