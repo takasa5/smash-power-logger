@@ -4,6 +4,7 @@
 
 	export async function load({ url, params, props, fetch, session, stuff }) {
 		// browser=trueでないとlocalStorageが使えないのでブロックする
+		console.log(browser);
 		if (!browser) {
 			return {};
 		}
