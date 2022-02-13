@@ -22,12 +22,12 @@ export default async function(state, code) {
         }
     );
     // debug
-    console.log(response);
     if (!response.ok) {
         return null;
     }
+    console.log(response)
     const res = await response.json();
-    if (res.errorType) {
+    if (!res || res["errorType"]) {
         return null;
     }
     const obj = JSON.parse(res.body);
