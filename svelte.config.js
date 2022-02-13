@@ -8,6 +8,9 @@ export default {
 			assets: 'build',
 			fallback: null,
 			precompress: false
-		})
+		}),
+		prerender: {
+			enabled: false
+		}
 	}
 };
