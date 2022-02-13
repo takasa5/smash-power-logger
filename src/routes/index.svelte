@@ -8,7 +8,8 @@
 			return {};
 		}
 		const query = new URLSearchParams(url.search);
-		const user = await login(query.get("state"), query.get("code"));
+		const userObj = await login(query.get("state"), query.get("code"));
+		const user = userObj ? JSON.stringify(userObj) : userObj;
 
 		if (localStorage.getItem("uuid")) {
 			return {
