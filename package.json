@@ -26,6 +26,7 @@
     "@lukeed/uuid": "^2.0.0",
     "@sveltejs/adapter-static": "^1.0.0-next.28",
     "cookie": "^0.4.1",
-    "svelte-local-storage-store": "^0.2.6"
+    "svelte-local-storage-store": "^0.2.6",
+    "uuid": "^8.3.2"
   }
 }

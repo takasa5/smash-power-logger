@@ -1,16 +1,13 @@
-export default async function(state, code) {
+export default async function(uuid, state, code) {
     if (!state || !code) {
         return null;
     }
-    // localStorageからuuidを取得
-    const uuid = localStorage.getItem("uuid");
     // callbackAPIを叩いてユーザー情報を取得 
     const body = {
         uuid,
         state,
         code
     };
-    console.log(body);
     const response = await fetch(
         "https://6wx2hlt0bd.execute-api.ap-northeast-1.amazonaws.com/dev/login",
         {
