@@ -13,7 +13,7 @@
 
 id: {userid}
 <br>
-loginUser: {user}
+loginUser: {JSON.stringify(user)}
 <p>
 	<a href="/users/1">user 1</a>
 </p>
