@@ -1,5 +1,4 @@
 import { TwitterApi } from "twitter-api-v2";
-import cookie from "cookie";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -20,7 +19,7 @@ export async function get({ locals }){
                 ]
         }
     );
-    // TODO: 認証に用いる情報をセッションかどこかに保存
+    // セッション（クッキー）に保存
     locals.auth = {
         codeVerifier,
         state

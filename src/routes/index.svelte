@@ -17,3 +17,6 @@ session: {JSON.stringify(sess)}
 <p>
 	<a href="/login">新規登録</a>
 </p>
+<p>
+	<a href="/callback">callback</a>
+</p>

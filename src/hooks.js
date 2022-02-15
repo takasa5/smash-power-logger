@@ -7,7 +7,12 @@ export const handle = async({ event, resolve }) => {
     const cookies = cookie.parse(event.request.headers.get('cookie') || '');
     const user = cookies.user ? JSON.parse(cookies.user) : {};
     event.locals.userid = user.userid || uuid();
-
+    if (user.codeVerifier && user.state) {
+        event.locals.auth = {
+            codeVerifier: user.codeVerifier,
+            state: user.state
+        };
+    }
     const response = await resolve(event);
     const setter = {};
     if (event.locals.userid) {
@@ -22,10 +27,6 @@ export const handle = async({ event, resolve }) => {
         setter["codeVerifier"] = user.codeVerifier;
         setter["state"] = user.state;
     }
-    event.locals.auth = {
-        codeVerifier: user.codeVerifier,
-        state: user.state
-    };
     response.headers.set(
         "set-cookie",
         cookie.serialize("user", JSON.stringify(setter), {
