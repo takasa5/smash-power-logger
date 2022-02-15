@@ -13,10 +13,19 @@ export const handle = async({ event, resolve }) => {
     if (event.locals.userid) {
         setter["userid"] = event.locals.userid;
     }
+    // eventに入っていたら更新
     if (event.locals.auth) {
         setter["codeVerifier"] = event.locals.auth.codeVerifier;
         setter["state"] = event.locals.auth.state;
+    } else if (user.codeVerifier && user.state) {
+        // 入っていなければ既存の値を保持
+        setter["codeVerifier"] = user.codeVerifier;
+        setter["state"] = user.state;
     }
+    event.locals.auth = {
+        codeVerifier: user.codeVerifier,
+        state: user.state
+    };
     response.headers.set(
         "set-cookie",
         cookie.serialize("user", JSON.stringify(setter), {
@@ -29,6 +38,5 @@ export const handle = async({ event, resolve }) => {
 
 export function getSession(event) {
     const cookies = cookie.parse(event.request.headers.get('cookie') || '');
-    console.log(cookies);
     return cookies.user ? JSON.parse(cookies.user) : {};
 }
