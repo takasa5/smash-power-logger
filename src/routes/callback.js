@@ -7,7 +7,7 @@ export async function get({ url, locals }) {
         clientId: process.env.TWITTER_CLIENT_ID,
         clientSecret: process.env.TWITTER_CLIENT_SECRET
     });
-    
+
     const query = url.searchParams;
     const state = query.get("state");
     const code = query.get("code");
@@ -34,6 +34,8 @@ export async function get({ url, locals }) {
     locals.client = userObject;
     return {
         status: 200,
-        body: JSON.stringify(userObject)
+        body: {
+            message: JSON.stringify(userObject)
+        }
     }
 }
