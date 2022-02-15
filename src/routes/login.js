@@ -1,0 +1,34 @@
+import { TwitterApi } from "twitter-api-v2";
+import cookie from "cookie";
+import dotenv from "dotenv";
+dotenv.config();
+
+const client = new TwitterApi({
+    clientId: process.env.TWITTER_CLIENT_ID,
+    clientSecret: process.env.TWITTER_CLIENT_SECRET
+});
+
+// Twitter認証用URLへリダイレクト
+export async function get({ locals }){
+    const { url, codeVerifier, state } = client.generateOAuth2AuthLink(
+        "https://smash-power-logger.vercel.app/callback/",
+        {
+            scope: [
+                'tweet.read',
+                'users.read',
+                'offline.access'
+                ]
+        }
+    );
+    // TODO: 認証に用いる情報をセッションかどこかに保存
+    locals.auth = {
+        codeVerifier,
+        state
+    }
+    return {
+        status: 303,
+        headers: {
+            location: url
+        }
+    };
+}

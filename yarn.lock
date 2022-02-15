@@ -304,6 +304,11 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
+dotenv@^16.0.0:
+  version "16.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.0.tgz#c619001253be89ebb638d027b609c75c26e47411"
+  integrity sha512-qD9WU0MPM4SWLPJy/r2Be+2WgQj8plChsyrCNQzW/0WjvcJQiKQJ9mH3ZgB3fxbUUxgc/11ZJ0Fi5KiimWGz2Q==
+
 emoji-regex@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-8.0.0.tgz#e818fd69ce5ccfcb404594f842963bf53164cc37"
@@ -1194,6 +1199,11 @@ tiny-glob@^0.2.9:
   dependencies:
     globalyzer "0.1.0"
     globrex "^0.1.2"
+
+twitter-api-v2@^1.10.3:
+  version "1.10.3"
+  resolved "https://registry.yarnpkg.com/twitter-api-v2/-/twitter-api-v2-1.10.3.tgz#07441bd9c4d27433aa0284d900cf60f6328b8239"
+  integrity sha512-AbCboiTOWv4DUPbAlF43Uyk4iK/QRk354pNdKgtOmv45+BWGB5Kdv6ls+C99pww/DyLBiXgQEnuyGv4d1HdRhw==
 
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"

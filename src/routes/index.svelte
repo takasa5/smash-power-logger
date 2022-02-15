@@ -1,10 +1,7 @@
-<script context="module">
-	import { browser } from "$app/env";
-	import login from "./_login";
-</script>
-
 <script>
-	export let user, userid;
+	export let userid;
+	import { session } from "$app/stores";
+	let sess = $session;
 </script>
 
 <svelte:head>
@@ -13,10 +10,10 @@
 
 id: {userid}
 <br>
-loginUser: {JSON.stringify(user)}
+session: {JSON.stringify(sess)}
 <p>
 	<a href="/users/1">user 1</a>
 </p>
 <p>
-	<a href="https://6wx2hlt0bd.execute-api.ap-northeast-1.amazonaws.com/dev/login?uuid={userid}">新規登録</a>
+	<a href="/login">新規登録</a>
 </p>
