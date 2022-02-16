@@ -35,9 +35,9 @@ export async function get({ url, locals }) {
     // ためしにcookie保存でやってみる
     locals.token = accessToken;
     return {
-        status: 200,
-        body: {
-            message: JSON.stringify(userObject)
+        status: 302,
+        headers: {
+            location: "/"
         }
     }
 }
