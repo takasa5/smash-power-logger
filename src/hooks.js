@@ -4,7 +4,11 @@ import { v4 as uuid } from 'uuid';
 
 async function getUserInformation(token) {
     const client = new TwitterApi(token);
-    const { data: userObj } = await client.v2.me();
+    const { data: userObj } = await client.v2.me({
+        options: {
+            "user.fields": ['profile_image_url']
+        }
+    });
     return userObj;
 }
 
