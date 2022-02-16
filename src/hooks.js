@@ -4,11 +4,11 @@ import { v4 as uuid } from 'uuid';
 
 async function getUserInformation(token) {
     const client = new TwitterApi(token);
-    const { data: userObj } = await client.v2.me({
-        options: {
-            "user.fields": ['profile_image_url']
+    const { data: userObj } = await client.v2.me(
+        {
+            "user.fields": 'profile_image_url'
         }
-    });
+    );
     return userObj;
 }
 
@@ -22,6 +22,7 @@ export const handle = async({ event, resolve }) => {
     if (cookies.auth) {
         event.locals.auth = JSON.parse(cookies.auth);
     }
+    cookies.token = "a2s1aGhNX0YwcVNPTTdpTlNHdnIxR29JNWxIZ0lJMzFkUDVSWTVXSWdDbU8tOjE2NDUwMjA4NTE0MTU6MToxOmF0OjE";
     if (cookies.token) {
         event.locals.token = cookies.token;
         event.locals.user = await getUserInformation(cookies.token);
