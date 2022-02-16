@@ -25,7 +25,7 @@ export async function get({ locals }){
         state
     }
     return {
-        status: 303,
+        status: 302,
         headers: {
             location: url
         }

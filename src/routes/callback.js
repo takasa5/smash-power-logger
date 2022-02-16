@@ -11,8 +11,7 @@ export async function get({ url, locals }) {
     const query = url.searchParams;
     const state = query.get("state");
     const code = query.get("code");
-    // セッションから情報を取得
-    console.log(locals);
+    // localsから情報を取得
     const sessionState = locals.auth.state;
     const codeVerifier = locals.auth.codeVerifier;
 
@@ -30,8 +29,11 @@ export async function get({ url, locals }) {
     const { client: userClient, accessToken, refreshToken, expiresIn } = await client.loginWithOAuth2(
         { code, codeVerifier, redirectUri: "https://smash-power-logger.vercel.app/callback/"}
     );
+    delete locals.auth;
+    // アクセストークンやらをセッションIDと紐づけてストアする
     const { data: userObject } = await userClient.v2.me();
-    locals.client = userObject;
+    // ためしにcookie保存でやってみる
+    locals.token = accessToken;
     return {
         status: 200,
         body: {

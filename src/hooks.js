@@ -1,43 +1,61 @@
 import cookie from 'cookie';
+import { TwitterApi } from "twitter-api-v2";
 import { v4 as uuid } from 'uuid';
+
+async function getUserInformation(token) {
+    const client = new TwitterApi(token);
+    const { data: userObj } = await client.v2.me();
+    return userObj;
+}
 
 // リクエストが呼ばれるたびに実行されるメソッド
 export const handle = async({ event, resolve }) => {
-    // 初回アクセス時にUUIDを設定する
+    // cookieから値を復元し、event.localsに代入することでサーバーへ送信
     const cookies = cookie.parse(event.request.headers.get('cookie') || '');
-    const user = cookies.user ? JSON.parse(cookies.user) : {};
-    event.locals.userid = user.userid || uuid();
-    if (user.codeVerifier && user.state) {
-        event.locals.auth = {
-            codeVerifier: user.codeVerifier,
-            state: user.state
-        };
+    if (cookies.sessionId) {
+        event.locals.sessionId = cookies.sessionId;
     }
+    if (cookies.auth) {
+        event.locals.auth = JSON.parse(cookies.auth);
+    }
+    if (cookies.token) {
+        event.locals.token = cookies.token;
+        event.locals.user = await getUserInformation(cookies.token);
+    }
+    // *******************************************
+    // resolve内部でJSファイルの各メソッドが呼ばれる
+    // *******************************************
     const response = await resolve(event);
-    const setter = {};
-    if (event.locals.userid) {
-        setter["userid"] = event.locals.userid;
+    const cookieOptions = {
+        path: '/',
+        httpOnly: true
+    };
+    // セッションIDはなければ必ずcookieにセット
+    if (!cookies.sessionId) {
+        event.locals.sessionId = uuid();
+        response.headers.set(
+            "set-cookie",
+            cookie.serialize("sessionId", event.locals.sessionId, cookieOptions)
+        );
+        return response;
     }
-    // eventに入っていたら更新
-    if (event.locals.auth) {
-        setter["codeVerifier"] = event.locals.auth.codeVerifier;
-        setter["state"] = event.locals.auth.state;
-    } else if (user.codeVerifier && user.state) {
-        // 入っていなければ既存の値を保持
-        setter["codeVerifier"] = user.codeVerifier;
-        setter["state"] = user.state;
+    // OAuthのための認証情報はcookieがなく変数が存在した場合のみセット
+    if (!cookies.auth && event.locals.auth) {
+        response.headers.set(
+            "set-cookie",
+            cookie.serialize("auth", JSON.stringify(event.locals.auth), cookieOptions)
+        );
+        return response;
     }
-    response.headers.set(
-        "set-cookie",
-        cookie.serialize("user", JSON.stringify(setter), {
-            path: '/',
-            httpOnly: true
-        })
-    );
+    if (!cookies.token && event.locals.token) {
+        response.headers.set(
+            "set-cookie",
+            cookie.serialize("token", event.locals.token, cookieOptions)
+        );
+    }
     return response;
 }
 
 export function getSession(event) {
-    const cookies = cookie.parse(event.request.headers.get('cookie') || '');
-    return cookies.user ? JSON.parse(cookies.user) : {};
+    return event.locals.user || {};
 }

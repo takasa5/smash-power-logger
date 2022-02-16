@@ -1,5 +1,4 @@
 <script>
-	export let userid;
 	import { session } from "$app/stores";
 	let sess = $session;
 </script>
@@ -8,7 +7,6 @@
 	<title>Index</title>
 </svelte:head>
 
-id: {userid}
 <br>
 session: {JSON.stringify(sess)}
 <p>
