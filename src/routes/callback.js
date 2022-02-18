@@ -39,7 +39,7 @@ export async function get({ url, locals }) {
                 session_id: locals.sessionId,
                 refresh_token: refreshToken
             }
-        });
+        }).promise();
     } catch (err) {
         console.log(err);
         return {
