@@ -1,4 +1,4 @@
-import { DynamoDB as ddb } from "./_util";
+import { DynamoDB as ddb } from "$lib/_util";
 import { TwitterApi } from "twitter-api-v2";
 import dotenv from "dotenv";
 dotenv.config();
@@ -48,7 +48,7 @@ export async function get({ url, locals }) {
     }
 
     // アクセストークンをCookieに保存する
-    // TODO: 暗号化、expiresIn
+    // TODO: 暗号化
     locals.token = accessToken;
     return {
         status: 302,
