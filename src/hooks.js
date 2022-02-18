@@ -98,7 +98,11 @@ export const handle = async({ event, resolve }) => {
     if (!cookies.auth && event.locals.auth) {
         response.headers.set(
             "set-cookie",
-            cookie.serialize("auth", JSON.stringify(event.locals.auth), cookieOptions)
+            cookie.serialize("auth", JSON.stringify(event.locals.auth), {
+                ...cookieOptions,
+                sameSite: "none", // authはリダイレクトで利用する
+                maxAge: 60
+            })
         );
         return response;
     }
