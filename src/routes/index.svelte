@@ -18,3 +18,6 @@ session: {JSON.stringify(sess)}
 <p>
 	<a href="/callback">callback</a>
 </p>
+<p>
+	<a href="/db">DB</a>
+</p>

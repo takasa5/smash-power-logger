@@ -22,7 +22,6 @@ export const handle = async({ event, resolve }) => {
     if (cookies.auth) {
         event.locals.auth = JSON.parse(cookies.auth);
     }
-    cookies.token = "a2s1aGhNX0YwcVNPTTdpTlNHdnIxR29JNWxIZ0lJMzFkUDVSWTVXSWdDbU8tOjE2NDUwMjA4NTE0MTU6MToxOmF0OjE";
     if (cookies.token) {
         event.locals.token = cookies.token;
         event.locals.user = await getUserInformation(cookies.token);
