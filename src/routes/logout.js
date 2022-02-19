@@ -18,7 +18,7 @@ export async function get({ locals }) {
     return {
         status: 200,
         headers: {
-            "set-cookie": cookie.serialize("token", "", {
+            "set-cookie": cookie.serialize("user", "", {
                 path: '/',
                 httpOnly: true,
                 secure: true,

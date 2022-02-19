@@ -26,7 +26,7 @@ export async function get({ url, locals }) {
             status: 403
         }
     }
-    const { accessToken, refreshToken } = await client.loginWithOAuth2(
+    const { client: userClient, accessToken, refreshToken } = await client.loginWithOAuth2(
         { code, codeVerifier, redirectUri: url.origin + "/callback/"}
     );
     delete locals.auth;
@@ -48,7 +48,11 @@ export async function get({ url, locals }) {
 
     // アクセストークンをCookieに保存する
     // TODO: 暗号化
-    locals.token = accessToken;
+    const userObj = await userClient.v2.me();
+    locals.user = {
+        token: accessToken,
+        info: userObj
+    };
     return {
         status: 302,
         headers: {

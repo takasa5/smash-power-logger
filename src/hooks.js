@@ -50,13 +50,22 @@ async function getRefreshToken(sessionId) {
     const meConfig = {
         "user.fields": 'profile_image_url'
     };
-    const result = await ddb.get({
-        TableName: "SmashPowerLoggerRefreshTokenTable",
-        Key: {
-            session_id: sessionId
-        }
-    }).promise();
-    const refreshToken = result.Item["refresh_token"];
+    let refreshToken;
+    try {
+        const result = await ddb.get({
+            TableName: "SmashPowerLoggerRefreshTokenTable",
+            Key: {
+                session_id: sessionId
+            }
+        }).promise();
+        refreshToken = result.Item["refresh_token"];
+    } catch (err) {
+        // セッションIDに紐づくリフレッシュトークンが存在しない（未登録またはログアウト済み）
+        return {
+            token: null,
+            user: null
+        };
+    }
     // リフレッシュトークンでクライアント生成を試みる
     const { client: refreshedClient, accessToken, refreshToken: newRefreshToken} = await twClient.refreshOAuth2Token(refreshToken);
     // リフレッシュトークン更新
@@ -84,10 +93,15 @@ export const handle = async({ event, resolve }) => {
     if (cookies.auth) {
         event.locals.auth = JSON.parse(cookies.auth);
     }
-    const { user: userObj, token } = await getUserInformation(cookies.token, cookies.sessionId);
-    event.locals.user = userObj;
-    if (token) {
-        event.locals.token = token;
+    if (cookies.user) {
+        event.locals.user = JSON.parse(cookies.user);
+    } else {
+        // トークン期限切れまたはログアウト済み
+        // アクセストークンが失効していた場合、DBからリフレッシュトークンを取得する
+        const { user, token } = await getRefreshToken(cookies.sessionId);
+        if (user && token) {
+            event.locals.user = { info: user, token };
+        }
     }
     // *******************************************
     // resolve内部でJSファイルの各メソッドが呼ばれる
@@ -123,10 +137,10 @@ export const handle = async({ event, resolve }) => {
         );
         return response;
     }
-    if (!cookies.token && ("token" in event.locals && cookies.token != event.locals.token)) {
+    if (!cookies.user && "user" in event.locals) {
         response.headers.set(
             "set-cookie",
-            cookie.serialize("token", event.locals.token, {
+            cookie.serialize("user", JSON.stringify(event.locals.user), {
                 ...cookieOptions,
                 maxAge: 7000
             })
@@ -136,5 +150,5 @@ export const handle = async({ event, resolve }) => {
 }
 
 export function getSession(event) {
-    return event.locals.user || {};
+    return event.locals.user ? event.locals.user.info : {};
 }
