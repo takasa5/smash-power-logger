@@ -3,14 +3,14 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // Twitter認証用URLへリダイレクト
-export async function get({ locals }){
+export async function get({ url, locals }){
     const client = new TwitterApi({
         clientId: process.env.TWITTER_CLIENT_ID,
         clientSecret: process.env.TWITTER_CLIENT_SECRET
     });
     
-    const { url, codeVerifier, state } = client.generateOAuth2AuthLink(
-        "https://smash-power-logger.vercel.app/callback/",
+    const { url: authUrl, codeVerifier, state } = client.generateOAuth2AuthLink(
+        url.origin + "/callback/",
         {
             scope: [
                 'tweet.read',
@@ -27,7 +27,7 @@ export async function get({ locals }){
     return {
         status: 302,
         headers: {
-            location: url
+            location: authUrl
         }
     };
 }

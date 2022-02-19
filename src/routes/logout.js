@@ -3,14 +3,16 @@ import { DynamoDB as ddb } from "$lib/_util";
 
 export async function get({ locals }) {
     try {
+        // DBからリフレッシュトークンを削除
         await ddb.delete({
             TableName: "SmashPowerLoggerRefreshTokenTable",
             Key: {
-                session_id: locals.session_id
+                session_id: locals.sessionId
             }
         }).promise();
     } catch (err) {
         // no-op
+        console.log(err);
     }
     locals.logout = true;
     return {

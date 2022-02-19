@@ -26,9 +26,8 @@ export async function get({ url, locals }) {
             status: 403
         }
     }
-
-    const { client: userClient, accessToken, refreshToken, expiresIn } = await client.loginWithOAuth2(
-        { code, codeVerifier, redirectUri: "https://smash-power-logger.vercel.app/callback/"}
+    const { accessToken, refreshToken } = await client.loginWithOAuth2(
+        { code, codeVerifier, redirectUri: url.origin + "/callback/"}
     );
     delete locals.auth;
     // リフレッシュトークンをDBに保存する

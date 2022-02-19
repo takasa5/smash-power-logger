@@ -22,28 +22,8 @@ async function getUserInformation(token, sessionId) {
     if (!token) {
         try {
             // アクセストークンが失効していた場合、DBからリフレッシュトークンを取得する
-            const result = await ddb.get({
-                TableName: "SmashPowerLoggerRefreshTokenTable",
-                Key: {
-                    session_id: sessionId
-                }
-            }).promise();
-            const refreshToken = result.Item["refresh_token"];
-            // リフレッシュトークンでクライアント生成を試みる
-            const { client: refreshedClient, accessToken, refreshToken: newRefreshToken} = await twClient.refreshOAuth2Token(refreshToken);
-            // リフレッシュトークン更新
-            await ddb.put({
-                TableName: "SmashPowerLoggerRefreshTokenTable",
-                Item: {
-                    session_id: sessionId,
-                    refresh_token: newRefreshToken
-                }
-            }).promise();
-            const { data: userObj } = await refreshedClient.v2.me(meConfig)
-            return {
-                user: userObj,
-                token: accessToken // アクセストークン更新
-            };
+            const result = await getRefreshToken(sessionId);
+            return result;
         } catch (err) {
             return {
                 user: {},
@@ -51,12 +31,46 @@ async function getUserInformation(token, sessionId) {
             };
         }
     }
-    const client = new TwitterApi(token);
-    const { data: userObj } = await client.v2.me(meConfig);
-    // まだ利用可能なときはアクセストークンは更新（Cookieにセット）しない
+    try {
+        const client = new TwitterApi(token);
+        const { data: userObj } = await client.v2.me(meConfig);
+        // まだ利用可能なときはアクセストークンは更新（Cookieにセット）しない
+        return {
+            user: userObj,
+            token: null
+        };
+    } catch (err) {
+        // アクセストークンが不正だった場合、DBからリフレッシュトークンを取得する
+        const result = await getRefreshToken(sessionId);
+        return result;
+    }
+}
+
+async function getRefreshToken(sessionId) {
+    const meConfig = {
+        "user.fields": 'profile_image_url'
+    };
+    const result = await ddb.get({
+        TableName: "SmashPowerLoggerRefreshTokenTable",
+        Key: {
+            session_id: sessionId
+        }
+    }).promise();
+    const refreshToken = result.Item["refresh_token"];
+    // リフレッシュトークンでクライアント生成を試みる
+    const { client: refreshedClient, accessToken, refreshToken: newRefreshToken} = await twClient.refreshOAuth2Token(refreshToken);
+    // リフレッシュトークン更新
+    await ddb.put({
+        TableName: "SmashPowerLoggerRefreshTokenTable",
+        Item: {
+            session_id: sessionId,
+            refresh_token: newRefreshToken
+        }
+    }).promise();
+    const { data: userObj } = await refreshedClient.v2.me(meConfig)
     return {
         user: userObj,
-        token: null
+        token: accessToken // アクセストークン更新
     };
 }
 
@@ -70,7 +84,7 @@ export const handle = async({ event, resolve }) => {
     if (cookies.auth) {
         event.locals.auth = JSON.parse(cookies.auth);
     }
-    const { userObj, token } = await getUserInformation(cookies.token, cookies.sessionId);
+    const { user: userObj, token } = await getUserInformation(cookies.token, cookies.sessionId);
     event.locals.user = userObj;
     if (token) {
         event.locals.token = token;
@@ -90,23 +104,26 @@ export const handle = async({ event, resolve }) => {
         event.locals.sessionId = uuid();
         response.headers.set(
             "set-cookie",
-            cookie.serialize("sessionId", event.locals.sessionId, cookieOptions)
+            cookie.serialize("sessionId", event.locals.sessionId, {
+                ...cookieOptions,
+                sameSite: "lax"
+            })
         );
         return response;
     }
     // OAuthのための認証情報はcookieがなく変数が存在した場合のみセット
-    if (!cookies.auth && event.locals.auth) {
+    if (!cookies.auth && ("auth" in event.locals && cookies.auth != event.locals.auth)) {
         response.headers.set(
             "set-cookie",
             cookie.serialize("auth", JSON.stringify(event.locals.auth), {
                 ...cookieOptions,
-                sameSite: "none", // authはリダイレクトで利用する
+                sameSite: "Lax", // authはリダイレクトで利用する
                 maxAge: 60
             })
         );
         return response;
     }
-    if (!cookies.token && event.locals.token) {
+    if (!cookies.token && ("token" in event.locals && cookies.token != event.locals.token)) {
         response.headers.set(
             "set-cookie",
             cookie.serialize("token", event.locals.token, {
