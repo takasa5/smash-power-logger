@@ -14,7 +14,7 @@ export async function get({ locals }) {
         // no-op
         console.log(err);
     }
-    locals.logout = true;
+    delete locals.user;
     return {
         status: 200,
         headers: {

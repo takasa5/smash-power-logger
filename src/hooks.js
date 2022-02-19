@@ -1,51 +1,13 @@
 import cookie from 'cookie';
 import { DynamoDB as ddb, TwitterAppClient as twClient } from "$lib/_util";
-import { TwitterApi } from "twitter-api-v2";
 import { v4 as uuid } from 'uuid';
 
 /**
- * Twitter APIを利用したユーザー情報取得メソッド
- * @param token アクセストークン
+ * セッションIDをもとにDynamoDBに格納したリフレッシュトークンを取得し、
+ * ログイン情報を再取得する
  * @param sessionId セッションID
- * @return { user: ユーザー情報, token: （更新される場合）アクセストークン}
+ * @return { user: ユーザー情報, token: アクセストークン}
  */
-async function getUserInformation(token, sessionId) {
-    const meConfig = {
-        "user.fields": 'profile_image_url'
-    };
-    if (!sessionId) {
-        return {
-            user: {},
-            token: null
-        };
-    }
-    if (!token) {
-        try {
-            // アクセストークンが失効していた場合、DBからリフレッシュトークンを取得する
-            const result = await getRefreshToken(sessionId);
-            return result;
-        } catch (err) {
-            return {
-                user: {},
-                token: null
-            };
-        }
-    }
-    try {
-        const client = new TwitterApi(token);
-        const { data: userObj } = await client.v2.me(meConfig);
-        // まだ利用可能なときはアクセストークンは更新（Cookieにセット）しない
-        return {
-            user: userObj,
-            token: null
-        };
-    } catch (err) {
-        // アクセストークンが不正だった場合、DBからリフレッシュトークンを取得する
-        const result = await getRefreshToken(sessionId);
-        return result;
-    }
-}
-
 async function getRefreshToken(sessionId) {
     const meConfig = {
         "user.fields": 'profile_image_url'
