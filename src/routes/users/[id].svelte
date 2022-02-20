@@ -1,23 +1,12 @@
-<script context="module">
-    export async function load({ params, fetch, session, stuff }) {
-        const id = params.id;
-        return {
-			props: {
-                id
-            }
-		};
-    }
-</script>
-
 <script>
     import { onMount } from "svelte";
     import Chart from "chart.js/auto";
     import "chartjs-adapter-moment";
-    export let id;
+    export let id, twitter_name, twitter_image;
 
     onMount(() => {
         const image = new Image();
-        image.src = "/fighter_icons/chara_2_captain_00.png";
+        image.src = "/fighter_icons/captain.png";
         image.width = image.height = 24;
         const ctx = document.getElementById("powerChart").getContext("2d");
         new Chart(ctx, {
@@ -81,17 +70,17 @@
 </script>
 
 <svelte:head>
-	<title>ユーザーネーム</title>
+	<title>{twitter_name}の戦闘力グラフ</title>
 </svelte:head>
 <div class="d-flex flex-wrap-reverse col-md-8 col-12 mx-auto my-4">
     <div class="col-md-4 col-12">
         <div class="Box mr-4">
             <div class="Box-header h3">
-                ユーザーネーム
+                {twitter_name}
             </div>
             <div class="Box-row d-flex">
                 <div class="col-4 d-flex">
-                    <img src="" alt="" class="avatar avatar-8 mx-auto"/>
+                    <img src={twitter_image} alt="" class="avatar avatar-8 mx-auto"/>
                 </div>
                 <div class="col-8">SPL-ID: {id}</div>
             </div>
@@ -100,7 +89,7 @@
     <div class="col-md-8 col-12">
         <div class="Box ml-4">
             <div class="Box-header h3">
-                ユーザーネーム の戦闘力グラフ
+                戦闘力グラフ
             </div>
             <canvas id="powerChart" class="m-2"/>
         </div>
