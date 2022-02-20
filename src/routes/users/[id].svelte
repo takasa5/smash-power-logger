@@ -2,6 +2,8 @@
     import { onMount } from "svelte";
     import Chart from "chart.js/auto";
     import "chartjs-adapter-moment";
+    import { session } from "$app/stores";
+	$: user = $session;
     export let id, twitter_name, twitter_image;
 
     onMount(() => {
@@ -74,20 +76,26 @@
 </svelte:head>
 <div class="d-flex flex-wrap-reverse col-md-8 col-12 mx-auto my-4">
     <div class="col-md-4 col-12">
-        <div class="Box mr-4">
+        <div class="Box m-2">
             <div class="Box-header h3">
                 {twitter_name}
             </div>
             <div class="Box-row d-flex">
-                <div class="col-4 d-flex">
-                    <img src={twitter_image} alt="" class="avatar avatar-8 mx-auto"/>
-                </div>
+                <img class="col-4 avatar avatar-8 mx-auto" src={twitter_image} alt="" />
                 <div class="col-8">SPL-ID: {id}</div>
             </div>
+            {#if id == user.splId}
+            <div class="Box-row d-flex flex-wrap flex-justify-center">
+                <button class="btn btn-large m-1">戦闘力を記録</button>
+                <button class="btn btn-large m-1 d-inline-flex flex-items-center">
+                    <img class="mr-1" src="/twitter_logo.svg" width="16" height="16" alt="共有"/> シェア
+                </button>
+            </div>
+            {/if}
         </div>
     </div>
     <div class="col-md-8 col-12">
-        <div class="Box ml-4">
+        <div class="Box m-2">
             <div class="Box-header h3">
                 戦闘力グラフ
             </div>
