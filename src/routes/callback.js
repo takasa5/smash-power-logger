@@ -1,4 +1,5 @@
-import { DynamoDB as ddb } from "$lib/_util";
+import { createUserIfNotExist } from "$lib/user";
+import { saveRefreshToken } from "$lib/auth";
 import { TwitterApi } from "twitter-api-v2";
 import dotenv from "dotenv";
 dotenv.config();
@@ -32,13 +33,7 @@ export async function get({ url, locals }) {
     delete locals.auth;
     // リフレッシュトークンをDBに保存する
     try {
-        await ddb.put({
-            TableName:"SmashPowerLoggerRefreshTokenTable",
-            Item: {
-                session_id: locals.sessionId,
-                refresh_token: refreshToken
-            }
-        }).promise();
+        await saveRefreshToken(locals.sessionId, refreshToken);
     } catch (err) {
         console.log(err);
         return {
@@ -50,7 +45,7 @@ export async function get({ url, locals }) {
         "user.fields": 'profile_image_url'
     });
     // 必要であればユーザーを新規作成する
-    const splId = createUserIfNotExist(userObj);
+    const splId = await createUserIfNotExist(userObj);
     userObj.splId = splId;
     // アクセストークンとユーザ情報をCookieに保存する
     // TODO: 暗号化
@@ -58,52 +53,10 @@ export async function get({ url, locals }) {
         token: accessToken,
         info: userObj
     };
-
     return {
         status: 302,
         headers: {
             location: "/"
         }
-    }
-}
-
-async function createUserIfNotExist(userObj) {
-    try {
-        const { Items: result } = await ddb.query({
-            TableName: "SmashPowerLoggerUser",
-            IndexName: "twitter_id-index",
-            KeyConditionExpression: "twitter_id = :twitterId",
-            ExpressionAttributeValues: {
-                ":twitterId": userObj.id
-            }
-        }).promise();
-        if (result.length === 0) {
-            // 新規登録ユーザー
-            const { Attributes: seq } = await ddb.update({
-                TableName: "Sequences",
-                Key: {
-                    table_name: "SmashPowerLoggerUser"
-                },
-                UpdateExpression: "set current_number = current_number + :value",
-                ExpressionAttributeValues: {
-                    ":value": 1
-                },
-                ReturnValues: "UPDATED_NEW"
-            }).promise();
-            await ddb.put({
-                TableName: "SmashPowerLoggerUser",
-                Item: {
-                    id: seq.current_number,
-                    twitter_id: userObj.id,
-                    twitter_username: userObj.username,
-                    twitter_name: userObj.name,
-                    twitter_image: userObj.profile_image_url
-                }
-            }).promise();
-            return seq.current_number;
-        }
-        return result[0].id;
-    } catch (err) {
-        console.log(err);
     }
 }

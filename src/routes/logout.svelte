@@ -1,1 +1,1 @@
-<a href="/">トップへ</a>
+<a href="/" rel="external">トップへ</a>

@@ -6,8 +6,5 @@
 	<a href="/users/1" role="button" class="btn">user 1</a>
 </p>
 <p>
-	<a href="/logout">ログアウト</a>
-</p>
-<p>
-	<a href="/callback">callback</a>
+	<a href="/logout" rel="external">ログアウト</a>
 </p>

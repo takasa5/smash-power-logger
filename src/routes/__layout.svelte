@@ -11,7 +11,9 @@
         {#if Object.keys(user).length === 0 }
         <a href="/login" class="Header-link">ログイン/新規登録</a>
         {:else}
-        <img class="avatar avatar-4" src={user["profile_image_url"]} alt={user.name}/>
+        <a href="/users/{user.splId}" class="Header-link">
+            <img class="avatar avatar-2" src={user["profile_image_url"]} alt={user.name}/>
+        </a>
         {/if}
     </div>
 </div>

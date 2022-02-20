@@ -14,6 +14,7 @@ export async function get({ locals }) {
         // no-op
         console.log(err);
     }
+    delete locals.auth;
     delete locals.user;
     return {
         status: 200,
@@ -27,6 +28,8 @@ export async function get({ locals }) {
             }),
             "cache-control": "no-store"
         },
-        body: {}
+        body: {
+            user: {}
+        }
     };
 }
