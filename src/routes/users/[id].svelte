@@ -16,7 +16,9 @@
     export let id;
 
     onMount(() => {
-        
+        const image = new Image();
+        image.src = "/fighter_icons/chara_2_captain_00.png";
+        image.width = image.height = 24;
         const ctx = document.getElementById("powerChart").getContext("2d");
         new Chart(ctx, {
             type: "line",
@@ -43,6 +45,11 @@
                 ]
             },
             options: {
+                elements: {
+                    point: {
+                        pointStyle: image
+                    }
+                },
                 plugins: {
                     legend: {
                         position: 'bottom'
@@ -61,9 +68,9 @@
                             parser: "YYYY-MM-DDTHH:mm:ssZ",
                             unit: "day",
                             displayFormats: {
-                                day: "MM/DD",
-                                week: "YYYY"
-                            }
+                                day: "MM/DD"
+                            },
+                            tooltipFormat: "YYYY/MM/DD"
                         },
                         
                     }
@@ -76,7 +83,6 @@
 <svelte:head>
 	<title>ユーザーネーム</title>
 </svelte:head>
-
 <div class="d-flex flex-wrap-reverse col-md-8 col-12 mx-auto my-4">
     <div class="col-md-4 col-12">
         <div class="Box mr-4">

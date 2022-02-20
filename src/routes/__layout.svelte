@@ -3,10 +3,6 @@
 	$: user = $session;
 </script>
 
-<svelte:head>
-    <link rel="stylesheet" href="https://unpkg.com/@primer/css/dist/primer.css" />
-</svelte:head>
-
 <div class="Header">
     <div class="Header-item Header-item--full">
         <a href="/" class="Header-link">Smash Power Logger</a>
