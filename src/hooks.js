@@ -49,6 +49,7 @@ async function getUserInfo(sessionId) {
 
 // リクエストが呼ばれるたびに実行されるメソッド
 export const handle = async({ event, resolve }) => {
+    // console.log(event.url.href);
     // cookieから値を復元し、event.localsに代入することでサーバーへ送信
     const cookies = cookie.parse(event.request.headers.get('cookie') || '');
     if (cookies.sessionId) {
@@ -60,11 +61,14 @@ export const handle = async({ event, resolve }) => {
     if (cookies.user) {
         event.locals.user = JSON.parse(cookies.user);
     } else {
-        // トークン期限切れまたはログアウト済み
-        // アクセストークンが失効していた場合、DBからリフレッシュトークンを取得する
-        const { user, token } = await getUserInfo(cookies.sessionId);
-        if (user && token) {
-            event.locals.user = { info: user, token };
+        // cookieにauthが生き残っている30秒間はリフレッシュチャレンジをしない
+        if (!cookies.auth) {
+            // トークン期限切れまたはログアウト済み
+            // アクセストークンが失効していた場合、DBからリフレッシュトークンを取得する
+            const { user, token } = await getUserInfo(cookies.sessionId);
+            if (user && token) {
+                event.locals.user = { info: user, token };
+            }
         }
     }
     // *******************************************

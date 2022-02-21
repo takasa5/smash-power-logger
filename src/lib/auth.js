@@ -30,3 +30,7 @@ export async function getRefreshToken(sessionId) {
     }).promise();
     return result["refresh_token"];
 }
+
+export function getAccessToken(locals) {
+    return locals.user ? locals.user.token : null;
+}
