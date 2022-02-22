@@ -6,8 +6,8 @@
 	$: user = $session;
     export let id, twitter_name, twitter_image;
 
-    async function postPower() {
-        console.log("postPower");
+    async function getPower() {
+        console.log("getPower");
         const response = await fetch(`/users/${id}/powers`, {
             method: "GET"
         });
@@ -93,7 +93,7 @@
             </div>
             {#if id == user.splId}
             <div class="Box-row d-flex flex-wrap flex-justify-center">
-                <button class="btn btn-large m-1" on:click={postPower}>戦闘力を記録</button>
+                <button class="btn btn-large m-1" on:click={getPower}>戦闘力を記録</button>
                 <button class="btn btn-large m-1 d-inline-flex flex-items-center">
                     <img class="mr-1" src="/twitter_logo.svg" width="16" height="16" alt="共有"/> シェア
                 </button>
