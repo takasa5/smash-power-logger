@@ -6,13 +6,11 @@
 	$: user = $session;
     export let id, twitter_name, twitter_image;
 
-    async function getPower() {
-        const response = await fetch(`/users/${id}/powers`, {
-            method: "GET"
-        });
-        const res = await response.json();
-        console.log(res);
-    }
+    import { writable } from "svelte/store";
+    import Modal, { bind } from "svelte-simple-modal";
+    import PowerLoading from "$lib/PowerLoading.svelte";
+    const modal = writable(null);
+    const showModal = () => modal.set(bind(PowerLoading, { splId: id }));
 
     onMount(() => {
         const image = new Image();
@@ -82,6 +80,12 @@
 <svelte:head>
 	<title>{twitter_name}の戦闘力グラフ</title>
 </svelte:head>
+
+<Modal
+    show={$modal}
+    classContent="Box"
+    closeButton={false}
+>
 <div class="d-flex flex-wrap-reverse col-md-8 col-12 mx-auto my-4">
     <div class="col-md-4 col-12">
         <div class="Box m-2">
@@ -94,9 +98,9 @@
             </div>
             {#if id == user.splId}
             <div class="Box-row d-flex flex-wrap flex-justify-center">
-                <button class="btn btn-large m-1" on:click={getPower}>戦闘力を記録</button>
+                <button class="btn btn-large m-1" on:click={showModal}>戦闘力を記録</button>
                 <button class="btn btn-large m-1 d-inline-flex flex-items-center">
-                    <img class="mr-1" src="/twitter_logo.svg" width="16" height="16" alt="共有"/> シェア
+                    <img class="mr-1" src="/twitter_logo.svg" width="16" height="16" alt="シェア"/> シェア
                 </button>
             </div>
             {/if}
@@ -111,3 +115,4 @@
         </div>
     </div>
 </div>
+</Modal>
