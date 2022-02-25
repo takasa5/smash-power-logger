@@ -3,7 +3,20 @@ import { TwitterApi } from "twitter-api-v2";
 import dotenv from "dotenv";
 dotenv.config();
 
-export async function get({ locals }) {
+export async function get({ params, locals }) {
+    if (isNaN(params.id)) {
+        return {
+            status: 404,
+            body: []
+        }
+    }
+    const splId = Number(params.id);
+    // セッションのユーザーと記録ボタンを押したユーザーの同一チェック
+    if (locals.user.info.splId != splId) {
+        return {
+            status: 403
+        }
+    }
     // Twitter再認証を行いツイートを取得
     const accessToken = getAccessToken(locals);
     let client;
@@ -18,7 +31,14 @@ export async function get({ locals }) {
         // { mediaKey: createdAt } （日時と紐付け用）
         let mediaList = {};
         let mediaKeys = []; // 検索用
+        let count = 0;
+        // TODO: ループの終了条件を整理
         for (const tweet of paginator.tweets) {
+            count += 1;
+            if (count == paginator.tweets.length && mediaKeys.length === 0) {
+                await paginator.fetchNext();
+            }
+            // TODO: 日付切り捨て
             if (!tweet.attachments || !tweet.attachments.media_keys) {
                 continue;
             }
@@ -28,8 +48,11 @@ export async function get({ locals }) {
             for (const mediaKey of tweet.attachments.media_keys) {
                 mediaList[mediaKey] = tweet.created_at;
                 mediaKeys.push(mediaKey);
+                // TODO: 数切り捨て
             }
+            
         }
+        // TODO: 画像を（古い方から）3枚にするための処理はここでやる必要があるかも
         const urlList = paginator.includes.media
                 .filter(e => e.type == "photo")
                 .filter(e => mediaKeys.includes(e.media_key))
@@ -37,31 +60,35 @@ export async function get({ locals }) {
                     e.createdAt = mediaList[e.media_key]
                     return e;
                 });
-        const data = await recognizeImages(urlList);
-        console.log(JSON.parse(data));
+        const data = await recognizeImages(splId, urlList);
+        console.log(data);
         
         // キャラと数値と日付のリストを返す
         return {
-            status: 200
+            status: 200,
+            body: data
         }
     }
     console.log("cannot access");
     return {
-        status: 500
+        status: 403
     }
 }
 
-async function recognizeImages(urlList) {
+async function recognizeImages(splId, urlList) {
+    const body = JSON.stringify({
+        splId,
+        urlList
+    });
+    console.log(body);
     const response = await fetch(process.env.API_GATEWAY_ENDPOINT + "/recognition", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-            urlList
-        })
+        body: body
     });
-    const data = await response.json();
+    const res = await response.json();
     
-    return data;
+    return JSON.parse(res.body);
 }

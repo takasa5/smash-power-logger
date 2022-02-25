@@ -7,10 +7,11 @@
     export let id, twitter_name, twitter_image;
 
     async function getPower() {
-        console.log("getPower");
         const response = await fetch(`/users/${id}/powers`, {
             method: "GET"
         });
+        const res = await response.json();
+        console.log(res);
     }
 
     onMount(() => {
@@ -88,7 +89,7 @@
                 {twitter_name}
             </div>
             <div class="Box-row d-flex">
-                <img class="col-4 avatar avatar-8 mx-auto" src={twitter_image} alt="" />
+                <img class="col-4 avatar avatar-8 mx-auto" src={twitter_image} alt="{twitter_name}" />
                 <div class="col-8">SPL-ID: {id}</div>
             </div>
             {#if id == user.splId}
