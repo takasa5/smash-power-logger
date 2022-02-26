@@ -71,7 +71,7 @@
     }
 </script>
 
-{#await getPowerDummy()}
+{#await getPower()}
     <div class="Box">
         <div class="blankslate">
             <h3 class="blankslate-heading">ツイートから戦闘力を読み込んでいます<span class="AnimatedEllipsis"></span></h3>
