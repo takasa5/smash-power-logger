@@ -110,7 +110,7 @@
                 <div class="blankslate">
                     <h3 class="blankslate-heading">記録された戦闘力がありません</h3>
                     {#if id == user.splId}
-                    <p>「戦闘力を記録」ボタンで記録を始めましょう１</p>
+                    <p>「戦闘力を記録」ボタンで記録を始めましょう！</p>
                     {/if}
                 </div>
             {:else}

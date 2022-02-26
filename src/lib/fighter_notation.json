@@ -1,7 +1,27 @@
 {
+    "1": {
+        "label": "マリオ",
+        "icon": "/fighter_icons/mario.png",
+        "color": "#e92223"
+    },
+    "2": {
+        "label": "ドンキーコング",
+        "icon": "/fighter_icons/donkey.png",
+        "color": "#008809"
+    },
+    "10": {
+        "label": "ネス",
+        "icon": "/fighter_icons/ness.png",
+        "color": "#e92c2f"
+    },
     "11": {
         "label": "キャプテン・ファルコン",
         "icon": "/fighter_icons/captain.png",
-        "color": "#da3b28"
+        "color": "#6356bc"
+    },
+    "68": {
+        "label": "しずえ",
+        "icon": "/fighter_icons/shizue.png",
+        "color": "#ffd71d"
     }
 }

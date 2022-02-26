@@ -39,7 +39,7 @@ export async function getPowersBySplId(splId) {
             ":id": splId
         }
     }).promise();
-    // [ { spl_id: 4, items: [Array], fighter_id: 11 } ]
+    // [ { spl_id: 4, items: [Array], fighter_id: "11" } ]
     let items = result.Items;
     items = items.map(e => {
         const nt = notation[`${e.fighter_id}`];

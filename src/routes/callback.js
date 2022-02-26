@@ -56,7 +56,7 @@ export async function get({ url, locals }) {
     return {
         status: 302,
         headers: {
-            location: "/"
+            location: `/users/${splId}`
         }
     }
 }

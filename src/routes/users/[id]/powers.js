@@ -62,7 +62,6 @@ export async function get({ params, locals }) {
                     return e;
                 });
         const data = await recognizeImages(splId, urlList);
-        console.log(data);
         
         // キャラと数値と日付のリストを返す
         return {
@@ -97,6 +96,9 @@ export async function post({ request, params }) {
 }
 
 async function recognizeImages(splId, urlList) {
+    if (urlList.length === 0) {
+        return [];
+    }
     const body = JSON.stringify({
         splId,
         urlList
