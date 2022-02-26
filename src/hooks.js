@@ -1,7 +1,7 @@
 import cookie from 'cookie';
 import { TwitterAppClient as twClient } from "$lib/_util";
 import { getRefreshToken, saveRefreshToken } from "$lib/auth";
-import { searchUser } from "$lib/user";
+import { searchUserByTwitterId } from "$lib/user";
 import { v4 as uuid } from 'uuid';
 
 /**
@@ -35,7 +35,7 @@ async function getUserInfo(sessionId) {
     // リフレッシュトークン更新
     await saveRefreshToken(sessionId, newRefreshToken);
     const { data: userObj } = await refreshedClient.v2.me(meConfig)
-    const splId = await searchUser(userObj.id);
+    const splId = await searchUserByTwitterId(userObj.id);
     if (!splId) {
         // ログインしているのにSPL IDが存在しないことはありえない
         throw new Error("Invalid request");

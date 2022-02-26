@@ -84,7 +84,16 @@ export async function post({ request, params }) {
     }
     const splId = Number(params.id);
     const data = await request.json();
-    await registPowers(splId, data);
+    try {
+        await registPowers(splId, data);
+    } catch (err) {
+        return {
+            status: 500
+        };
+    }
+    return {
+        status: 200
+    };
 }
 
 async function recognizeImages(splId, urlList) {

@@ -3,8 +3,9 @@
     import Chart from "chart.js/auto";
     import "chartjs-adapter-moment";
     import { session } from "$app/stores";
+
 	$: user = $session;
-    export let id, twitter_name, twitter_image;
+    export let id, twitter_name, twitter_image, powers;
 
     import { writable } from "svelte/store";
     import Modal, { bind } from "svelte-simple-modal";
@@ -13,40 +14,22 @@
     const showModal = () => modal.set(bind(PowerLoading, { splId: id }));
 
     onMount(() => {
-        const image = new Image();
-        image.src = "/fighter_icons/captain.png";
-        image.width = image.height = 24;
+        // imageをsetする
+        const datasets = powers.map(e => {
+            const image = new Image();
+            image.src = e["src"];
+            image.width = image.height = 24;
+            delete e["src"];
+            e["pointStyle"] = image;
+            return e;
+        });
         const ctx = document.getElementById("powerChart").getContext("2d");
         new Chart(ctx, {
             type: "line",
             data: {
-                datasets: [
-                {
-                    label: "キャプテン・ファルコン",
-                    backgroundColor: "rgb(255, 99, 132)",
-                    borderColor: "rgb(255, 99, 132)",
-                    data: [
-                        {
-                            x: "2022-02-21T07:00:00Z",
-                            y: 10801212
-                        },
-                        {
-                            x: "2022-02-20T07:00:00Z",
-                            y: 10770000
-                        }, {
-                            x: "2022-02-01T07:00:00Z",
-                            y: 10500000
-                        }
-                    ]
-                }
-                ]
+                datasets: datasets
             },
             options: {
-                elements: {
-                    point: {
-                        pointStyle: image
-                    }
-                },
                 plugins: {
                     legend: {
                         position: 'bottom'

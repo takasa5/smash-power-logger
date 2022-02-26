@@ -27,7 +27,11 @@
             },
             body: JSON.stringify(powers)
         });
-        // return response.json();
+        if (response.ok) {
+            location.reload();
+        }
+        // TODO: 失敗時の挙動
+        return;
     }
 
     async function getPowerDummy() {

@@ -5,7 +5,7 @@ import { DynamoDB as ddb } from "$lib/_util";
  * @param twitterId Twitter ID
  * @return SPL ID / 存在しない場合は null
  */
-export async function searchUser(twitterId) {
+export async function searchUserByTwitterId(twitterId) {
     try {
         const { Items: result } = await ddb.query({
             TableName: "SmashPowerLoggerUser",
@@ -31,7 +31,7 @@ export async function searchUser(twitterId) {
  * @return SPL ID
  */
 export async function createUserIfNotExist(userObj) {
-    const splId = await searchUser(userObj.id);
+    const splId = await searchUserByTwitterId(userObj.id);
     if (!splId) {
         try {
             const { Attributes: seq } = await ddb.update({
