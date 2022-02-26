@@ -48,8 +48,8 @@ function convertPowerToDatasets(powers) {
         const dataset = {};
         dataset["src"] = power["icon"];
         dataset["label"] = power["label"];
-        dataset["backgroundColor"] = "rgb(255, 99, 132)";
-        dataset["borderColor"] = "rgb(255, 99, 132)";
+        dataset["backgroundColor"] = power["color"];
+        dataset["borderColor"] = power["color"];
         dataset["data"] = power["items"].map((e) => {
             const data = {};
             data["x"] = e["time"];

@@ -45,6 +45,7 @@ export async function getPowersBySplId(splId) {
         const nt = notation[`${e.fighter_id}`];
         e["label"] = nt["label"];
         e["icon"] = nt["icon"];
+        e["color"] = nt["color"];
         return e;
     });
     return items;

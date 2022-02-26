@@ -1,6 +1,7 @@
 {
     "11": {
         "label": "キャプテン・ファルコン",
-        "icon": "/fighter_icons/captain.png"
+        "icon": "/fighter_icons/captain.png",
+        "color": "#da3b28"
     }
 }

@@ -14,6 +14,9 @@
     const showModal = () => modal.set(bind(PowerLoading, { splId: id }));
 
     onMount(() => {
+        if (powers.length === 0) {
+            return;
+        }
         // imageをsetする
         const datasets = powers.map(e => {
             const image = new Image();
@@ -40,6 +43,15 @@
                         title: {
                             display: true,
                             text: "戦闘力"
+                        },
+                        ticks: {
+                            callback: function(label, index, labels) {
+                                return Intl.NumberFormat("ja-JP", {
+                                    notation: "compact",
+                                    useGrouping: false,
+                                    minimumFractionDigits: 1
+                                }).format(label);
+                            }
                         }
                     },
                     x: {
@@ -94,7 +106,16 @@
             <div class="Box-header h3">
                 戦闘力グラフ
             </div>
-            <canvas id="powerChart" class="m-2"/>
+            {#if powers.length === 0}
+                <div class="blankslate">
+                    <h3 class="blankslate-heading">記録された戦闘力がありません</h3>
+                    {#if id == user.splId}
+                    <p>「戦闘力を記録」ボタンで記録を始めましょう１</p>
+                    {/if}
+                </div>
+            {:else}
+                <canvas id="powerChart" class="m-2"/>
+            {/if}
         </div>
     </div>
 </div>
