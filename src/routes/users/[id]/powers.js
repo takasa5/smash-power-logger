@@ -1,5 +1,6 @@
 import { getAccessToken } from "$lib/auth";
 import { TwitterApi } from "twitter-api-v2";
+import { registPowers } from "$lib/power";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -69,10 +70,21 @@ export async function get({ params, locals }) {
             body: data
         }
     }
-    console.log("cannot access");
     return {
         status: 403
     }
+}
+
+export async function post({ request, params }) {
+    if (isNaN(params.id)) {
+        return {
+            status: 404,
+            body: []
+        }
+    }
+    const splId = Number(params.id);
+    const data = await request.json();
+    await registPowers(splId, data);
 }
 
 async function recognizeImages(splId, urlList) {
@@ -80,7 +92,6 @@ async function recognizeImages(splId, urlList) {
         splId,
         urlList
     });
-    console.log(body);
     const response = await fetch(process.env.API_GATEWAY_ENDPOINT + "/recognition", {
         method: "POST",
         headers: {
