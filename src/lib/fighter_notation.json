@@ -1,13 +1,53 @@
 {
-    "1": {
+    "01": {
         "label": "マリオ",
         "icon": "/fighter_icons/mario.png",
         "color": "#e92223"
     },
-    "2": {
+    "02": {
         "label": "ドンキーコング",
         "icon": "/fighter_icons/donkey.png",
         "color": "#008809"
+    },
+    "03": {
+        "label": "リンク",
+        "icon": "/fighter_icons/link.png",
+        "color": "#5bbddd"
+    },
+    "04": {
+        "label": "サムス",
+        "icon": "/fighter_icons/samus.png",
+        "color": "#fd7f00"
+    },
+    "04e":  {
+        "label": "ダークサムス",
+        "icon": "/fighter_icons/samusd.png",
+        "color": "#9cd7e1"
+    },
+    "05": {
+        "label": "ヨッシー",
+        "icon": "/fighter_icons/yoshi.png",
+        "color": "#22ad04"
+    },
+    "06": {
+        "label": "カービィ",
+        "icon": "/fighter_icons/kirby.png",
+        "color": "#f888bd"
+    },
+    "07": {
+        "label": "フォックス",
+        "icon": "/fighter_icons/fox.png",
+        "color": "#fd9c00"
+    },
+    "08": {
+        "label": "ピカチュウ",
+        "icon": "/fighter_icons/pikachu.png",
+        "color": "#fdf263"
+    },
+    "09": {
+        "label": "ルイージ",
+        "icon": "/fighter_icons/luigi.png",
+        "color": "#4fc53b"
     },
     "10": {
         "label": "ネス",
@@ -19,9 +59,374 @@
         "icon": "/fighter_icons/captain.png",
         "color": "#6356bc"
     },
+    "12": {
+        "label": "プリン",
+        "icon": "/fighter_icons/purin.png",
+        "color": "#ffa9ba"
+    },
+    "13": {
+        "label": "ピーチ",
+        "icon": "/fighter_icons/peach.png",
+        "color": "#ff7ca4"
+    },
+    "13e": {
+        "label": "デイジー",
+        "icon": "/fighter_icons/daisy.png",
+        "color": "#fb7436"
+    },
+    "14": {
+        "label": "クッパ",
+        "icon": "/fighter_icons/koopa.png",
+        "color": "#3fa003"
+    },
+    "15": {
+        "label": "アイスクライマー",
+        "icon": "/fighter_icons/ice_climber.png",
+        "color": "#7bedf1"
+    },
+    "16": {
+        "label": "シーク",
+        "icon": "/fighter_icons/sheik.png",
+        "color": "#77a3ff"
+    },
+    "17": {
+        "label": "ゼルダ",
+        "icon": "/fighter_icons/zelda.png",
+        "color": "#f273a2"
+    },
+    "18": {
+        "label": "ドクターマリオ",
+        "icon": "/fighter_icons/mariod.png",
+        "color": "#b4b4b4"
+    },
+    "19": {
+        "label": "ピチュー",
+        "icon": "/fighter_icons/pichu.png",
+        "color": "#feff7e"
+    },
+    "20": {
+        "label": "ファルコ",
+        "icon": "/fighter_icons/falco.png",
+        "color": "#c3c0fc"
+    },
+    "21": {
+        "label": "マルス",
+        "icon": "/fighter_icons/marth.png",
+        "color": "#6e85b5"
+    },
+    "21e": {
+        "label": "ルキナ",
+        "icon": "/fighter_icons/lucina.png",
+        "color": "#ad687e"
+    },
+    "22": {
+        "label": "こどもリンク",
+        "icon": "/fighter_icons/younglink.png",
+        "color": "#71a76d"
+    },
+    "23": {
+        "label": "ガノンドロフ",
+        "icon": "/fighter_icons/ganon.png",
+        "color": "#dd9886"
+    },
+    "24": {
+        "label": "ミュウツー",
+        "icon": "/fighter_icons/mewtwo.png",
+        "color": "#b486b0"
+    },
+    "25": {
+        "label": "ロイ",
+        "icon": "/fighter_icons/roy.png",
+        "color": "#7b83af"
+    },
+    "25e": {
+        "label": "クロム",
+        "icon": "/fighter_icons/chrom.png",
+        "color": "#8696ae"
+    },
+    "26": {
+        "label": "Mr.ゲーム&ウォッチ",
+        "icon": "/fighter_icons/gamewatch.png",
+        "color": "#bdbdbd"
+    },
+    "27": {
+        "label": "メタナイト",
+        "icon": "/fighter_icons/metaknight.png",
+        "color": "#a170aa"
+    },
+    "28": {
+        "label": "ピット",
+        "icon": "/fighter_icons/pit.png",
+        "color": "#9a8d53"
+    },
+    "28e": {
+        "label": "ブラックピット",
+        "icon": "/fighter_icons/pitb.png",
+        "color": "#e2d36c"
+    },
+    "29": {
+        "label": "ゼロスーツサムス",
+        "icon": "/fighter_icons/szerosuit.png",
+        "color": "#67bfd0"
+    },
+    "30": {
+        "label": "ワリオ",
+        "icon": "/fighter_icons/wario.png",
+        "color": "#f1d82f"
+    },
+    "31": {
+        "label": "スネーク",
+        "icon": "/fighter_icons/snake.png",
+        "color": "#25742d"
+    },
+    "32": {
+        "label": "アイク",
+        "icon": "/fighter_icons/ike.png",
+        "color": "#3142b8"
+    },
+    "33": {
+        "label": "ポケモントレーナー",
+        "icon": "/fighter_icons/ptrainer.png",
+        "color": "#ed5554"
+    },
+    "36": {
+        "label": "ディディーコング",
+        "icon": "/fighter_icons/diddy.png",
+        "color": "#c92d2d"
+    },
+    "37": {
+        "label": "リュカ",
+        "icon": "/fighter_icons/lucas.png",
+        "color": "#f0d24a"
+    },
+    "38": {
+        "label": "ソニック",
+        "icon": "/fighter_icons/sonic.png",
+        "color": "#5067eb"
+    },
+    "39": {
+        "label": "デデデ",
+        "icon": "/fighter_icons/dedede.png",
+        "color": "#eeee4e"
+    },
+    "40": {
+        "label": "ピクミン&オリマー",
+        "icon": "/fighter_icons/pikmin.png",
+        "color": "#bff09d"
+    },
+    "41": {
+        "label": "ルカリオ",
+        "icon": "/fighter_icons/lucario.png",
+        "color": "#4388dd"
+    },
+    "42": {
+        "label": "ロボット",
+        "icon": "/fighter_icons/robot.png",
+        "color": "#9d3139"
+    },
+    "43": {
+        "label": "トゥーンリンク",
+        "icon": "/fighter_icons/toonlink.png",
+        "color": "#95d741"
+    },
+    "44": {
+        "label": "ウルフ",
+        "icon": "/fighter_icons/wolf.png",
+        "color": "#a5abb9"
+    },
+    "45": {
+        "label": "むらびと",
+        "icon": "/fighter_icons/murabito.png",
+        "color": "#3bad6d"
+    },
+    "46": {
+        "label": "ロックマン",
+        "icon": "/fighter_icons/rockman.png",
+        "color": "#477fe6"
+    },
+    "47": {
+        "label": "Wii Fit トレーナー",
+        "icon": "/fighter_icons/wiifit.png",
+        "color": "#8ac73d"
+    },
+    "48": {
+        "label": "ロゼッタ&チコ",
+        "icon": "/fighter_icons/rosetta.png",
+        "color": "#8ddfd6"
+    },
+    "49": {
+        "label": "リトル・マック",
+        "icon": "/fighter_icons/littlemac.png",
+        "color": "#43bd45"
+    },
+    "50": {
+        "label": "ゲッコウガ",
+        "icon": "/fighter_icons/gekkouga.png",
+        "color": "#5269d8"
+    },
+    "51": {
+        "label": "Mii 格闘タイプ",
+        "icon": "/fighter_icons/miifighter.png",
+        "color": "#45d9a9"
+    },
+    "52": {
+        "label": "Mii 剣術タイプ",
+        "icon": "/fighter_icons/miiswordsman.png",
+        "color": "#45d9a9"
+    },
+    "53": {
+        "label": "Mii 射撃タイプ",
+        "icon": "/fighter_icons/miigunner.png",
+        "color": "#45d9a9"
+    },
+    "54": {
+        "label": "パルテナ",
+        "icon": "/fighter_icons/palutena.png",
+        "color": "#7cd97c"
+    },
+    "55": {
+        "label": "パックマン",
+        "icon": "/fighter_icons/pacman.png",
+        "color": "#ffdc4b"
+    },
+    "56": {
+        "label": "ルフレ",
+        "icon": "/fighter_icons/reflet.png",
+        "color": "#e8da90"
+    },
+    "57": {
+        "label": "シュルク",
+        "icon": "/fighter_icons/shulk.png",
+        "color": "#e41c1e"
+    },
+    "58": {
+        "label": "クッパJr.",
+        "icon": "/fighter_icons/koopajr.png",
+        "color": "#58c401"
+    },
+    "59": {
+        "label": "ダックハント",
+        "icon": "/fighter_icons/duckhunt.png",
+        "color": "dd2bc8"
+    },
+    "60": {
+        "label": "リュウ",
+        "icon": "/fighter_icons/ryu.png",
+        "color": "#dd1d1c"
+    },
+    "60e": {
+        "label": "ケン",
+        "icon": "/fighter_icons/ken.png",
+        "color": "#e11b1c"
+    },
+    "61": {
+        "label": "クラウド",
+        "icon": "/fighter_icons/cloud.png",
+        "color": "#8addd4"
+    },
+    "62": {
+        "label": "カムイ",
+        "icon": "/fighter_icons/kamui.png",
+        "color": "#7d99d0"
+    },
+    "63": {
+        "label": "ベヨネッタ",
+        "icon": "/fighter_icons/bayonetta.png",
+        "color": "#3e63c9"
+    },
+    "64": {
+        "label": "インクリング",
+        "icon": "/fighter_icons/inkling.png",
+        "color": "#f49315"
+    },
+    "65": {
+        "label": "リドリー",
+        "icon": "/fighter_icons/ridley.png",
+        "color": "#ab637d"
+    },
+    "66": {
+        "label": "シモン",
+        "icon": "/fighter_icons/simon.png",
+        "color": "#a03736"
+    },
+    "66e": {
+        "label": "リヒター",
+        "icon": "/fighter_icons/richter.png",
+        "color": "#1773a9"
+    },
+    "67": {
+        "label": "キングクルール",
+        "icon": "/fighter_icons/krool.png",
+        "color": "#d2af57"
+    },
     "68": {
         "label": "しずえ",
         "icon": "/fighter_icons/shizue.png",
         "color": "#ffd71d"
+    },
+    "69": {
+        "label": "ガオガエン",
+        "icon": "/fighter_icons/gaogaen.png",
+        "color": "#d42b29"
+    },
+    "70": {
+        "label": "パックンフラワー",
+        "icon": "/fighter_icons/packun.png",
+        "color": "#a6f38d"
+    },
+    "71": {
+        "label": "ジョーカー",
+        "icon": "/fighter_icons/jack.png",
+        "color": "#a20c04"
+    },
+    "72": {
+        "label": "勇者",
+        "icon": "/fighter_icons/brave.png",
+        "color": "#cbb3f2"
+    },
+    "73": {
+        "label": "バンジョー&カズーイ",
+        "icon": "/fighter_icons/buddy.png",
+        "color": "#f8c658"
+    },
+    "74": {
+        "label": "テリー",
+        "icon": "/fighter_icons/dolly.png",
+        "color": "#7bb5fe"
+    },
+    "75": {
+        "label": "ベレト",
+        "icon": "/fighter_icons/master.png",
+        "color": "#90e6b2"
+    },
+    "76": {
+        "label": "ミェンミェン",
+        "icon": "/fighter_icons/tantan.png",
+        "color": "#d7d706"
+    },
+    "77": {
+        "label": "スティーブ",
+        "icon": "/fighter_icons/pickel.png",
+        "color": "#57bcfa"
+    },
+    "78": {
+        "label": "セフィロス",
+        "icon": "/fighter_icons/edge.png",
+        "color": "#344848"
+    },
+    "79": {
+        "label": "ホムラ/ヒカリ",
+        "icon": "/fighter_icons/eflame.png",
+        "color": "#67e6c1"
+    },
+    "80": {
+        "label": "カズヤ",
+        "icon": "/fighter_icons/demon.png",
+        "color": "#a32215"
+    },
+    "81": {
+        "label": "ソラ",
+        "icon": "/fighter_icons/trail.png",
+        "color": "#d4d2da"
     }
 }
