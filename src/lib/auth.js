@@ -22,13 +22,16 @@ export async function saveRefreshToken(sessionId, refreshToken) {
  * @return リフレッシュトークン
  */
 export async function getRefreshToken(sessionId) {
-    const { Item: result } = await ddb.get({
+    const result = await ddb.get({
         TableName: "SmashPowerLoggerRefreshTokenTable",
         Key: {
             session_id: sessionId
         }
     }).promise();
-    return result["refresh_token"];
+    if (Object.keys(result).length === 0) {
+        return null;
+    }
+    return result.Item["refresh_token"];
 }
 
 export function getAccessToken(locals) {
