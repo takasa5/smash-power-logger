@@ -49,7 +49,8 @@
                                 return Intl.NumberFormat("ja-JP", {
                                     notation: "compact",
                                     useGrouping: false,
-                                    minimumFractionDigits: 1
+                                    minimumFractionDigits: 1,
+                                    maximumFractionDigits: 1
                                 }).format(label);
                             }
                         }
@@ -88,7 +89,7 @@
                 {twitter_name}
             </div>
             <div class="Box-row d-flex">
-                <img class="col-4 avatar avatar-8 mx-auto" src={twitter_image} alt="{twitter_name}" />
+                <img class="col-4 avatar avatar-8 mx-auto" src={twitter_image.replace("_normal", "_bigger")} alt="{twitter_name}" />
                 <div class="col-8">SPL-ID: {id}</div>
             </div>
             {#if id == user.splId}
