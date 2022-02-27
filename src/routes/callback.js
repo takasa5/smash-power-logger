@@ -54,9 +54,9 @@ export async function get({ url, locals }) {
         info: userObj
     };
     return {
-        status: 302,
-        headers: {
-            location: `/users/${splId}`
+        status: 200,
+        body: {
+            splId
         }
-    }
+    };
 }
