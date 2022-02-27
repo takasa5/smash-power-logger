@@ -10,7 +10,6 @@
             method: "GET"
         });
         const res = await response.json();
-        // TODO: 取得時に期限付きでどっかのストレージに入れられたらよさそう
         powers = res;
         return res;
     }

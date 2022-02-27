@@ -62,3 +62,37 @@ export async function createUserIfNotExist(userObj) {
     }
     return splId;
 }
+
+export async function updateLastRegistered(splId, lastRegistered) {
+    await ddb.update({
+        TableName: "SmashPowerLoggerUser",
+        Key: {
+            id: splId
+        },
+        UpdateExpression: "SET last_registered = :val",
+        ExpressionAttributeValues: {
+            ":val": lastRegistered
+        }
+    }).promise();
+}
+
+export async function getUser(splId) {
+    const result = await ddb.get({
+        TableName: "SmashPowerLoggerUser",
+        Key: {
+            id: splId
+        }
+    }).promise();
+    if (Object.keys(result).length === 0) {
+        return null;
+    }
+    return result.Item;
+}
+
+export async function getLastRegistered(splId) {
+    const user = await getUser(splId);
+    if (!user) {
+        return null;
+    }
+    return user.last_registered;
+}

@@ -1,4 +1,5 @@
 import { DynamoDB as ddb } from "$lib/_util";
+import { updateLastRegistered } from "$lib/user";
 import notation from "$lib/fighter_notation.json";
 
 export async function registPowers(splId, itemList) {
@@ -29,6 +30,11 @@ export async function registPowers(splId, itemList) {
             }
         }).promise();
     }
+    // 最後に記録した日時をDBに保存しておく
+    const timeSet = Array.from(new Set(itemList.map(e => e.time))).sort((a, b) => new Date(a) - new Date(b));
+    const lastRegistered = timeSet.pop();
+    await updateLastRegistered(splId, lastRegistered);
+
 }
 
 export async function getPowersBySplId(splId) {

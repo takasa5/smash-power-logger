@@ -1,5 +1,5 @@
-import { DynamoDB as ddb } from "$lib/_util";
 import { getPowersBySplId } from "$lib/power";
+import { getUser } from "$lib/user";
 
 export async function get({ params }) {
     if (isNaN(params.id)) {
@@ -10,13 +10,8 @@ export async function get({ params }) {
     const splId = Number(params.id);
     try {
         // DBからユーザ情報を取得
-        const result = await ddb.get({
-            TableName: "SmashPowerLoggerUser",
-            Key: {
-                id: splId
-            }
-        }).promise();
-        if (Object.keys(result).length === 0) {
+        const user = await getUser(splId);
+        if (!user) {
             return {
                 status: 404
             }
@@ -28,9 +23,9 @@ export async function get({ params }) {
             status: 200,
             body: {
                 id: splId,
-                twitter_name: result.Item.twitter_name,
-                twitter_username: result.Item.twitter_username,
-                twitter_image: result.Item.twitter_image,
+                twitter_name: user.twitter_name,
+                twitter_username: user.twitter_username,
+                twitter_image: user.twitter_image,
                 powers: convertPowerToDatasets(powers)
             }
         }
