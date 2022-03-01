@@ -1,3 +1,4 @@
+import prisma from "$lib/prisma";
 import { DynamoDB as ddb } from "$lib/_util";
 import { updateLastRegistered } from "$lib/user";
 import notation from "$lib/fighter_notation.json";
@@ -37,22 +38,40 @@ export async function registPowers(splId, itemList) {
 
 }
 
-export async function getPowersBySplId(splId) {
-    const result = await ddb.query({
-        TableName: "SmashPower",
-        KeyConditionExpression: "spl_id = :id",
-        ExpressionAttributeValues: {
-            ":id": splId
+/**
+ * 戦闘力をデータセットの形で返却
+ * データセット：{label, backgroundColor, borderColor, data: [{x, y}]}
+ */
+export async function getPowersAsDataset(splId, fighterId) {
+    const powers = await getPowers(splId, fighterId);
+    if (powers.length === 0) {
+        return {};
+    }
+    const nt = notation[fighterId];
+    const dataset = {};
+    dataset["src"] = nt["icon"];
+    dataset["label"] = nt["label"];
+    dataset["backgroundColor"] = nt["color"];
+    dataset["borderColor"] = nt["color"];
+    dataset["data"] = powers.map(e => {
+        return {
+            x: e["recordedAt"],
+            y: e["power"]
         }
-    }).promise();
-    // [ { spl_id: 4, items: [Array], fighter_id: "11" } ]
-    let items = result.Items;
-    items = items.map(e => {
-        const nt = notation[`${e.fighter_id}`];
-        e["label"] = nt["label"];
-        e["icon"] = nt["icon"];
-        e["color"] = nt["color"];
-        return e;
     });
-    return items;
+    return dataset;
+}
+
+/**
+ * 戦闘力を取得しDBの行のまま返却
+ * [{id, userId, fighterId, power, recordedAt}, ...]
+ */
+export async function getPowers(splId, fighterId) {
+    let powers = await prisma.power.findMany({
+        where: {
+            userId: splId,
+            fighterId: fighterId
+        }
+    });
+    return powers;
 }
