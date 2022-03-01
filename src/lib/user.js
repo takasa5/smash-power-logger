@@ -60,6 +60,7 @@ export async function createUserIfNotExist(userObj) {
             console.error(err);
         }
     }
+    // TODO: アイコンや名前を更新
     return splId;
 }
 
