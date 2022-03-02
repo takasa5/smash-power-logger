@@ -1,4 +1,4 @@
-import { DynamoDB as ddb } from "$lib/_util";
+import prisma from "$lib/prisma";
 
 /**
  * セッションIDをもとにDBにリフレッシュトークンを格納する
@@ -6,32 +6,49 @@ import { DynamoDB as ddb } from "$lib/_util";
  * @param refreshToken リフレッシュトークン
  */
 export async function saveRefreshToken(sessionId, refreshToken) {
-    await ddb.put({
-        TableName:"SmashPowerLoggerRefreshTokenTable",
-        Item: {
+    await prisma.refreshToken.create({
+        data: {
             session_id: sessionId,
             refresh_token: refreshToken
         }
-    }).promise();
+    });
+}
+
+export async function updateRefreshToken(sessionId, refreshToken) {
+    await prisma.refreshToken.update({
+        where: {
+            session_id: sessionId
+        },
+        data: {
+            refresh_token: refreshToken
+        }
+    });
+}
+
+export async function deleteRefreshToken(sessionId) {
+    await prisma.refreshToken.delete({
+        where: {
+            session_id: sessionId
+        }
+    });
 }
 
 /**
- * セッションIDをもとにDynamoDBに格納したリフレッシュトークンを取得し、
+ * セッションIDをもとにDBに格納したリフレッシュトークンを取得し、
  * ログイン情報を再取得する
  * @param sessionId セッションID
  * @return リフレッシュトークン
  */
 export async function getRefreshToken(sessionId) {
-    const result = await ddb.get({
-        TableName: "SmashPowerLoggerRefreshTokenTable",
-        Key: {
+    const refreshToken = await prisma.refreshToken.findUnique({
+        where: {
             session_id: sessionId
         }
-    }).promise();
-    if (Object.keys(result).length === 0) {
+    });
+    if (!refreshToken) {
         return null;
     }
-    return result.Item["refresh_token"];
+    return refreshToken.refresh_token;
 }
 
 export function getAccessToken(locals) {

@@ -1,4 +1,4 @@
-import { DynamoDB as ddb } from "$lib/_util";
+import prisma from "$lib/prisma";
 
 /**
  * Twitter ID に基づいてユーザーを検索する。
@@ -6,23 +6,15 @@ import { DynamoDB as ddb } from "$lib/_util";
  * @return SPL ID / 存在しない場合は null
  */
 export async function searchUserByTwitterId(twitterId) {
-    try {
-        const { Items: result } = await ddb.query({
-            TableName: "SmashPowerLoggerUser",
-            IndexName: "twitter_id-index",
-            KeyConditionExpression: "twitter_id = :twitterId",
-            ExpressionAttributeValues: {
-                ":twitterId": twitterId
-            }
-        }).promise();
-
-        if (result.length === 0) {
-            return null;
+    const user = await prisma.user.findUnique({
+        where: {
+            twitter_id: twitterId
         }
-        return result[0].id;
-    } catch (err) {
-        console.error(err);
+    });
+    if (!user) {
+        return null;
     }
+    return user.id;
 }
 
 /**
@@ -33,67 +25,38 @@ export async function searchUserByTwitterId(twitterId) {
 export async function createUserIfNotExist(userObj) {
     const splId = await searchUserByTwitterId(userObj.id);
     if (!splId) {
-        try {
-            const { Attributes: seq } = await ddb.update({
-                TableName: "Sequences",
-                Key: {
-                    table_name: "SmashPowerLoggerUser"
-                },
-                UpdateExpression: "set current_number = current_number + :value",
-                ExpressionAttributeValues: {
-                    ":value": 1
-                },
-                ReturnValues: "UPDATED_NEW"
-            }).promise();
-            await ddb.put({
-                TableName: "SmashPowerLoggerUser",
-                Item: {
-                    id: seq.current_number,
-                    twitter_id: userObj.id,
-                    twitter_username: userObj.username,
-                    twitter_name: userObj.name,
-                    twitter_image: userObj.profile_image_url
-                }
-            }).promise();
-            return seq.current_number;
-        } catch (err) {
-            console.error(err);
-        }
+        const user = await prisma.user.create({
+            twitter_username: userObj.username,
+            twitter_image: userObj.profile_image_url,
+            twitter_id: userObj.id,
+            twitter_name: userObj.name
+        });
+        return user.id;
     }
-    // TODO: アイコンや名前を更新
+    // 2回目以降のログインではユーザ情報を更新する
+    await prisma.user.update({
+        where: {
+            id: splId
+        },
+        data: {
+            twitter_username: userObj.username,
+            twitter_image: userObj.profile_image_url,
+            twitter_name: userObj.name
+        }
+    });
     return splId;
 }
 
-export async function updateLastRegistered(splId, lastRegistered) {
-    await ddb.update({
-        TableName: "SmashPowerLoggerUser",
-        Key: {
-            id: splId
-        },
-        UpdateExpression: "SET last_registered = :val",
-        ExpressionAttributeValues: {
-            ":val": lastRegistered
-        }
-    }).promise();
-}
-
+/**
+ * ユーザーデータを取得する
+ * @param splId SPL ID
+ * @return User
+ */
 export async function getUser(splId) {
-    const result = await ddb.get({
-        TableName: "SmashPowerLoggerUser",
-        Key: {
+    const user = await prisma.user.findUnique({
+        where: {
             id: splId
         }
-    }).promise();
-    if (Object.keys(result).length === 0) {
-        return null;
-    }
-    return result.Item;
-}
-
-export async function getLastRegistered(splId) {
-    const user = await getUser(splId);
-    if (!user) {
-        return null;
-    }
-    return user.last_registered;
+    });
+    return user;
 }

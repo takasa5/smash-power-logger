@@ -19,3 +19,16 @@ model Power {
   power       Int
   recordedAt  DateTime
 }
+
+model User {
+  id                Int       @id @default(autoincrement())
+  twitter_username  String
+  twitter_image     String
+  twitter_id        String    @unique
+  twitter_name      String
+}
+
+model RefreshToken {
+  session_id        String    @id
+  refresh_token     String
+}

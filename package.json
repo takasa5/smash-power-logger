@@ -26,7 +26,6 @@
     "@lukeed/uuid": "^2.0.0",
     "@prisma/client": "^3.10.0",
     "@sveltejs/adapter-static": "^1.0.0-next.28",
-    "aws-sdk": "^2.1076.0",
     "chart.js": "^3.7.1",
     "chartjs-adapter-moment": "^1.0.0",
     "cookie": "^0.4.1",

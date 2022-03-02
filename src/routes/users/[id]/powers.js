@@ -1,7 +1,6 @@
 import { getAccessToken } from "$lib/auth";
 import { TwitterApi } from "twitter-api-v2";
 import { registPowers } from "$lib/power";
-import { getLastRegistered } from "$lib/user";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -36,10 +35,10 @@ export async function get({ params, locals }) {
             "tweet.fields": "created_at",
             exclude: "retweets"
         }
-        const lastRegistered = await getLastRegistered(splId);
-        if (lastRegistered) {
-            options["start_time"] = lastRegistered;
-        }
+        // const lastRegistered = await getLastRegistered(splId);
+        // if (lastRegistered) {
+        //     options["start_time"] = lastRegistered;
+        // }
         const paginator = await client.v2.userTimeline(locals.user.info.id, options);
         // { mediaKey: createdAt } （日時と紐付け用）
         let mediaList = {};

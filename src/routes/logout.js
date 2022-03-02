@@ -1,15 +1,10 @@
 import cookie from "cookie";
-import { DynamoDB as ddb } from "$lib/_util";
+import { deleteRefreshToken } from "$lib/auth";
 
 export async function get({ locals }) {
     try {
         // DBからリフレッシュトークンを削除
-        await ddb.delete({
-            TableName: "SmashPowerLoggerRefreshTokenTable",
-            Key: {
-                session_id: locals.sessionId
-            }
-        }).promise();
+        await deleteRefreshToken(locals.sessionId);
     } catch (err) {
         // no-op
         console.log(err);
