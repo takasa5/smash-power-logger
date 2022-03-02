@@ -1,4 +1,4 @@
-import { getPowersAsDataset } from "$lib/power";
+import { getPowers, getPowersAsDataset } from "$lib/power";
 import { getUser } from "$lib/user";
 
 export async function get({ params }) {
@@ -17,7 +17,8 @@ export async function get({ params }) {
             }
         }
         // 戦闘力情報を取得
-        const dataset = await getPowersAsDataset(splId, "11");
+        const powers = await getPowers(splId, "11");
+        const dataset = getPowersAsDataset(powers);
         // TODO: データのそぎ落とし
         return {
             status: 200,

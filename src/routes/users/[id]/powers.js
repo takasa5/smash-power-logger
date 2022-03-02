@@ -98,6 +98,7 @@ export async function post({ request, params }) {
     try {
         await registPowers(splId, data);
     } catch (err) {
+        console.log(err);
         return {
             status: 500
         };

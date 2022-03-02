@@ -30,7 +30,9 @@
             location.reload();
         }
         // TODO: 失敗時の挙動
-        return;
+        return {
+            status: 500
+        };
     }
 
     async function getPowerDummy() {
@@ -39,26 +41,26 @@
         powers = [
             {
                 key: '3_1495754719251238914',
-                power: '11138316',
-                fighter_id: 11,
-                fighter: 'キャプテン・ファルコン',
-                icon: "/fighter_icons/captain.png",
+                power: 11138316,
+                fighter_id: "01",
+                fighter: 'マリオ',
+                icon: "/fighter_icons/mario.png",
                 time: '2022-02-21T13:38:09.000Z'
             },
             {
                 key: '3_1495754719251238911',
-                power: '11140404',
-                fighter: 'キャプテン・ファルコン',
-                fighter_id: 11,
-                icon: "/fighter_icons/captain.png",
+                power: 11140404,
+                fighter_id: "01",
+                fighter: 'マリオ',
+                icon: "/fighter_icons/mario.png",
                 time: '2022-02-23T13:38:09.000Z'
             },
             {
                 key: '3_1495754719251238944',
-                power: '11145098',
-                fighter: 'キャプテン・ファルコン',
-                fighter_id: 11,
-                icon: "/fighter_icons/captain.png",
+                power: 11145098,
+                fighter_id: "01",
+                fighter: 'マリオ',
+                icon: "/fighter_icons/mario.png",
                 time: '2022-02-28T13:38:09.000Z'
             }
         ]
@@ -70,7 +72,7 @@
     }
 </script>
 
-{#await getPower()}
+{#await getPowerDummy()}
     <div class="Box">
         <div class="blankslate">
             <h3 class="blankslate-heading">ツイートから戦闘力を読み込んでいます<span class="AnimatedEllipsis"></span></h3>
