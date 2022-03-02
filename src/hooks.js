@@ -1,11 +1,11 @@
 import cookie from 'cookie';
 import { TwitterAppClient as twClient } from "$lib/_util";
-import { getRefreshToken, saveRefreshToken } from "$lib/auth";
+import { getRefreshToken, updateRefreshToken } from "$lib/auth";
 import { searchUserByTwitterId } from "$lib/user";
 import { v4 as uuid } from 'uuid';
 
 /**
- * セッションIDをもとにDynamoDBに格納したリフレッシュトークンを取得し、
+ * セッションIDをもとにDBに格納したリフレッシュトークンを取得し、
  * ログイン情報を再取得する
  * @param sessionId セッションID
  * @return { user: ユーザー情報, token: アクセストークン}
@@ -33,7 +33,7 @@ async function getUserInfo(sessionId) {
     // リフレッシュトークンでクライアント生成を試みる
     const { client: refreshedClient, accessToken, refreshToken: newRefreshToken} = await twClient.refreshOAuth2Token(refreshToken);
     // リフレッシュトークン更新
-    await saveRefreshToken(sessionId, newRefreshToken);
+    await updateRefreshToken(sessionId, newRefreshToken);
     const { data: userObj } = await refreshedClient.v2.me(meConfig)
     const splId = await searchUserByTwitterId(userObj.id);
     if (!splId) {
