@@ -26,10 +26,12 @@ export async function createUserIfNotExist(userObj) {
     const splId = await searchUserByTwitterId(userObj.id);
     if (!splId) {
         const user = await prisma.user.create({
-            twitter_username: userObj.username,
-            twitter_image: userObj.profile_image_url,
-            twitter_id: userObj.id,
-            twitter_name: userObj.name
+            data: {
+                twitter_username: userObj.username,
+                twitter_image: userObj.profile_image_url,
+                twitter_id: userObj.id,
+                twitter_name: userObj.name
+            }
         });
         return user.id;
     }
