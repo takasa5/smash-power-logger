@@ -9,6 +9,7 @@
         const response = await fetch(`/users/${splId}/powers`, {
             method: "GET"
         });
+        console.log(response);
         const res = await response.json();
         powers = res;
         return res;
@@ -72,7 +73,7 @@
     }
 </script>
 
-{#await getPowerDummy()}
+{#await getPower()}
     <div class="Box">
         <div class="blankslate">
             <h3 class="blankslate-heading">ツイートから戦闘力を読み込んでいます<span class="AnimatedEllipsis"></span></h3>

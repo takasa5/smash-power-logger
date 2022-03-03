@@ -1,6 +1,6 @@
 import { getAccessToken } from "$lib/auth";
 import { TwitterApi } from "twitter-api-v2";
-import { registPowers } from "$lib/power";
+import { registPowers, getLastRecorded } from "$lib/power";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -35,10 +35,11 @@ export async function get({ params, locals }) {
             "tweet.fields": "created_at",
             exclude: "retweets"
         }
-        // const lastRegistered = await getLastRegistered(splId);
-        // if (lastRegistered) {
-        //     options["start_time"] = lastRegistered;
-        // }
+        let lastRecordedAt = await getLastRecorded(splId);
+        lastRecordedAt.setSeconds(lastRecordedAt.getSeconds() + 1);
+        if (lastRecordedAt) {
+            options["start_time"] = lastRecordedAt.toISOString();
+        }
         const paginator = await client.v2.userTimeline(locals.user.info.id, options);
         // { mediaKey: createdAt } （日時と紐付け用）
         let mediaList = {};
@@ -47,7 +48,8 @@ export async function get({ params, locals }) {
         // TODO: ループの終了条件を整理
         for (const tweet of paginator.tweets) {
             count += 1;
-            if (count == paginator.tweets.length && mediaKeys.length === 0) {
+            if (!paginator.done && count == paginator.tweets.length && mediaKeys.length === 0) {
+                console.log("fetchNext");
                 await paginator.fetchNext();
             }
             // TODO: 日付切り捨て
@@ -65,19 +67,25 @@ export async function get({ params, locals }) {
             
         }
         // TODO: 画像を（古い方から）3枚にするための処理はここでやる必要があるかも
-        const urlList = paginator.includes.media
-                .filter(e => e.type == "photo")
-                .filter(e => mediaKeys.includes(e.media_key))
-                .map(e => {
-                    e.createdAt = mediaList[e.media_key]
-                    return e;
-                });
-        const data = await recognizeImages(splId, urlList);
+        if (mediaKeys.length !== 0) {
+            const urlList = paginator.includes.media
+                    .filter(e => e.type == "photo")
+                    .filter(e => mediaKeys.includes(e.media_key))
+                    .map(e => {
+                        e.createdAt = mediaList[e.media_key]
+                        return e;
+                    });
+            const data = await recognizeImages(splId, urlList);
         
-        // キャラと数値と日付のリストを返す
+            // キャラと数値と日付のリストを返す
+            return {
+                status: 200,
+                body: data
+            }
+        }
         return {
-            status: 200,
-            body: data
+            status: 404,
+            body: []
         }
     }
     return {

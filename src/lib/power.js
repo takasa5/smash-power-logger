@@ -52,11 +52,28 @@ export function getPowersAsDataset(powers) {
  * @returns [{id, userId, fighterId, power, recordedAt}, ...]
  */
 export async function getPowers(splId, fighterId) {
-    let powers = await prisma.power.findMany({
+    const powers = await prisma.power.findMany({
         where: {
             userId: splId,
             fighterId: fighterId
         }
     });
     return powers;
+}
+
+/**
+ * 最後に記録した日時（ツイートの投稿日時）を取得
+ * @param splId SPL ID
+ * @returns lastRecordedAt
+ */
+export async function getLastRecorded(splId) {
+    const power = await prisma.power.aggregate({
+        where: {
+            userId: splId
+        },
+        _max: {
+            recordedAt: true
+        }
+    })
+    return power._max.recordedAt;
 }

@@ -63,7 +63,7 @@
                             displayFormats: {
                                 day: "MM/DD"
                             },
-                            tooltipFormat: "YYYY/MM/DD"
+                            tooltipFormat: "YYYY/MM/DD HH:mm"
                         },
                         
                     }
