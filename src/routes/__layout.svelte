@@ -1,6 +1,17 @@
+<script context="module">
+    export async function load({ fetch }) {
+        const response = await fetch(`/refresh`, {
+            method: "GET"
+        });
+        const res = await response.json();
+        return {
+            status: 200,
+            props: res
+        };
+    }
+</script>
 <script>
-    import { session } from "$app/stores";
-	$: user = $session;
+    export let user;
 </script>
 
 <div class="Header">
@@ -8,7 +19,7 @@
         <a href="/" class="Header-link">Smash Power Logger</a>
     </div>
     <div class="Header-item">
-        {#if Object.keys(user).length === 0 }
+        {#if !user }
         <a href="/login" class="Header-link">ログイン/新規登録</a>
         {:else}
         <a href="/users/{user.splId}" class="Header-link">

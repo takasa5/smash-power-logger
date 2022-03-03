@@ -1,25 +1,22 @@
 import prisma from "$lib/prisma";
 
 /**
- * セッションIDをもとにDBにリフレッシュトークンを格納する
+ * セッションIDをもとにDBにリフレッシュトークンを更新する
+ * 存在しなければ作成する
+ * 
  * @param sessionId セッションID
  * @param refreshToken リフレッシュトークン
  */
-export async function saveRefreshToken(sessionId, refreshToken) {
-    await prisma.refreshToken.create({
-        data: {
-            session_id: sessionId,
-            refresh_token: refreshToken
-        }
-    });
-}
-
-export async function updateRefreshToken(sessionId, refreshToken) {
-    await prisma.refreshToken.update({
+export async function upsertRefreshToken(sessionId, refreshToken) {
+    await prisma.refreshToken.upsert({
         where: {
             session_id: sessionId
         },
-        data: {
+        update: {
+            refresh_token: refreshToken
+        },
+        create: {
+            session_id: sessionId,
             refresh_token: refreshToken
         }
     });
@@ -34,8 +31,8 @@ export async function deleteRefreshToken(sessionId) {
 }
 
 /**
- * セッションIDをもとにDBに格納したリフレッシュトークンを取得し、
- * ログイン情報を再取得する
+ * セッションIDをもとにDBに格納したリフレッシュトークンを取得
+ * 
  * @param sessionId セッションID
  * @return リフレッシュトークン
  */

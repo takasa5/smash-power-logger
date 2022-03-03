@@ -1,5 +1,5 @@
 import { createUserIfNotExist } from "$lib/user";
-import { saveRefreshToken } from "$lib/auth";
+import { upsertRefreshToken } from "$lib/auth";
 import { TwitterApi } from "twitter-api-v2";
 import dotenv from "dotenv";
 dotenv.config();
@@ -33,7 +33,7 @@ export async function get({ url, locals }) {
     delete locals.auth;
     // リフレッシュトークンをDBに保存する
     try {
-        await saveRefreshToken(locals.sessionId, refreshToken);
+        await upsertRefreshToken(locals.sessionId, refreshToken);
     } catch (err) {
         console.log(err);
         return {
