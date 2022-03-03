@@ -2,9 +2,9 @@
     import { onMount } from "svelte";
     import Chart from "chart.js/auto";
     import "chartjs-adapter-moment";
-    import { session } from "$app/stores";
+    import { page } from "$app/stores";
 
-	$: user = $session;
+	$: user = $page.stuff.user;
     export let id, twitter_name, twitter_image, powers;
 
     import { writable } from "svelte/store";

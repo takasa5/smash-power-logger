@@ -6,7 +6,8 @@
         const res = await response.json();
         return {
             status: 200,
-            props: res
+            props: res,
+            stuff: res
         };
     }
 </script>
