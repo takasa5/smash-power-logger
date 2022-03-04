@@ -12,11 +12,13 @@ export async function post({ request }) {
         const borderPowerString = $(".vipborder").text();
         if (!borderPowerString) {
             return {
-                status: 500
+                status: 500,
+                body: "border element not found"
             };
         }
-        const borderPower = parseInt(borderPowerString.replaceAll(",", ""));
+        const borderPower = parseInt(borderPowerString.replace(/,/g, ""));
         try {
+            console.log(borderPower);
             await prisma.border.create({
                 data: {
                     border: borderPower
@@ -28,7 +30,8 @@ export async function post({ request }) {
         } catch (err) {
             console.log(err);
             return {
-                status: 500
+                status: 500,
+                body: "prisma error"
             };
         }
     }
