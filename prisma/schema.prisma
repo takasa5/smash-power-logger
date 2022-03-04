@@ -32,3 +32,9 @@ model RefreshToken {
   session_id        String    @id
   refresh_token     String
 }
+
+model Border {
+  id          Int       @id @default(autoincrement())
+  border      Int
+  createdaAt  DateTime  @default(now())
+}
