@@ -1,0 +1,15 @@
+name: Get Kumamate Border
+
+on:
+  schedule:
+    # 毎日 00:00 (JST) = 15:00 (UTC) 
+    - cron: '0 15 * * *'
+
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: curl
+        run: |
+          curl -X POST '${{ secrets.KUMAMATE_API_URL }}' \
+          -H 'Authorization: Bearer ${{ secrets.KUMAMATE_API_KEY }}' -I
