@@ -5,7 +5,7 @@
     "start": "svelte-kit build && svelte-kit dev",
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
-    "postbuild": "cp prisma/schema.prisma .vercel_build_output/functions/node/render/ && cp node_modules/@prisma/engines/*query* .vercel_build_output/functions/node/render/ && cp node_modules/canvas/build/Release/* .vercel_build_output/functions/node/render/",
+    "postbuild": "cp prisma/schema.prisma .vercel_build_output/functions/node/render/ && cp node_modules/@prisma/engines/*query* .vercel_build_output/functions/node/render/",
     "postinstall": "prisma generate",
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
