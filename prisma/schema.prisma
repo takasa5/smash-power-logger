@@ -36,5 +36,5 @@ model RefreshToken {
 model Border {
   id          Int       @id @default(autoincrement())
   border      Int
-  createdaAt  DateTime  @default(now())
+  createdAt  DateTime  @default(now())
 }
