@@ -1,5 +1,5 @@
 import prisma from "$lib/prisma";
-import { JSDOM } from "jsdom";
+import * as cheerio from 'cheerio';
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -8,8 +8,8 @@ export async function post({ request }) {
     if (authorization && authorization === `Bearer ${process.env.KUMAMATE_API_KEY}`) {
         const response = await fetch("https://kumamate.net/vip/");
         const body = await response.text();
-        const dom = new JSDOM(body);
-        const borderPowerString = dom.window.document.querySelector(".vipborder").textContent;
+        const $ = cheerio.load(body);
+        const borderPowerString = $(".vipborder").text();
         if (!borderPowerString) {
             return {
                 status: 500
