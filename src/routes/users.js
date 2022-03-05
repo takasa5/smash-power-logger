@@ -1,13 +1,15 @@
 import { getFighters } from "$lib/power";
 import { getUser } from "$lib/user";
 
-export async function get({ params }) {
-    if (isNaN(params.id)) {
+// __layoutからdynamic routeが叩けないので準備
+export async function get({ url }) {
+    const query = url.searchParams;
+    if (isNaN(query.get("id"))) {
         return {
             status: 404
         }
     }
-    const splId = Number(params.id);
+    const splId = Number(query.get("id"));
     try {
         // DBからユーザ情報を取得
         const user = await getUser(splId);
@@ -25,7 +27,6 @@ export async function get({ params }) {
                 twitter_name: user.twitter_name,
                 twitter_username: user.twitter_username,
                 twitter_image: user.twitter_image,
-                // powers: [dataset],
                 fighters: fighters
             }
         }

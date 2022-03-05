@@ -25,7 +25,7 @@ export async function registPowers(splId, itemList) {
  * データセット：{label, backgroundColor, borderColor, data: [{x, y}]}
  * @param powers [{id, userId, fighterId, power, recordedAt}, ...]
  */
-export function getPowersAsDataset(powers) {
+export function convertPowersToDataset(powers) {
     if (powers.length === 0) {
         return {};
     }
@@ -76,4 +76,26 @@ export async function getLastRecorded(splId) {
         }
     })
     return power._max.recordedAt;
+}
+
+/**
+ * あるユーザーが持つファイターの一覧を返却
+ * @param splId SPL ID
+ * @returns fighter情報のリスト [{id, label, icon}, ...]
+ */
+export async function getFighters(splId) {
+    const powers = await prisma.power.groupBy({
+        where: {
+            userId: splId
+        },
+        by: ["fighterId"]
+    });
+    return powers.map(e => {
+        let ret = {};
+        const nt = notation[e.fighterId];
+        ret["id"] = e.fighterId;
+        ret["label"] = nt["label"];
+        ret["icon"] = nt["icon"];
+        return ret;
+    });
 }

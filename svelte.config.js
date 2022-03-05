@@ -5,12 +5,7 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		browser: {
-			router: false
-		},
-		vite: {
-			optimizeDeps: {
-				exclude: ["canvas"]
-			}
+			// router: false
 		}
 	}
 };
