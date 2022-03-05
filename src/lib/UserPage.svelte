@@ -21,7 +21,7 @@
     <div class="col-md-4 col-12">
         <div class="Box m-2">
             <div class="Box-header h3">
-                {twitter_name}
+                <a href="/users/{id}" class="Link--primary">{twitter_name}</a>
             </div>
             <div class="Box-row d-flex">
                 <img class="col-4 avatar avatar-8 mx-auto" src={twitter_image.replace("_normal", "_bigger")} alt="{twitter_name}" />

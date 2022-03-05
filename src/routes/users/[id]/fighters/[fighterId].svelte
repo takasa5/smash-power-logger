@@ -10,7 +10,7 @@
 </script>
 
 <svelte:head>
-	<title>{twitter_name}の戦闘力グラフ（{fighter_name}）</title>
+	<title>{twitter_name}の戦闘力グラフ ({fighter_name}) | SmashPowerLogger</title>
 </svelte:head>
 
 <UserPage

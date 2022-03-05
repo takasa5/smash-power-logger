@@ -1,4 +1,4 @@
-import { getFighters } from "$lib/power";
+import { convertPowersToDataset, getFighters, getRecentPowers } from "$lib/power";
 import { getUser } from "$lib/user";
 
 export async function get({ params }) {
@@ -16,6 +16,9 @@ export async function get({ params }) {
                 status: 404
             }
         }
+        // 戦闘力を取得
+        const powers = await getRecentPowers(splId);
+        const datasets = convertPowersToDataset(powers);
         // ファイター情報を取得
         const fighters = await getFighters(splId);
         return {
@@ -25,7 +28,7 @@ export async function get({ params }) {
                 twitter_name: user.twitter_name,
                 twitter_username: user.twitter_username,
                 twitter_image: user.twitter_image,
-                // powers: [dataset],
+                powers: datasets,
                 fighters: fighters
             }
         }

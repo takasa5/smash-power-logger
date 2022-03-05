@@ -22,15 +22,16 @@ export async function get({ params }) {
             status: 404
         };
     }
-    const dataset = convertPowersToDataset(powers);
+    const datasets = convertPowersToDataset(powers);
+    console.log(datasets);
     // ファイター情報を取得
     const fighters = await getFighters(splId);
 
     return {
         status: 200,
         body: {
-            fighter_name: dataset.label,
-            powers: [dataset],
+            fighter_name: datasets[0].label,
+            powers: datasets,
             fighters: fighters,
             ...user
         }
