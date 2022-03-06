@@ -28,12 +28,12 @@ export async function get({ locals }) {
     }
     try {
         const { client: refreshedClient, accessToken, refreshToken: newRefreshToken} = await twClient.refreshOAuth2Token(refreshToken);
-        await upsertRefreshToken(sessionId, newRefreshToken);
         const meConfig = {
             "user.fields": 'profile_image_url'
         };
         const { data: userObj } = await refreshedClient.v2.me(meConfig)
         const splId = await searchUserByTwitterId(userObj.id);
+        await upsertRefreshToken(sessionId, newRefreshToken);
         userObj.splId = splId;
         // callback.js （ログイン時）と共通する処理
         // TODO: 暗号化

@@ -32,6 +32,12 @@ import { data } from "cheerio/lib/api/attributes";
         return drawRanks;
     }
 
+    function addAlpha(color, opacity) {
+    // coerce values so ti is between 0 and 1.
+    const _opacity = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
+    return color + _opacity.toString(16).toUpperCase();
+}
+
     onMount(async () => {
         if (powers.length === 0) {
             return;
@@ -55,9 +61,10 @@ import { data } from "cheerio/lib/api/attributes";
                 const rankData = getRankData(c)
                 dataset["label"] = rankData.rank + "段: " + rankData.label;
                 dataset["borderColor"] = rankData.color;
-                dataset["backgroundColor"] = rankData.color;
+                dataset["backgroundColor"] = addAlpha(rankData.color, 0.1);
                 dataset["borderDash"] = [5, 10];
                 dataset["borderWidth"] = 2;
+                dataset["fill"] = "+1"
                 dataset["data"] = borders.map(b => {
                     return {
                         x: b.createdAt,

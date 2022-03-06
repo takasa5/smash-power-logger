@@ -3,12 +3,17 @@
         const response = await fetch(`/refresh`, {
             method: "GET"
         });
-        const res = await response.json();
+        if (response.ok) {
+            const res = await response.json();
+            return {
+                status: 200,
+                props: res,
+                stuff: res
+            };
+        }
         return {
-            status: 200,
-            props: res,
-            stuff: res
-        };
+            status: 200
+        }
     }
 </script>
 <script>
