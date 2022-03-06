@@ -2,9 +2,37 @@
     import { onMount } from "svelte";
     import Chart from "chart.js/auto";
     import "chartjs-adapter-moment";
+    import { getRankData, getRanks } from "./kumamateRank";
+import { data } from "cheerio/lib/api/attributes";
 
-    export let id, loginUser, powers;
-    onMount(() => {
+    export let id, loginUser, powers, borderFrom, borderTo;
+
+    /**
+     * 戦闘力に対して描画範囲内のスマメイトの段を返す
+     * @params borders ボーダーのリスト [{id, border, createdAt}]
+     * @params powers 戦闘力のリスト [power, ...]
+    */
+    function getNearRanks(borders, powers) {
+        // 描画範囲を取得（戦闘力の最大と最小）
+        const powerMax = Math.max(...powers) + 10000;
+        const powerMin = Math.min(...powers) - 10000;
+        // 各borderの平均値が範囲内であれば描画する
+        const ranks = getRanks().reverse();
+        let drawRanks = [];
+        for (const rank of ranks) {
+            const borderSum = borders.reduce((a, b) => a.border + b.border);
+            const borderAvg = (borderSum * rank) / borders.length;
+            if (borderAvg >= powerMin && borderAvg <= powerMax) {
+                drawRanks.push(rank);
+            } else if (drawRanks.length > 0) {
+                // drawRanksに要素がある状態で描画範囲外になったら終わる
+                break;
+            }
+        }
+        return drawRanks;
+    }
+
+    onMount(async () => {
         if (powers.length === 0) {
             return;
         }
@@ -17,6 +45,29 @@
             e["pointStyle"] = image;
             return e;
         });
+        // ボーダーを取得する
+        if (borderFrom && borderTo) {
+            const response = await fetch(`/borders?from=${borderFrom}&to=${borderTo}`);
+            const borders = await response.json(); // [{id, border, createdAt}]
+            const powers = datasets[0].data.map(e => e.y);
+            getNearRanks(borders, powers).map(c => {
+                const dataset = {};
+                const rankData = getRankData(c)
+                dataset["label"] = rankData.rank + "段: " + rankData.label;
+                dataset["borderColor"] = rankData.color;
+                dataset["backgroundColor"] = rankData.color;
+                dataset["borderDash"] = [5, 10];
+                dataset["borderWidth"] = 2;
+                dataset["data"] = borders.map(b => {
+                    return {
+                        x: b.createdAt,
+                        y: b.border * c
+                    };
+                });
+                datasets.push(dataset);
+            });
+            
+        }
         const ctx = document.getElementById("powerChart").getContext("2d");
         new Chart(ctx, {
             type: "line",
@@ -26,7 +77,12 @@
             options: {
                 plugins: {
                     legend: {
-                        position: 'bottom'
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            boxWidth: 7,
+                            filter: (d) => {return (borderFrom && borderTo && d.datasetIndex == 0) ? false : true}
+                        }
                     }
                 },
                 scales: {
@@ -55,8 +111,7 @@
                                 day: "MM/DD"
                             },
                             tooltipFormat: "YYYY/MM/DD HH:mm"
-                        },
-                        
+                        }
                     }
                 }
             }

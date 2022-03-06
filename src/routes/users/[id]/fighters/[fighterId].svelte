@@ -4,7 +4,7 @@
     import { page } from "$app/stores";
 
     export let id, twitter_name, twitter_image, fighters, fighter_name;
-    export let powers;
+    export let powers, borderFrom, borderTo;
 
     let loginUser = $page.stuff.user;
 </script>
@@ -23,5 +23,7 @@
         slot="power"
         powers={powers}
         loginUser={loginUser}
+        borderFrom={borderFrom}
+        borderTo={borderTo}
         />
 </UserPage>
