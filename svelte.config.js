@@ -6,6 +6,11 @@ const config = {
 		adapter: adapter(),
 		browser: {
 			router: false
+		},
+		vite: {
+			ssr: {
+				noExternal: ["chart.js"]
+			}
 		}
 	}
 };
