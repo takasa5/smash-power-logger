@@ -1,5 +1,6 @@
 <script>
     import { page } from "$app/stores";
+    import { goto } from "$app/navigation";
     $: user = $page.stuff.user;
 
     export let id, twitter_name, twitter_image, fighters;
@@ -17,7 +18,7 @@
     classContent="Box"
     closeButton={false}
 >
-<div class="d-flex flex-wrap-reverse col-md-8 col-12 mx-auto my-4">
+<div class="d-flex flex-wrap-reverse my-4">
     <div class="col-md-4 col-12">
         <div class="Box m-2">
             <div class="Box-header h3">
@@ -38,9 +39,9 @@
             {#if fighters.length > 0}
                 {#each fighters as fighter}
                 <div class="Box-row d-flex">
-                    <div class="col-4 d-flex">
+                    <a class="col-4 d-flex flex-items-center" href="/users/{id}/fighters/{fighter.id}">
                         <img class="col-4 mx-auto" src={fighter.icon} alt={fighter.label}/>
-                    </div>
+                    </a>
                     <div class="col-8 d-flex flex-items-center">
                         <a href="/users/{id}/fighters/{fighter.id}">{fighter.label}</a>
                     </div>

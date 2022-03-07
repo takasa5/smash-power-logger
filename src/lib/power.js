@@ -24,7 +24,7 @@ export async function registPowers(splId, itemList) {
  * 戦闘力をデータセットの形で返却
  * 
  * @param powers [{id, userId, fighterId, power, recordedAt}, ...]
- * @returns データセット：[{label, backgroundColor, borderColor, data: [{x, y}]}]
+ * @returns データセット：[{label, src, backgroundColor, borderColor, data: [{x, y}]}]
  */
 export function convertPowersToDataset(powers) {
     if (powers.length === 0) {

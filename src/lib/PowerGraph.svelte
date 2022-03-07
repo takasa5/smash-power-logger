@@ -3,7 +3,6 @@
     import Chart from "chart.js/auto";
     import "chartjs-adapter-moment";
     import { getRankData, getRanks } from "./kumamateRank";
-import { data } from "cheerio/lib/api/attributes";
 
     export let id, loginUser, powers, borderFrom, borderTo;
 
