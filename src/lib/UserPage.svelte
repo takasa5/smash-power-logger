@@ -19,7 +19,7 @@
     closeButton={false}
 >
 <div class="d-flex flex-wrap-reverse my-4">
-    <div class="col-md-4 col-12">
+    <div class="col-lg-4 col-12">
         <div class="Box m-2">
             <div class="Box-header h3">
                 <a href="/users/{id}" class="Link--primary">{twitter_name}</a>
@@ -50,7 +50,7 @@
             {/if}
         </div>
     </div>
-    <div class="col-md-8 col-12">
+    <div class="col-lg-8 col-12">
         <div class="Box m-2">
             <div class="Box-header h3">
                 戦闘力グラフ
