@@ -15,13 +15,11 @@
         // 描画範囲を取得（戦闘力の最大と最小）
         const powerMax = Math.max(...powers) + 10000;
         const powerMin = Math.min(...powers) - 10000;
-        console.log(powerMax, powerMin)
         // 各borderの平均値が範囲内であれば描画する
         const ranks = getRanks().reverse();
         let drawRanks = [];
         for (const rank of ranks) {
             const borderSum = borders.map(b => b.border).reduce((a, b) => a + b);
-            console.log(borderSum, rank);
             const borderAvg = (borderSum * rank) / borders.length;
             if (borderAvg >= powerMin && borderAvg <= powerMax) {
                 drawRanks.push(rank);
@@ -87,8 +85,9 @@
                     legend: {
                         position: 'bottom',
                         labels: {
+                            padding: 20,
                             usePointStyle: true,
-                            boxWidth: 7,
+                            boxWidth: 30,
                             filter: (d) => {return (borderFrom && borderTo && d.datasetIndex == 0) ? false : true}
                         }
                     }

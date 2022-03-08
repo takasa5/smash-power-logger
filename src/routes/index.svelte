@@ -11,8 +11,20 @@
 			borderColor: "#e92223",
 			data: [
 				{ x: from, y: 11128316 },
-				{ x: '2022-03-05T10:12:15.000Z', y: 11145623 },
+				{ x: '2022-03-05T10:12:15.000Z', y: 11141423 },
 				{ x: to, y: 11179521 }
+			]
+		},
+		{
+			label: "ソニック",
+			src: "/fighter_icons/sonic.png",
+			backgroundColor: "#5067eb",
+			borderColor: "#5067eb",
+			data: [
+				{ x: from, y: 11130112 },
+				{ x: '2022-03-04T23:54:11.000Z', y: 11136267 },
+				{ x: '2022-03-05T12:31:46.000Z', y: 11152219 },
+				{ x: to, y: 11171123 }
 			]
 		}
 	];
@@ -32,7 +44,7 @@
 			SmashPowerLoggerは、大乱闘スマッシュブラザーズSPECIALの戦闘力を手軽に記録できるWebアプリです
 		</div>
 		<div class="my-6 d-flex flex-justify-center flex-column">
-			<a href="/login" class="mx-auto btn btn-large">
+			<a href="/login" class="mx-auto btn btn-large color-bg-accent-emphasis color-fg-on-emphasis">
 				1clickで新規登録する
 			</a>
 			<div class="color-fg-subtle d-flex flex-justify-center">
@@ -45,8 +57,60 @@
 			id={"dummyId"}
 			powers={datasets}
 			loginUser={{splId: "dummy"}}}
-			borderFrom={from}
-			borderTo={to}
 		/>
+	</div>
+</div>
+<div class="p-responsive d-flex flex-justify-center flex-wrap mb-6">
+	<div class="mt-6 mb-3 col-12 d-flex flex-justify-center">
+		<h2>戦闘力の記録はわずか3ステップ</h2>
+	</div>
+	<div class="col-12 d-flex flex-justify-center flex-md-row flex-column flex-wrap">
+		<div class="col-lg-3 col-md-4 col-12 p-4">
+			<div class="Box color-shadow-large">
+				<div class="Box-header">
+					<h3>Step 1</h3>
+				</div>
+				<div class="Box-row d-flex flex-justify-center flex-column">
+					<img src="/Gaming-bro.svg" alt="スクリーンショットを撮る" />
+				</div>
+				<div class="Box-row">
+					戦闘力のスクリーンショットを撮る
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-4 col-12 p-4">
+			<div class="Box color-shadow-large">
+				<div class="Box-header">
+					<h3>Step 2</h3>
+				</div>
+				<div class="Box-row d-flex flex-justify-center flex-column">
+					<img src="/Message-bro.svg" alt="Twitterにアップローする" />
+				</div>
+				<div class="Box-row">
+					Twitterにアップロードする
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-4 col-12 p-4">
+			<div class="Box color-shadow-large">
+				<div class="Box-header">
+					<h3>Step 3</h3>
+				</div>
+				<div class="Box-row d-flex flex-justify-center flex-column">
+					<img src="/Stats-bro.svg" alt="SmashPowerLoggerで記録する" />
+				</div>
+				<div class="Box-row">
+					SmashPowerLoggerで記録する
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="my-6 d-flex flex-justify-center flex-column">
+		<a href="/login" class="mx-auto btn btn-large color-bg-accent-emphasis color-fg-on-emphasis">
+			1clickで新規登録する
+		</a>
+		<div class="color-fg-subtle d-flex flex-justify-center">
+			※登録にはTwitterアカウントが必要です
+		</div>
 	</div>
 </div>

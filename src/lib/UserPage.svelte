@@ -1,6 +1,5 @@
 <script>
     import { page } from "$app/stores";
-    import { goto } from "$app/navigation";
     $: user = $page.stuff.user;
 
     export let id, twitter_name, twitter_image, fighters;
