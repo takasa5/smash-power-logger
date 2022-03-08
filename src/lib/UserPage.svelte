@@ -27,7 +27,7 @@
                 <img class="col-4 avatar avatar-8 mx-auto" src={twitter_image.replace("_normal", "_bigger")} alt="{twitter_name}" />
                 <div class="col-8">SPL-ID: {id}</div>
             </div>
-            {#if id == user.splId}
+            {#if user && id == user.splId}
             <div class="Box-row d-flex flex-wrap flex-justify-center">
                 <button class="btn btn-large m-1" on:click={showModal}>戦闘力を記録</button>
                 <button class="btn btn-large m-1 d-inline-flex flex-items-center">
