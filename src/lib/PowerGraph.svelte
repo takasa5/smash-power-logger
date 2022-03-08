@@ -85,7 +85,6 @@
                     legend: {
                         position: 'bottom',
                         labels: {
-                            padding: 20,
                             usePointStyle: true,
                             boxWidth: 30,
                             filter: (d) => {return (borderFrom && borderTo && d.datasetIndex == 0) ? false : true}
@@ -103,10 +102,10 @@
                                 return Intl.NumberFormat("ja-JP", {
                                     notation: "compact",
                                     useGrouping: false,
-                                    minimumFractionDigits: 1,
-                                    maximumFractionDigits: 1
+                                    maximumFractionDigits: 0
                                 }).format(label);
-                            }
+                            },
+                            stepSize: 10000
                         }
                     },
                     x: {
@@ -118,6 +117,10 @@
                                 day: "MM/DD"
                             },
                             tooltipFormat: "YYYY/MM/DD HH:mm"
+                        },
+                        ticks: {
+                            maxRotation: 0,
+                            maxTicksLimit: 8
                         }
                     }
                 }
@@ -134,5 +137,7 @@
     {/if}
 </div>
 {:else}
-<canvas id="powerChart" class="m-2"/>
+<div class="m-2" id="chartContainer">
+    <canvas id="powerChart"/>
+</div>
 {/if}
