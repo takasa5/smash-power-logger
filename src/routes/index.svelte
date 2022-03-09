@@ -36,7 +36,7 @@
 </svelte:head>
 
 <div class="p-responsive d-flex flex-justify-center flex-items-center flex-lg-row flex-column">
-	<div class="col-lg-6 col-12 my-12">
+	<div class="col-lg-6 col-12 mt-12 mb-6">
 		<h1 class="col-12 mx-auto d-flex flex-justify-center">
 			数値だけでは、測れない努力がある
 		</h1>
@@ -60,9 +60,12 @@
 		/>
 	</div>
 </div>
-<div class="p-responsive d-flex flex-justify-center flex-wrap mb-6">
-	<div class="mt-6 mb-3 col-12 d-flex flex-justify-center">
+<div class="p-responsive d-flex flex-justify-center flex-wrap my-6">
+	<div class="mt-6 col-12 d-flex flex-justify-center">
 		<h2>戦闘力の記録はわずか3ステップ</h2>
+	</div>
+	<div class="mb-3 col-12 d-flex flex-justify-center">
+		<a href="/help#how-to-register-power">詳しく見る</a>
 	</div>
 	<div class="col-12 d-flex flex-justify-center flex-md-row flex-column flex-wrap">
 		<div class="col-lg-3 col-md-4 col-12 p-4">
