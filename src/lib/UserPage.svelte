@@ -10,6 +10,19 @@
     const modal = writable(null);
     const showModal = () => modal.set(bind(PowerLoading, { splId: id }));
 
+    async function share() {
+        const canvas = document.getElementById("powerChart");
+        const { width, height } = canvas.getBoundingClientRect();
+        const ctx = canvas.getContext("2d");
+        const data = ctx.getImageData(0, 0, width, height);
+        await fetch(`/users/${id}/share`, {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(Array.from(data.data))
+        });
+    }
 </script>
 
 <Modal
@@ -30,7 +43,7 @@
             {#if user && id == user.splId}
             <div class="Box-row d-flex flex-wrap flex-justify-center">
                 <button class="btn btn-large m-1" on:click={showModal}>戦闘力を記録</button>
-                <button class="btn btn-large m-1 d-inline-flex flex-items-center">
+                <button on:click={share} class="btn btn-large m-1 d-inline-flex flex-items-center">
                     <img class="mr-1" src="/twitter_logo.svg" width="16" height="16" alt="シェア"/> シェア
                 </button>
             </div>
