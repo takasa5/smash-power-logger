@@ -1,6 +1,14 @@
 <script>
     import { session } from "$app/stores";
+    import { flash } from "$lib/flash";
     let user = $session;
+    let fls;
+    flash.subscribe(val => {
+        fls = val;
+    });
+    function closeFlash() {
+        flash.update(() => null);
+    }
 
     export let id, twitter_name, twitter_image, fighters;
 
@@ -18,6 +26,18 @@
     classContent="Box"
     closeButton={false}
 >
+{#if fls}
+    <div class="d-flex mt-4 mx-2">
+        <div class="col-12">
+            <div class="flash" class:flash-success={fls.type == "success"} class:flash-error={fls.type == "error"}>
+                {fls.message}
+                <button on:click={closeFlash} class="flash-close" type="button" aria-label="Close">
+                    <svg class="octicon octicon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+{/if}
 <div class="d-flex flex-wrap-reverse my-4">
     <div class="col-lg-4 col-12">
         <div class="Box m-2">

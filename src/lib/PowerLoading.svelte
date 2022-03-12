@@ -1,6 +1,7 @@
 <script>
     import moment from "moment";
     import { getContext } from "svelte";
+    import { flash } from "$lib/flash";
     const { close } = getContext("simple-modal");
     export let splId;
     let powers = [];
@@ -15,7 +16,9 @@
         return res;
     }
 
+    let disabled = false;
     async function registPower() {
+        disabled = true;
         if (powers.length === 0) {
             return;
         }
@@ -28,12 +31,17 @@
             body: JSON.stringify(powers)
         });
         if (response.ok) {
+            // ページを更新して戦闘力を反映
             location.reload();
         }
         // TODO: 失敗時の挙動
-        return {
-            status: 500
-        };
+        flash.update(() => {
+            return {
+                type: "error",
+                message: "戦闘力の登録に失敗しました"
+            }
+        });
+        close();
     }
 
     async function getPowerDummy() {
@@ -108,7 +116,7 @@
         <button class="btn btn-secondary mr-2" on:click={close}>
             キャンセル
         </button>
-        <button class="btn btn-outline" on:click={registPower} aria-disabled={powers.length == 0} disabled={powers.length == 0}>
+        <button class="btn btn-outline" on:click={registPower} aria-disabled={powers.length == 0 || disabled} disabled={powers.length == 0 || disabled}>
             記録する
         </button>
     </div>
