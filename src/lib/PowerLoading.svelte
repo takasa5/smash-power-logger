@@ -108,7 +108,7 @@
         <button class="btn btn-secondary mr-2" on:click={close}>
             キャンセル
         </button>
-        <button class="btn btn-primary" on:click={registPower} aria-disabled={powers.length == 0}>
+        <button class="btn btn-outline" on:click={registPower} aria-disabled={powers.length == 0} disabled={powers.length == 0}>
             記録する
         </button>
     </div>

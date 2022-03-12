@@ -7,17 +7,10 @@
     import { writable } from "svelte/store";
     import Modal, { bind } from "svelte-simple-modal";
     import PowerLoading from "$lib/PowerLoading.svelte";
+    import TweetEdit from "./TweetEdit.svelte";
     const modal = writable(null);
-    const showModal = () => modal.set(bind(PowerLoading, { splId: id }));
-
-    async function share() {
-        const canvas = document.getElementById("powerChart");
-        const base64 = canvas.toDataURL();
-        await fetch(`/users/${id}/share`, {
-            method: "POST",
-            body: base64
-        });
-    }
+    const showPowerModal = () => modal.set(bind(PowerLoading, { splId: id }));
+    const showShareModal  = () => modal.set(bind(TweetEdit, {id}));
 </script>
 
 <Modal
@@ -37,8 +30,8 @@
             </div>
             {#if user && id == user.splId}
             <div class="Box-row d-flex flex-wrap flex-justify-center">
-                <button class="btn btn-large m-1" on:click={showModal}>戦闘力を記録</button>
-                <button on:click={share} class="btn btn-large m-1 d-inline-flex flex-items-center">
+                <button class="btn btn-large m-1" on:click={showPowerModal}>戦闘力を記録</button>
+                <button on:click={showShareModal} class="btn btn-large m-1 d-inline-flex flex-items-center">
                     <img class="mr-1" src="/twitter_logo.svg" width="16" height="16" alt="シェア"/> シェア
                 </button>
             </div>

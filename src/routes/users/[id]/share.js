@@ -12,7 +12,7 @@ export async function post({ request, params, locals }) {
             status: 403
         };
     }
-    const data = await request.text();
+    const { text, img } = await request.json();
 
     let client;
     try {
@@ -27,10 +27,10 @@ export async function post({ request, params, locals }) {
         };
     }
     try {
-        const mediaId = await client.v1.uploadMedia(Buffer.from(data.replace(/^data:\w+\/\w+;base64,/, ''), "base64"), {
+        const mediaId = await client.v1.uploadMedia(Buffer.from(img.replace(/^data:\w+\/\w+;base64,/, ''), "base64"), {
             type: "png"
         });
-        await client.v2.tweet("test", {
+        await client.v2.tweet(text, {
             media: {
                 media_ids: [mediaId]
             }
