@@ -1,3 +1,17 @@
+<script context="module">
+    export async function load({ session: user }) {
+		if (user) {
+			return {
+				status: 302,
+				redirect: `/users/${user.splId}`
+			};
+		}
+		return {
+			status: 200
+		};
+    }
+</script>
+
 <script>
 	import PowerGraph from "$lib/PowerGraph.svelte";
 

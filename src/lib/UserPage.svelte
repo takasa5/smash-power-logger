@@ -1,6 +1,6 @@
 <script>
-    import { page } from "$app/stores";
-    $: user = $page.stuff.user;
+    import { session } from "$app/stores";
+    let user = $session;
 
     export let id, twitter_name, twitter_image, fighters;
 
@@ -12,15 +12,10 @@
 
     async function share() {
         const canvas = document.getElementById("powerChart");
-        const { width, height } = canvas.getBoundingClientRect();
-        const ctx = canvas.getContext("2d");
-        const data = ctx.getImageData(0, 0, width, height);
+        const base64 = canvas.toDataURL();
         await fetch(`/users/${id}/share`, {
             method: "POST",
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(Array.from(data.data))
+            body: base64
         });
     }
 </script>

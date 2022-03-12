@@ -72,6 +72,9 @@ export async function getPowers(splId, fighterId) {
             userId: splId,
             fighterId: fighterId
         },
+        orderBy: {
+            recordedAt: "desc"
+        },
         take: 10
     });
     return powers;

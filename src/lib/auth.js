@@ -1,53 +1,25 @@
+import { TwitterApi } from "twitter-api-v2";
 import prisma from "$lib/prisma";
+import dotenv from "dotenv";
+dotenv.config();
 
 /**
- * セッションIDをもとにDBにリフレッシュトークンを更新する
- * 存在しなければ作成する
- * 
- * @param sessionId セッションID
- * @param refreshToken リフレッシュトークン
+ * Twitterクライアントの取得
  */
-export async function upsertRefreshToken(sessionId, refreshToken) {
-    await prisma.refreshToken.upsert({
-        where: {
-            session_id: sessionId
-        },
-        update: {
-            refresh_token: refreshToken
-        },
-        create: {
-            session_id: sessionId,
-            refresh_token: refreshToken
-        }
+export function getTwitterClient(accessToken, accessSecret) {
+    return new TwitterApi({
+        appKey: process.env.TWITTER_CONSUMER_KEY,
+        appSecret: process.env.TWITTER_CONSUMER_SECRET,
+        accessToken: accessToken,
+        accessSecret: accessSecret
     });
 }
 
-export async function deleteRefreshToken(sessionId) {
-    await prisma.refreshToken.delete({
+export async function getOauth(sessionId) {
+    const oauthData = await prisma.oauth.findUnique({
         where: {
             session_id: sessionId
         }
     });
-}
-
-/**
- * セッションIDをもとにDBに格納したリフレッシュトークンを取得
- * 
- * @param sessionId セッションID
- * @return リフレッシュトークン
- */
-export async function getRefreshToken(sessionId) {
-    const refreshToken = await prisma.refreshToken.findUnique({
-        where: {
-            session_id: sessionId
-        }
-    });
-    if (!refreshToken) {
-        return null;
-    }
-    return refreshToken.refresh_token;
-}
-
-export function getAccessToken(locals) {
-    return locals.user ? locals.user.token : null;
+    return oauthData ? oauthData : {};
 }

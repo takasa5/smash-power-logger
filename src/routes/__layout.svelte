@@ -1,24 +1,7 @@
-<script context="module">
-    export async function load({ fetch }) {
-        const response = await fetch(`/refresh`, {
-            method: "GET"
-        });
-        if (response.ok) {
-            const res = await response.json();
-            return {
-                status: 200,
-                props: res,
-                stuff: res
-            };
-        }
-        return {
-            status: 200
-        }
-    }
-</script>
 <script>
     import {clickOutside} from "$lib/clickOutside";
-    export let user;
+    import { session } from "$app/stores";
+    let user = $session;
     let popoverShow = false;
 
     function openPopover() {
@@ -37,6 +20,8 @@
             use:clickOutside on:click_outside={closePopover}>
                 <ul>
                     <li class="Box-row"><a href="/users/{user.splId}">マイページ</a></li>
+                    <li class="Box-row"><a href="/help">ヘルプ</a></li>
+                    <li class="Box-row"><a href="/logout">ログアウト</a></li>
                 </ul>
         </div>
     </div>

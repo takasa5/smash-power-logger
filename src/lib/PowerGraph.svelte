@@ -12,6 +12,9 @@
      * @params powers 戦闘力のリスト [power, ...]
     */
     function getNearRanks(borders, powers) {
+        if (borders.length == 0 || powers.length == 0) {
+            return [];
+        }
         // 描画範囲を取得（戦闘力の最大と最小）
         const powerMax = Math.max(...powers) + 10000;
         const powerMin = Math.min(...powers) - 10000;

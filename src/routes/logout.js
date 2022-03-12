@@ -1,14 +1,6 @@
 import cookie from "cookie";
-import { deleteRefreshToken } from "$lib/auth";
 
 export async function get({ locals }) {
-    try {
-        // DBからリフレッシュトークンを削除
-        await deleteRefreshToken(locals.sessionId);
-    } catch (err) {
-        // no-op
-        console.log(err);
-    }
     delete locals.auth;
     delete locals.user;
     return {

@@ -5,24 +5,19 @@ dotenv.config();
 // Twitter認証用URLへリダイレクト
 export async function get({ url, locals }){
     const client = new TwitterApi({
-        clientId: process.env.TWITTER_CLIENT_ID,
-        clientSecret: process.env.TWITTER_CLIENT_SECRET
+        appKey: process.env.TWITTER_CONSUMER_KEY,
+        appSecret: process.env.TWITTER_CONSUMER_SECRET
     });
     
-    const { url: authUrl, codeVerifier, state } = client.generateOAuth2AuthLink(
+    const { url: authUrl, oauth_token, oauth_token_secret } = await client.generateAuthLink(
         url.origin + "/callback/",
-        {
-            scope: [
-                'tweet.read',
-                'users.read',
-                'offline.access'
-                ]
-        }
+        { linkMode: "authorize" }
     );
+
     // セッション（クッキー）に保存
     locals.auth = {
-        codeVerifier,
-        state
+        oauth_token,
+        oauth_token_secret
     }
     return {
         status: 302,

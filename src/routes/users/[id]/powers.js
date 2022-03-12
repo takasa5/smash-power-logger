@@ -1,5 +1,4 @@
-import { getAccessToken } from "$lib/auth";
-import { TwitterApi } from "twitter-api-v2";
+import { getTwitterClient } from "$lib/auth";
 import { registPowers, getLastRecorded } from "$lib/power";
 import dotenv from "dotenv";
 dotenv.config();
@@ -19,77 +18,74 @@ export async function get({ params, locals }) {
         }
     }
     // Twitter再認証を行いツイートを取得
-    const accessToken = getAccessToken(locals);
     let client;
-    if (accessToken) {
-        try {
-            client = new TwitterApi(accessToken);
-        } catch (err) {
-            return {
-                status: 403
-            };
-        }
-        const options = {
-            expansions: "attachments.media_keys",
-            "media.fields": ["type", "url"],
-            "tweet.fields": "created_at",
-            exclude: "retweets"
-        }
-        let lastRecordedAt = await getLastRecorded(splId);
-        lastRecordedAt.setSeconds(lastRecordedAt.getSeconds() + 1);
-        if (lastRecordedAt) {
-            options["start_time"] = lastRecordedAt.toISOString();
-        }
-        const paginator = await client.v2.userTimeline(locals.user.info.id, options);
-        // { mediaKey: createdAt } （日時と紐付け用）
-        let mediaList = {};
-        let mediaKeys = []; // 検索用
-        let count = 0;
-        // TODO: ループの終了条件を整理
-        for (const tweet of paginator.tweets) {
-            count += 1;
-            if (!paginator.done && count == paginator.tweets.length && mediaKeys.length === 0) {
-                console.log("fetchNext");
-                await paginator.fetchNext();
-            }
-            // TODO: 日付切り捨て
-            if (!tweet.attachments || !tweet.attachments.media_keys) {
-                continue;
-            }
-            if (!tweet.text.includes("#SmashBrosSP")) {
-                continue;
-            }
-            for (const mediaKey of tweet.attachments.media_keys) {
-                mediaList[mediaKey] = tweet.created_at;
-                mediaKeys.push(mediaKey);
-                // TODO: 数切り捨て
-            }
-            
-        }
-        // TODO: 画像を（古い方から）3枚にするための処理はここでやる必要があるかも
-        if (mediaKeys.length !== 0) {
-            const urlList = paginator.includes.media
-                    .filter(e => e.type == "photo")
-                    .filter(e => mediaKeys.includes(e.media_key))
-                    .map(e => {
-                        e.createdAt = mediaList[e.media_key]
-                        return e;
-                    });
-            const data = await recognizeImages(splId, urlList);
-        
-            // キャラと数値と日付のリストを返す
-            return {
-                status: 200,
-                body: data
-            }
-        }
+    try {
+        client = getTwitterClient(
+            locals.user.oauth.accessToken,
+            locals.user.oauth.accessSecret
+        );
+    } catch (err) {
         return {
-            status: 404,
-            body: []
+            status: 403
+        };
+    }
+    const options = {
+        expansions: "attachments.media_keys",
+        "media.fields": ["type", "url"],
+        "tweet.fields": "created_at",
+        exclude: "retweets"
+    }
+    let lastRecordedAt = await getLastRecorded(splId);
+    lastRecordedAt.setSeconds(lastRecordedAt.getSeconds() + 1);
+    if (lastRecordedAt) {
+        options["start_time"] = lastRecordedAt.toISOString();
+    }
+    const paginator = await client.v2.userTimeline(locals.user.info.id, options);
+    // { mediaKey: createdAt } （日時と紐付け用）
+    let mediaList = {};
+    let mediaKeys = []; // 検索用
+    let count = 0;
+    // TODO: ループの終了条件を整理
+    for (const tweet of paginator.tweets) {
+        count += 1;
+        if (!paginator.done && count == paginator.tweets.length && mediaKeys.length === 0) {
+            console.log("fetchNext");
+            await paginator.fetchNext();
+        }
+        // TODO: 日付切り捨て
+        if (!tweet.attachments || !tweet.attachments.media_keys) {
+            continue;
+        }
+        if (!tweet.text.includes("#SmashBrosSP")) {
+            continue;
+        }
+        for (const mediaKey of tweet.attachments.media_keys) {
+            mediaList[mediaKey] = tweet.created_at;
+            mediaKeys.push(mediaKey);
+            // TODO: 数切り捨て
+        }
+        
+    }
+    // TODO: 画像を（古い方から）3枚にするための処理はここでやる必要があるかも
+    if (mediaKeys.length !== 0) {
+        const urlList = paginator.includes.media
+                .filter(e => e.type == "photo")
+                .filter(e => mediaKeys.includes(e.media_key))
+                .map(e => {
+                    e.createdAt = mediaList[e.media_key]
+                    return e;
+                });
+        const data = await recognizeImages(splId, urlList);
+    
+        // キャラと数値と日付のリストを返す
+        return {
+            status: 200,
+            body: data
         }
     }
     return {
-        status: 403
+        status: 404,
+        body: []
     }
 }
 

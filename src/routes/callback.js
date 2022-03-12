@@ -1,45 +1,30 @@
 import { createUserIfNotExist } from "$lib/user";
-import { upsertRefreshToken } from "$lib/auth";
 import { TwitterApi } from "twitter-api-v2";
 import dotenv from "dotenv";
 dotenv.config();
 
 export async function get({ url, locals }) {
+    const query = url.searchParams;
+    const oauth_token = query.get("oauth_token");
+    const oauth_verifier = query.get("oauth_verifier");
+    // localsから情報を取得
+    const { oauth_token_secret } = locals.auth;
+
+    if (!oauth_token || !oauth_verifier || !oauth_token_secret) {
+        return {
+            status: 403
+        }
+    }
+
     const client = new TwitterApi({
-        clientId: process.env.TWITTER_CLIENT_ID,
-        clientSecret: process.env.TWITTER_CLIENT_SECRET
+        appKey: process.env.TWITTER_CONSUMER_KEY,
+        appSecret: process.env.TWITTER_CONSUMER_SECRET,
+        accessToken: oauth_token,
+        accessSecret: oauth_token_secret
     });
 
-    const query = url.searchParams;
-    const state = query.get("state");
-    const code = query.get("code");
-    // localsから情報を取得
-    const sessionState = locals.auth.state;
-    const codeVerifier = locals.auth.codeVerifier;
-
-    if (!state || !code || !sessionState || !codeVerifier) {
-        return {
-            status: 403
-        }
-    }
-    if (state !== sessionState) {
-        return {
-            status: 403
-        }
-    }
-    const { client: userClient, accessToken, refreshToken } = await client.loginWithOAuth2(
-        { code, codeVerifier, redirectUri: url.origin + "/callback/"}
-    );
+    const { client: userClient, accessToken, accessSecret } = await client.login(oauth_verifier);
     delete locals.auth;
-    // リフレッシュトークンをDBに保存する
-    try {
-        await upsertRefreshToken(locals.sessionId, refreshToken);
-    } catch (err) {
-        console.log(err);
-        return {
-            status: 500
-        }
-    }
 
     const { data: userObj } = await userClient.v2.me({
         "user.fields": 'profile_image_url'
@@ -47,10 +32,13 @@ export async function get({ url, locals }) {
     // 必要であればユーザーを新規作成する
     const splId = await createUserIfNotExist(userObj);
     userObj.splId = splId;
-    // アクセストークンとユーザ情報をCookieに保存する
+    // アクセス情報とユーザ情報をCookieに保存する
     // TODO: 暗号化
     locals.user = {
-        token: accessToken,
+        oauth: {
+            accessToken,
+            accessSecret
+        },
         info: userObj
     };
     return {

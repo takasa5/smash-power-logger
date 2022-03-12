@@ -54,9 +54,13 @@ export const handle = async({ event, resolve }) => {
             "set-cookie",
             cookie.serialize("user", JSON.stringify(event.locals.user), {
                 ...cookieOptions,
-                maxAge: 7000
+                maxAge: 60 * 60 * 24 * 14
             })
         );
     }
     return response;
+}
+
+export function getSession(event) {
+    return event.locals.user ? event.locals.user.info : null;
 }
