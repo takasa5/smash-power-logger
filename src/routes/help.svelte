@@ -27,7 +27,7 @@
             <div class="col-md-6 col-10">
                 <img class="col-12" src="/mario_power.jpeg" alt="マリオの戦闘力スクリーンショット"/>
             </div>
-            スクリーンショットを用意できたら、Switch本体の画像一覧からTwitterへ共有します。<br>
+            スクリーンショットを用意できたら、<a href="https://support.nintendo.co.jp/app/answers/detail/a_id/37589">Switch本体の画像一覧からTwitterへ共有</a>します。<br>
             ツイートがされていることを確認できたら、SmashPowerLoggerのご自身のユーザーページで「戦闘力を記録」ボタンを押します。<br>
             <div class="col-md-4 col-8">
                 <img class="col-12" src="/screenshot_register.png" alt="「戦闘力を記録」ボタン"/>

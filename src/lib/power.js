@@ -77,7 +77,7 @@ export async function getPowers(splId, fighterId) {
         },
         take: 10
     });
-    return powers;
+    return powers.reverse();
 }
 
 /**
@@ -95,7 +95,7 @@ export async function getRecentPowers(splId) {
         },
         take: 10
     });
-    return powers;
+    return powers.reverse();
 }
 
 /**

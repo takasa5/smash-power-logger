@@ -20,25 +20,35 @@
         const powerMin = Math.min(...powers) - 10000;
         // 各borderの平均値が範囲内であれば描画する
         const ranks = getRanks().reverse();
+        let beforeRank, afterRank;
         let drawRanks = [];
         for (const rank of ranks) {
             const borderSum = borders.map(b => b.border).reduce((a, b) => a + b);
             const borderAvg = (borderSum * rank) / borders.length;
             if (borderAvg >= powerMin && borderAvg <= powerMax) {
                 drawRanks.push(rank);
+                continue;
             } else if (drawRanks.length > 0) {
                 // drawRanksに要素がある状態で描画範囲外になったら終わる
+                afterRank = rank;
                 break;
             }
+            beforeRank = rank;
+        }
+        if (drawRanks.length == 1) {
+            drawRanks.unshift(beforeRank);
+            drawRanks.push(afterRank);
+        } else if (drawRanks.length == 2) {
+            drawRanks.unshift(beforeRank);
         }
         return drawRanks;
     }
 
     function addAlpha(color, opacity) {
-    // coerce values so ti is between 0 and 1.
-    const _opacity = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
-    return color + _opacity.toString(16).toUpperCase();
-}
+        // coerce values so ti is between 0 and 1.
+        const _opacity = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
+        return color + _opacity.toString(16).toUpperCase();
+    }
 
     onMount(async () => {
         if (powers.length === 0) {

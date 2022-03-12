@@ -10,7 +10,6 @@ export async function get({ url }) {
         };
     }
     const borders = await getBorder(from, to);
-
     return {
         status: 200,
         body: borders
