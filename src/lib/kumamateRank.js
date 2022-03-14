@@ -36,132 +36,132 @@ export function getRankData(rank) {
         "0": {
             "rank": "0",
             "label": "未VIP発射台",
-            "color": "#fff645"
+            "color": "#FFFFFF"
         },
         "0.1": {
             "rank": "1",
             "label": "未VIPカオス（下）",
-            "color": "#ffe736"
+            "color": "#FFFFFF"
         },
         "0.2": {
             "rank": "2",
             "label": "未VIPカオス（中）",
-            "color": "#ffe332"
+            "color": "#FFFFFF"
         },
         "0.3": {
             "rank": "3",
             "label": "未VIPカオス（上）",
-            "color": "#ffd928"
+            "color": "#EBF4FB"
         },
         "0.4": {
             "rank": "4",
             "label": "VIPに向けた発射台",
-            "color": "#ffd01f"
+            "color": "#D8E9FD"
         },
         "0.5": {
             "rank": "5",
             "label": "未VIP修行ゾーン（下）",
-            "color": "#ffca19"
+            "color": "#C4DFFD"
         },
         "0.6": {
             "rank": "6",
             "label": "未VIP修行ゾーン（中）",
-            "color": "#ffc110"
+            "color": "#B1D4FC"
         },
         "0.7": {
             "rank": "7",
             "label": "未VIP修行ゾーン（上）",
-            "color": "#ffba08"
+            "color": "#9DC9FB"
         },
         "0.8": {
             "rank": "8",
             "label": "VIPの階段登る",
-            "color": "#fcb007"
+            "color": "#89BEFA"
         },
         "0.9": {
             "rank": "9",
             "label": "VIPまでラストスパート",
-            "color": "#faa307"
+            "color": "#76B3F9"
         },
         "1": {
             "rank": "10",
             "label": "VIP到達！",
-            "color": "#f89d06"
+            "color": "#62A8F8"
         },
         "1.011": {
             "rank": "11",
             "label": "VIP入りたて",
-            "color": "#f48c06"
+            "color": "#4F9EF8"
         },
         "1.039": {
             "rank": "12",
             "label": "VIP不安定層",
-            "color": "#f07e05"
+            "color": "#3B93F7"
         },
         "1.046": {
             "rank": "13",
             "label": "一人前VIP",
-            "color": "#e85d04"
+            "color": "#2888F6"
         },
         "1.054": {
             "rank": "14",
             "label": "VIP街道爆進",
-            "color": "#e45003"
+            "color": "#147DF5"
         },
         "1.076": {
             "rank": "15",
             "label": "魔境まであと2-3勝",
-            "color": "#dc2f02"
+            "color": "#0969DA"
         },
         "1.081": {
             "rank": "16",
             "label": "魔境Lv.1（魔境到達！）",
-            "color": "#d82201"
+            "color": "#0860C4"
         },
         "1.084": {
             "rank": "17",
             "label": "魔境Lv.2",
-            "color": "#d00000"
+            "color": "#0756B0"
         },
         "1.087": {
             "rank": "18",
             "label": "魔境Lv.3（魔境街道）",
-            "color": "#be0002"
+            "color": "#074D9D"
         },
         "1.09": {
             "rank": "19",
             "label": "魔境Lv.4",
-            "color": "#9d0208"
+            "color": "#064389"
         },
         "1.093": {
             "rank": "20",
             "label": "魔境Lv.5（トップオブザ魔境）",
-            "color": "#8c020a"
+            "color": "#053976"
         },
         "1.095": {
             "rank": "21",
             "label": "魔境卒業",
-            "color": "#6a040f"
+            "color": "#043062"
         },
         "1.097": {
             "rank": "22",
             "label": "地元最強",
-            "color": "#590411"
+            "color": "#03264E"
         },
         "1.099": {
             "rank": "23",
             "label": "宇宙最強",
-            "color": "#370617"
+            "color": "#021D3B"
         },
         "1.101": {
             "rank": "24",
             "label": "神",
-            "color": "#250619"
+            "color": "#021327"
         },
         "1.105": {
             "rank": "25",
             "label": "桜井",
-            "color": "#03071e"
+            "color": "#010A14"
         }
     }
     return rankData[rankStr];

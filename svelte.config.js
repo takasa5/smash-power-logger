@@ -4,9 +4,6 @@ import adapter from '@sveltejs/adapter-auto';
 const config = {
 	kit: {
 		adapter: adapter(),
-		browser: {
-			router: false
-		},
 		vite: {
 			ssr: {
 				noExternal: ["chart.js"]
