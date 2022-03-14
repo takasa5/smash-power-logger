@@ -1,5 +1,6 @@
 <script context="module">
     export async function load({ session: user }) {
+		console.log(user);
 		if (user) {
 			return {
 				status: 302,
