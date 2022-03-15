@@ -71,7 +71,8 @@
             getNearRanks(borders, powers).map(c => {
                 const dataset = {};
                 const rankData = getRankData(c)
-                dataset["label"] = rankData.rank + "段: " + rankData.label;
+                dataset["label"] = rankData.rank + "段";
+                dataset["labelOption"] = rankData.label;
                 dataset["borderColor"] = rankData.color;
                 dataset["backgroundColor"] = addAlpha(rankData.color, 0.1);
                 dataset["borderDash"] = [5, 10];
@@ -100,7 +101,42 @@
                         labels: {
                             usePointStyle: true,
                             boxWidth: 30,
-                            filter: (d) => {return (borderFrom && borderTo && d.datasetIndex == 0) ? false : true}
+                            filter: (d) => {return (borderFrom && borderTo && d.datasetIndex == 0) ? false : true},
+                            generateLabels: function(chart) {
+                                var data = chart.data;
+                                return data.datasets.map(function(dataset, i) {
+                                    let label = dataset.label;
+                                    if (window.innerWidth > 1024 && dataset.labelOption) {
+                                        label = label + ": " + dataset.labelOption;
+                                    }
+                                    return {
+                                        text:           label,
+                                        fillStyle:      dataset.backgroundColor,
+                                        hidden:         !chart.isDatasetVisible(i),
+                                        lineCap:        dataset.borderCapStyle,
+                                        // lineDash:       dataset.borderDash,
+                                        // lineDashOffset: dataset.borderDashOffset,
+                                        lineJoin:       dataset.borderJoinStyle,
+                                        // This parameter, "borderWidth" is not good.
+                                        lineWidth:      dataset.borderWidth, 
+                                        strokeStyle:    dataset.borderColor,
+                                        pointStyle:     dataset.pointStyle,
+                                        // Below is extra data used for toggling the datasets
+                                        datasetIndex: i
+                                    };
+                                }, this);
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (context.dataset.labelOption) {
+                                    label = label + ": " + context.dataset.labelOption;
+                                }
+                                return label;
+                            }
                         }
                     }
                 },
