@@ -28,7 +28,7 @@
     {/if}
     <div class="Header">
         <div class="Header-item Header-item--full d-table">
-            <a href="/" class="Header-link">Smash Power Logger</a>
+            <a href="/" class="Header-link">SmashPowerLogger</a>
             <a href="/history" class="f6 Link--primary color-fg-on-emphasis v-align-bottom pl-1">0.0.1</a>
         </div>
         <div class="Header-item">

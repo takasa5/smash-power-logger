@@ -1,3 +1,4 @@
+import { signJwt, verifyJwt } from '$lib/auth';
 import cookie from 'cookie';
 import { v4 as uuid } from 'uuid';
 
@@ -13,7 +14,23 @@ export const handle = async({ event, resolve }) => {
         event.locals.auth = JSON.parse(cookies.auth);
     }
     if (cookies.user) {
-        event.locals.user = JSON.parse(cookies.user);
+        try {
+            event.locals.user = verifyJwt(cookies.user);
+        } catch (err) {
+            // 認証失敗でクッキー消去
+            const response = await resolve(event);
+            response.headers.set(
+                "set-cookie",
+                cookie.serialize("user", "", {
+                    path: '/',
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: 'strict',
+                    maxAge: 0
+                })
+            );
+            return response;
+        }
     }
     // *******************************************
     // resolve内部でJSファイルの各メソッドが呼ばれる
@@ -52,7 +69,7 @@ export const handle = async({ event, resolve }) => {
     if (!cookies.user && "user" in event.locals) {
         response.headers.set(
             "set-cookie",
-            cookie.serialize("user", JSON.stringify(event.locals.user), {
+            cookie.serialize("user", signJwt(event.locals.user), {
                 ...cookieOptions,
                 maxAge: 60 * 60 * 24 * 14
             })
