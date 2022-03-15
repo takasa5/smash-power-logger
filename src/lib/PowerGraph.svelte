@@ -81,7 +81,7 @@
                 dataset["data"] = borders.map(b => {
                     return {
                         x: b.createdAt,
-                        y: b.border * c
+                        y: parseInt(b.border * c)
                     };
                 });
                 datasets.push(dataset);
@@ -135,7 +135,7 @@
                                 if (context.dataset.labelOption) {
                                     label = label + ": " + context.dataset.labelOption;
                                 }
-                                return label;
+                                return [label, context.parsed.y]
                             }
                         }
                     }
