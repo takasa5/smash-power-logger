@@ -33,8 +33,8 @@
         if (response.ok) {
             // ページを更新して戦闘力を反映
             location.reload();
+            return;
         }
-        // TODO: 失敗時の挙動
         flash.update(() => {
             return {
                 type: "error",
