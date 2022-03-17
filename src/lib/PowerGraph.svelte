@@ -101,7 +101,9 @@
                         labels: {
                             usePointStyle: true,
                             boxWidth: 30,
-                            filter: (d) => {return (borderFrom && borderTo && d.datasetIndex == 0) ? false : true},
+                            filter: (d) => {
+                                return (borderFrom && borderTo && !d.text.includes("段")) ? false : true
+                            },
                             generateLabels: function(chart) {
                                 var data = chart.data;
                                 return data.datasets.map(function(dataset, i) {

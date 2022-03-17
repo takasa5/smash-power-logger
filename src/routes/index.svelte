@@ -16,7 +16,7 @@
 	import PowerGraph from "$lib/PowerGraph.svelte";
 
 	const from = '2022-03-04T18:38:09.000Z';
-	const to = '2022-03-05T23:01:01.000Z'
+	const to = '2022-03-06T12:01:01.000Z'
 	const datasets = [
 		{
 			label: "マリオ",
@@ -25,8 +25,9 @@
 			borderColor: "#e92223",
 			data: [
 				{ x: from, y: 11128316 },
-				{ x: '2022-03-05T10:12:15.000Z', y: 11141423 },
-				{ x: to, y: 11179521 }
+				{ x: '2022-03-05T10:12:15.000Z', y: 11151423 },
+				{ x: '2022-03-05T23:01:01.000Z', y: 11179521 },
+				{ x: to, y: 11200001 }
 			]
 		},
 		{
@@ -38,7 +39,8 @@
 				{ x: from, y: 11130112 },
 				{ x: '2022-03-04T23:54:11.000Z', y: 11136267 },
 				{ x: '2022-03-05T12:31:46.000Z', y: 11152219 },
-				{ x: to, y: 11171123 }
+				{ x: '2022-03-05T20:13:51.000Z', y: 11171123 },
+				{ x: to, y: 11180239 }
 			]
 		}
 	];
@@ -52,14 +54,14 @@
 <div class="p-responsive d-flex flex-justify-center flex-items-center flex-lg-row flex-column">
 	<div class="col-lg-6 col-12 mt-12 mb-6">
 		<h1 class="col-12 mx-auto d-flex flex-justify-center">
-			数値だけでは、測れない努力がある
+			数値だけでは、<br class="d-md-none">測れない努力がある
 		</h1>
 		<div class="f4 col-lg-8 col-12 mx-auto d-flex flex-justify-center color-fg-subtle">
 			SmashPowerLoggerは、大乱闘スマッシュブラザーズSPECIALの戦闘力を手軽に記録できるWebアプリです
 		</div>
 		<div class="my-6 d-flex flex-justify-center flex-column">
 			<a href="/login" class="mx-auto btn btn-large color-bg-accent-emphasis color-fg-on-emphasis">
-				1clickで新規登録する
+				新規登録する
 			</a>
 			<div class="color-fg-subtle d-flex flex-justify-center">
 				※登録にはTwitterアカウントが必要です
@@ -70,7 +72,9 @@
 		<PowerGraph
 			id={"dummyId"}
 			powers={datasets}
-			loginUser={{splId: "dummy"}}}
+			loginUser={{splId: "dummy"}}
+			borderFrom={from}
+			borderTo={to}
 		/>
 	</div>
 </div>
@@ -124,7 +128,7 @@
 	</div>
 	<div class="my-6 d-flex flex-justify-center flex-column">
 		<a href="/login" class="mx-auto btn btn-large color-bg-accent-emphasis color-fg-on-emphasis">
-			1clickで新規登録する
+			新規登録する
 		</a>
 		<div class="color-fg-subtle d-flex flex-justify-center">
 			※登録にはTwitterアカウントが必要です
