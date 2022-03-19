@@ -9,7 +9,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+  previewFeatures = ["referentialIntegrity", "extendedIndexes"]
 }
 
 model Power {
@@ -18,6 +18,9 @@ model Power {
   fighterId   String    @db.VarChar(3)
   power       Int
   recordedAt  DateTime
+
+  @@index([userId])
+  @@index([userId, fighterId])
 }
 
 model User {
@@ -26,10 +29,15 @@ model User {
   twitter_image     String
   twitter_id        String    @unique
   twitter_name      String
+
+  @@index([id])
+  @@index([twitter_id])
 }
 
 model Border {
   id          Int       @id @default(autoincrement())
   border      Int
   createdAt   DateTime  @default(now())
+
+  @@index([createdAt])
 }
