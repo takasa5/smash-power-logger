@@ -74,8 +74,7 @@ export async function getPowers(splId, fighterId) {
         },
         orderBy: {
             recordedAt: "desc"
-        },
-        take: 10
+        }
     });
     return powers.reverse();
 }

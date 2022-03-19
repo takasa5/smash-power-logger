@@ -5,7 +5,7 @@
     import { getRankData, getRanks } from "./kumamateRank";
 
     export let id, loginUser, powers, borderFrom, borderTo;
-
+    let isDisplayRank = true, range = 10;
     /**
      * 戦闘力に対して描画範囲内のスマメイトの段を返す
      * @params borders ボーダーのリスト [{id, border, createdAt}]
@@ -44,50 +44,110 @@
         return drawRanks;
     }
 
+    function sliceDatasets(datasets, sliceRange) {
+        return datasets.map(dataset => {
+            const newDataset = { ...dataset };
+            newDataset.data = dataset.data.slice(-sliceRange);
+            return newDataset;
+        });
+    }
+
+    /**
+     * データセットのElementの点の描画スタイルを追加し、
+     * *新しい配列*を返す
+    */
+    function addPointStyle(datasets) {
+        return datasets.map(e => {
+            const image = new Image();
+            image.src = e["src"];
+            if (window.innerWidth > 1024) {
+                image.width = image.height = 20;
+            } else {
+                image.width = image.height = 16;
+            }
+
+            // データ数が10より多い場合は画像を中抜き
+            if (e.data.length > 10) {
+                e["pointStyle"] = e.data.map((_, i) => {
+                    if ((i + 1) % 10 == 0) {
+                        return image;
+                    }
+                    return "circle";
+                });
+                return e;
+            }
+            
+            e["pointStyle"] = image;
+            return e;
+        });
+    }
+
+    /**
+     * データセットにボーダーのデータを追加する。
+     * *新しい配列*を返す
+    */
+    async function addBorderData(datasets, from, to) {
+        const response = await fetch(`/borders?from=${from}&to=${to}`);
+        const borders = await response.json(); // [{id, border, createdAt}]
+        // TODO: 複数ファイターがいるときのボーダー取得方法
+        const powers = datasets[0].data.map(e => e.y);
+        const rankDatas = getNearRanks(borders, powers).map(c => {
+            const dataset = {};
+            const rankData = getRankData(c)
+            dataset["label"] = rankData.rank + "段";
+            dataset["pointRadius"] = 2;
+            dataset["hoverRadius"] = 3;
+            dataset["labelOption"] = rankData.label;
+            dataset["borderColor"] = rankData.color;
+            dataset["backgroundColor"] = addAlpha(rankData.color, 0.1);
+            dataset["borderDash"] = [5, 10];
+            dataset["borderWidth"] = 2;
+            dataset["fill"] = "+1"
+            dataset["data"] = borders.map(b => {
+                return {
+                    x: b.createdAt,
+                    y: parseInt(b.border * c)
+                };
+            });
+            return dataset;
+        });
+        return datasets.concat(rankDatas);
+    }
+
     function addAlpha(color, opacity) {
         // coerce values so ti is between 0 and 1.
         const _opacity = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
         return color + _opacity.toString(16).toUpperCase();
     }
 
+    async function updateChart(originDatasets, range, border) {
+        console.log(originDatasets);
+        // データをフィルタリング
+        let datasets = sliceDatasets(originDatasets, range);
+        // スタイル追加
+        datasets = addPointStyle(datasets);
+        // ボーダー追加
+        if (border) {
+            datasets = await addBorderData(datasets, borderFrom, borderTo);
+        }
+        const chart = Chart.getChart("powerChart");
+        console.log(datasets);
+        chart.data.datasets = datasets;
+        chart.update();
+    }
+
     onMount(async () => {
         if (powers.length === 0) {
             return;
         }
-        // imageをsetする
-        const datasets = powers.map(e => {
-            const image = new Image();
-            image.src = e["src"];
-            image.width = image.height = 24;
-            delete e["src"];
-            e["pointStyle"] = image;
-            return e;
-        });
+        let datasets = sliceDatasets(powers, 10);
+        // pointStyleを設定する
+        datasets = addPointStyle(powers);
         // ボーダーを取得する
         if (borderFrom && borderTo) {
-            const response = await fetch(`/borders?from=${borderFrom}&to=${borderTo}`);
-            const borders = await response.json(); // [{id, border, createdAt}]
-            const powers = datasets[0].data.map(e => e.y);
-            getNearRanks(borders, powers).map(c => {
-                const dataset = {};
-                const rankData = getRankData(c)
-                dataset["label"] = rankData.rank + "段";
-                dataset["labelOption"] = rankData.label;
-                dataset["borderColor"] = rankData.color;
-                dataset["backgroundColor"] = addAlpha(rankData.color, 0.1);
-                dataset["borderDash"] = [5, 10];
-                dataset["borderWidth"] = 2;
-                dataset["fill"] = "+1"
-                dataset["data"] = borders.map(b => {
-                    return {
-                        x: b.createdAt,
-                        y: parseInt(b.border * c)
-                    };
-                });
-                datasets.push(dataset);
-            });
-            
+            datasets = await addBorderData(datasets, borderFrom, borderTo);
         }
+        console.log(datasets);
         const ctx = document.getElementById("powerChart").getContext("2d");
         new Chart(ctx, {
             type: "line",
@@ -131,6 +191,7 @@
                         }
                     },
                     tooltip: {
+                        usePointStyle: true,
                         callbacks: {
                             label: function(context) {
                                 let label = context.dataset.label || '';
@@ -191,4 +252,26 @@
 <div class="m-2" id="chartContainer">
     <canvas id="powerChart"/>
 </div>
+{#if borderFrom && borderTo}
+<div class="p-responsive my-4">
+    <div>
+        <label for="range">表示範囲</label>
+        <div class="radio-group" name="range">
+            <input bind:group={range} value={10} on:change={async () => await updateChart(powers, range, isDisplayRank)} class="radio-input" id="radio-recent" type="radio" name="range" checked="checked">
+            <label class="radio-label" for="radio-recent">最新10件</label>
+            <input bind:group={range} value={undefined} on:change={async () => await updateChart(powers, range, isDisplayRank)} class="radio-input" id="radio-all" type="radio" name="range">
+            <label class="radio-label" for="radio-all">すべて</label>
+        </div>
+    </div>
+    <div class="mt-2">
+        <label for="rank">段位表示</label>
+        <div class="radio-group" name="rank">
+            <input bind:group={isDisplayRank} value={true} on:change={async () => await updateChart(powers, range, isDisplayRank)} class="radio-input" id="radio-rank" type="radio" name="rank" checked="checked">
+            <label class="radio-label" for="radio-rank">あり</label>
+            <input bind:group={isDisplayRank} value={false} on:change={async () => await updateChart(powers, range, isDisplayRank)} class="radio-input" id="radio-norank" type="radio" name="rank">
+            <label class="radio-label" for="radio-norank">なし</label>
+        </div>
+    </div>
+</div>
+{/if}
 {/if}
