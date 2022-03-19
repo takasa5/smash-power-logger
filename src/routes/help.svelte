@@ -5,20 +5,21 @@
 <div class="p-responsive my-4 d-flex flex-justify-center">
     <div class="col-md-10 col-12">
         <h1>ヘルプ</h1>
-        <ul class="list-style-none">
+        <ul class="list-style-none pl-2">
             <li><a href="#how-to-use-smash-power-logger">SmashPowerLoggerのつかいかた</a></li>
             <li><a href="#how-to-register-power">戦闘力の記録方法</a></li>
             <li><a href="#troubleshooting">戦闘力が記録できないときは</a></li>
+            <li><a href="#rule">利用規約</a></li>
+            <li><a href="#privacy">プライバシーポリシー</a></li>
         </ul>
         <hr>
         <h2 id="how-to-use-smash-power-logger" class="my-2">SmashPowerLoggerのつかいかた</h2>
         <div class="p-responsive">
             SmashPowerLogger は、大乱闘スマッシュブラザーズSPECIALの世界戦闘力を記録するためのWebアプリです。<br>
-            SmashPowerLogger を使って戦闘力を記録すると、戦闘力の変化が線グラフによって可視化されるため、<b>実力の変化により敏感に</b>なれます。<br>
+            SmashPowerLogger を使って戦闘力を記録すると、戦闘力の変化が折れ線グラフによって可視化されるため、<b>実力の変化により敏感に</b>なれます。<br>
             また、<a href="https://kumamate.net/">クマメイト</a>様のご協力により、VIPボーダーラインおよび<a href="https://kumamate.net/vip/">世界戦闘力の段位</a>が日次で集計され、可視化されます。<br>
             各段位のボーダーラインと自分の戦闘力を比較することによって、<b>世界のプレイヤーに対する自分の実力の変化</b>を知ることもできます。ご活用ください。<br>
-            ver 0.0.1 時点では、ユーザーページ機能（戦闘力の記録・共有）のみを提供しています。<br>
-            今後、戦闘力上位ランキング表示機能などを実装予定です。<br>
+            ver 0.0.1 時点では、ユーザーページ機能（戦闘力の記録・共有）のみを提供しています。
         </div>
         <h2 id="how-to-register-power" class="mt-4 mb-2">戦闘力の記録方法</h2>
         <div class="p-responsive">
@@ -51,7 +52,31 @@
             Twitterにスクリーンショットを共有する際のデフォルトのハッシュタグ（#スマブラSP #SmashBrosSP #NintendoSwitch）は、認識のために必要なので消さずに投稿してください。<br>
             <h3>3. SmashPowerLogger</h3>
             上記のどれにも当てはまらないのに記録ができない場合は、システムのエラーが予想されます。<br>
-            SmashPowerLoggerをよりよいものにするため、<a href="https://twitter.com/chixinossb">開発者</a>に状況などを詳しく教えていただけると幸いです。<br>
+            SmashPowerLoggerをよりよいものにするため、<a href="https://twitter.com/chixinossb">責任者</a>に状況などを詳しく教えていただけると幸いです。<br>
+        </div>
+        <h2 id="rule" class="mt-4 my-2">利用規約</h2>
+        <div class="p-responsive">
+            <ul>
+                <li>SmashPowerLogger（以下、本サービス）への登録をもって利用規約に同意するものとします。</li>
+                <li>著しく負荷をかける、虚偽の情報を流布するなど、本サービスの損失に繋がる行為を行った場合、アクセス制限及び法的に処分を行う場合があります。</li>
+                <li>本サービスは、その継続が困難な場合、全部または一部の提供を停止または中断することができます。</li>
+                <li>責任者は、本サービスの提供の停止または中断により、ユーザーまたは第三者が被ったいかなる不利益または損害についても、一切の責任を負わないものとします。</li>
+                <li>利用規約は、責任者の都合によりユーザーへの通知なく変更することができます。</li>
+            </ul>
+        </div>
+        <h2 id="privacy" class="mt-4 my-2">プライバシーポリシー</h2>
+        <div class="p-responsive">
+            <ul>
+                <li>本サービスへの登録によって作成されるユーザー情報（Twitterのアイコン、ユーザーネーム）は、インターネット上に公開されます。</li>
+                <li>本サービスに記録した戦闘力は、インターネット上に公開されます。</li>
+                <li>アカウント登録時に本サービスがTwitterにアクセス可能な権限が表示されますが、本サービスが実際に行うのは次に限ります。
+                <ol class="pl-4" style="list-style-type: decimal !important">
+                    <li>「戦闘力を記録」ボタン押下時にツイートを読み込む</li>
+                    <li>「ツイートする」ボタン押下時にツイートを投稿する</li>
+                </ol>
+                </li>
+                <li>本サービスで記録した戦闘力は、ユーザーの意図しないタイミングで削除される可能性があります。</li>
+            </ul>
         </div>
     </div>
 </div>

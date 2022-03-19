@@ -64,7 +64,7 @@
 				新規登録する
 			</a>
 			<div class="color-fg-subtle d-flex flex-justify-center">
-				※登録にはTwitterアカウントが必要です
+				※登録にはTwitterアカウントが必要です（<a href="/help#rule">利用規約</a>）
 			</div>
 		</div>
 	</div>
@@ -75,6 +75,7 @@
 			loginUser={{splId: "dummy"}}
 			borderFrom={from}
 			borderTo={to}
+			control={false}
 		/>
 	</div>
 </div>
@@ -83,7 +84,7 @@
 		<h2>戦闘力の記録はわずか3ステップ</h2>
 	</div>
 	<div class="mb-3 col-12 d-flex flex-justify-center">
-		<a href="/help#how-to-register-power">詳しく見る</a>
+		<a href="/help">詳しく見る</a>
 	</div>
 	<div class="col-12 d-flex flex-justify-center flex-md-row flex-column flex-wrap">
 		<div class="col-lg-3 col-md-4 col-12 p-4">
@@ -131,7 +132,7 @@
 			新規登録する
 		</a>
 		<div class="color-fg-subtle d-flex flex-justify-center">
-			※登録にはTwitterアカウントが必要です
+			※登録にはTwitterアカウントが必要です（<a href="/help#rule">利用規約</a>）
 		</div>
 	</div>
 </div>

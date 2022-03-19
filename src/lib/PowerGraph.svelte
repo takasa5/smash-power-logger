@@ -4,7 +4,7 @@
     import "chartjs-adapter-moment";
     import { getRankData, getRanks } from "./kumamateRank";
 
-    export let id, loginUser, powers, borderFrom, borderTo;
+    export let id, loginUser, powers, borderFrom, borderTo, control;
     let isDisplayRank = true, range = 10;
     /**
      * 戦闘力に対して描画範囲内のスマメイトの段を返す
@@ -252,7 +252,7 @@
 <div class="m-2" id="chartContainer">
     <canvas id="powerChart"/>
 </div>
-{#if borderFrom && borderTo}
+{#if control}
 <div class="p-responsive my-4">
     <div>
         <label for="range">表示範囲</label>

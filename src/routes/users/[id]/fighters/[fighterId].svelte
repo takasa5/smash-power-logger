@@ -25,5 +25,6 @@
         loginUser={loginUser}
         borderFrom={borderFrom}
         borderTo={borderTo}
+        control={true}
         />
 </UserPage>

@@ -21,5 +21,6 @@
         id={id}
         powers={powers}
         loginUser={loginUser}
+        control={false}
         />
 </UserPage>
