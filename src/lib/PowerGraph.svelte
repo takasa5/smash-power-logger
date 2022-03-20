@@ -18,29 +18,32 @@
         // 描画範囲を取得（戦闘力の最大と最小）
         const powerMax = Math.max(...powers) + 10000;
         const powerMin = Math.min(...powers) - 10000;
+        console.log(powerMax, powerMin);
         // 各borderの平均値が範囲内であれば描画する
-        const ranks = getRanks().reverse();
+        const ranks = getRanks().reverse(); // 上から
         let beforeRank, afterRank;
         let drawRanks = [];
         for (const rank of ranks) {
             const borderSum = borders.map(b => b.border).reduce((a, b) => a + b);
             const borderAvg = (borderSum * rank) / borders.length;
+            console.log(borderAvg);
             if (borderAvg >= powerMin && borderAvg <= powerMax) {
                 drawRanks.push(rank);
                 continue;
-            } else if (drawRanks.length > 0) {
+            } else if (borderAvg < powerMin) {
                 // drawRanksに要素がある状態で描画範囲外になったら終わる
                 afterRank = rank;
                 break;
             }
             beforeRank = rank;
         }
-        if (drawRanks.length == 1) {
+        if (drawRanks.length == 0 || drawRanks.length == 1) {
             drawRanks.unshift(beforeRank);
             drawRanks.push(afterRank);
         } else if (drawRanks.length == 2) {
             drawRanks.unshift(beforeRank);
         }
+        console.log(drawRanks);
         return drawRanks;
     }
 
@@ -121,7 +124,6 @@
     }
 
     async function updateChart(originDatasets, range, border) {
-        console.log(originDatasets);
         // データをフィルタリング
         let datasets = sliceDatasets(originDatasets, range);
         // スタイル追加
@@ -131,7 +133,6 @@
             datasets = await addBorderData(datasets, borderFrom, borderTo);
         }
         const chart = Chart.getChart("powerChart");
-        console.log(datasets);
         chart.data.datasets = datasets;
         chart.update();
     }
@@ -147,7 +148,6 @@
         if (borderFrom && borderTo) {
             datasets = await addBorderData(datasets, borderFrom, borderTo);
         }
-        console.log(datasets);
         const ctx = document.getElementById("powerChart").getContext("2d");
         new Chart(ctx, {
             type: "line",

@@ -19,9 +19,10 @@
         <div class="mt-6 mr-md-4 Popover-message Popover-message--top-right text-left Box color-shadow-large"
             use:clickOutside on:click_outside={closePopover}>
                 <ul>
-                    <li class="Box-row"><a href="/users/{user.splId}">マイページ</a></li>
-                    <li class="Box-row"><a href="/help">ヘルプ</a></li>
-                    <li class="Box-row"><a href="/logout">ログアウト</a></li>
+                    <li class="Box-row　p-0"><a class="d-block m-lg-2 m-3" href="/users/{user.splId}">マイページ</a></li>
+                    <li class="Box-row　p-0"><a class="d-block m-lg-2 m-3" href="/users/{user.splId}/setting">設定</a></li>
+                    <li class="Box-row　p-0"><a class="d-block m-lg-2 m-3" href="/help">ヘルプ</a></li>
+                    <li class="Box-row　p-0"><a class="d-block m-lg-2 m-3" href="/logout">ログアウト</a></li>
                 </ul>
         </div>
     </div>

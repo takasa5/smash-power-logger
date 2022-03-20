@@ -65,7 +65,7 @@ export function convertPowersToDataset(powers) {
  * @param fighterId ファイターID
  * @returns [{id, userId, fighterId, power, recordedAt}, ...]
  */
-export async function getPowers(splId, fighterId) {
+export async function getPowers(splId, fighterId, limit = undefined) {
     // TODO: 期間の制御
     const powers = await prisma.power.findMany({
         where: {
@@ -74,7 +74,8 @@ export async function getPowers(splId, fighterId) {
         },
         orderBy: {
             recordedAt: "desc"
-        }
+        },
+        take: limit
     });
     return powers.reverse();
 }

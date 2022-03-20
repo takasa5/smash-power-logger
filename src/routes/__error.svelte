@@ -5,8 +5,8 @@
         if (status == 404) {
             message = "ページが見つかりません";
         } else if (status == 403) {
-            message = "認証に失敗しました";
-            submessage = "再度<a href='/login'>ログイン</a>することによりうまくいくことがあります。"
+            message = "許可されていないページです";
+            submessage = "<a href='/login'>ログイン</a>に失敗した可能性があります。再度お試しください。"
         }
         return {
             props: {
