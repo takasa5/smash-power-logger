@@ -1,10 +1,16 @@
 <script>
-    import { get, writable } from "svelte/store";
+    import { writable } from "svelte/store";
     import Modal, { bind } from "svelte-simple-modal";
     import PowerDelete from "$lib/PowerDelete.svelte";
+    import AccountDelete from "$lib/AccountDelete.svelte";
     const modal = writable(null);
     function showPowerModal(power) {
         modal.set(bind(PowerDelete, power));
+    }
+    function showAccountModal() {
+        modal.set(bind(AccountDelete, {
+            userId: user.splId
+        }));
     }
 
     import { session } from "$app/stores";
@@ -166,12 +172,18 @@
                         {/await}
                         {/if}
                     </li>
+                    {:else}
+                    <li class="ActionList-item">
+                        <span class="ActionList-content">
+                            <span class="ActionList-item-label">戦闘力データがありません</span>
+                        </span>
+                    </li>
                     {/each}
                 </ul>
                 <div class="h4 mt-4">アカウントを削除する</div>
                 <div class="color-fg-subtle">※全ての戦闘力データも削除されます</div>
                 <div class="p-2">
-                    <button class="btn btn-danger" type="button">アカウントを削除</button>
+                    <button on:click={showAccountModal} class="btn btn-danger" type="button">アカウントを削除</button>
                 </div>
             </div>
         </div>

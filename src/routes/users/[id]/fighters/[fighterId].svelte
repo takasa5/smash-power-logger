@@ -1,12 +1,12 @@
 <script>
     import PowerGraph from "$lib/PowerGraph.svelte";
     import UserPage from "$lib/UserPage.svelte";
-    import { page } from "$app/stores";
+    import { session } from "$app/stores";
 
     export let id, twitter_name, twitter_image, fighters, fighter_name;
     export let powers, borderFrom, borderTo;
 
-    let loginUser = $page.stuff.user;
+    let loginUser = $session;
 </script>
 
 <svelte:head>

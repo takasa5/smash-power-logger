@@ -6,7 +6,7 @@
     import { powerCache } from "$lib/stores/powerCache";
     const { close } = getContext("simple-modal");
     export let id, userId, fighterId, power, recordedAt;
-    let disabled;
+    let disabled = false;
     const { label, icon } = notation[fighterId];
     
     async function deletePower(powerId) {
@@ -107,7 +107,7 @@
     <button class="btn btn-secondary mr-2" on:click={close}>
         キャンセル
     </button>
-    <button class="btn btn-danger" on:click|once={() => deletePower(id)} aria-disabled={disabled} {disabled}>
+    <button class="btn btn-danger" on:click|once={async () => await deletePower(id)} aria-disabled={disabled} {disabled}>
         削除する
     </button>
 </div>

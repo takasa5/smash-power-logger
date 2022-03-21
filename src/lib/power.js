@@ -159,3 +159,15 @@ export async function deletePowers(splId, fighterId) {
         }
     });
 }
+
+/**
+ * SPL IDを指定してその戦闘力を全て削除
+ * アカウント削除時
+ */
+export async function deleteUserPowers(splId) {
+    await prisma.power.deleteMany({
+        where: {
+            userId: splId
+        }
+    });
+}

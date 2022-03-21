@@ -3,8 +3,8 @@
     import UserPage from "$lib/UserPage.svelte";
     export let id, twitter_name, twitter_image, fighters, powers;
 
-    import { page } from "$app/stores";
-    let loginUser = $page.stuff.user;
+    import { session } from "$app/stores";
+    let loginUser = $session;
 </script>
 
 <svelte:head>

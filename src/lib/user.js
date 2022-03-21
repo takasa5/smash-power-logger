@@ -62,3 +62,11 @@ export async function getUser(splId) {
     });
     return user;
 }
+
+export async function deleteUser(splId) {
+    await prisma.user.delete({
+        where: {
+            id: splId
+        }
+    });
+}
