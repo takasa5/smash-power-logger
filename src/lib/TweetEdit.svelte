@@ -1,5 +1,5 @@
 <script>
-    import { flash } from "$lib/flash";
+    import { flash } from "$lib/stores/flash";
     import { getContext } from "svelte";
     const { close } = getContext("simple-modal");
     export let id;

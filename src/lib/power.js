@@ -136,3 +136,26 @@ export async function getFighters(splId) {
         return ret;
     });
 }
+
+/**
+ * 戦闘力IDを指定して削除
+ */
+export async function deletePower(powerId) {
+    await prisma.power.delete({
+        where: {
+            id: powerId
+        }
+    });
+}
+
+/**
+ * SPL IDとファイターIDを指定してその戦闘力を全て削除
+ */
+export async function deletePowers(splId, fighterId) {
+    await prisma.power.deleteMany({
+        where: {
+            userId: splId,
+            fighterId: fighterId
+        }
+    });
+}

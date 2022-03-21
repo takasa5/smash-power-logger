@@ -1,7 +1,7 @@
 <script>
     import moment from "moment";
     import { getContext } from "svelte";
-    import { flash } from "$lib/flash";
+    import { flash } from "$lib/stores/flash";
     const { close } = getContext("simple-modal");
     export let splId;
     let powers = [];

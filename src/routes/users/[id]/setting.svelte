@@ -1,5 +1,5 @@
 <script>
-    import { writable } from "svelte/store";
+    import { get, writable } from "svelte/store";
     import Modal, { bind } from "svelte-simple-modal";
     import PowerDelete from "$lib/PowerDelete.svelte";
     const modal = writable(null);
@@ -10,8 +10,8 @@
     import { session } from "$app/stores";
     import { slide } from 'svelte/transition';
     import moment from "moment";
-    import { flash } from "$lib/flash";
-
+    import { flash } from "$lib/stores/flash";
+    import { powerCache } from "$lib/stores/powerCache";
 
     export let fighters;
     let user = $session;
@@ -24,35 +24,60 @@
             return;
         }
         selectedFighter = id;
-        // powers = fetchPower(id);
-        
-        powers = getDummy(id);
+
+        if ($powerCache[id]) {
+            // キャッシュヒットしたら利用する
+            powers = $powerCache[id];
+        } else {
+            powers = fetchPower(id);
+            // powers = getDummy(id);
+        }
     }
 
     async function fetchPower(id) {
         const response = await fetch(`/users/${user.splId}/fighters/${id}/api`);
-        return await response.json();
+        const powers = await response.json();
+        // キャッシュ
+        saveCache(id, powers);
+        return powers;
     }
 
     async function getDummy(id) {
         const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
         await sleep(1000);
-        return [
+        const powers = [
             {
                 id: 1,
                 userId: 1,
                 power: 11138316,
                 fighterId: id,
-                recordedAt: '2022-02-21T11:11:01.000Z'
+                recordedAt: '2022-02-01T11:11:01.000Z'
             },
             {
                 id: 2,
-                userId: 2,
+                userId: 1,
                 power: 11138316,
                 fighterId: id,
                 recordedAt: '2022-02-21T13:38:39.000Z'
+            },
+            {
+                id: 3,
+                userId: 1,
+                power: 11138316,
+                fighterId: id,
+                recordedAt: '2022-03-21T13:38:39.000Z'
             }
         ];
+        // キャッシュ
+        saveCache(id, powers);
+
+        return powers;
+    }
+
+    function saveCache(fighterId, powers) {
+        const tmp = {};
+        tmp[fighterId] = powers;
+        powerCache.update(c => Object.assign(c, tmp));
     }
 </script>
 
@@ -61,7 +86,6 @@
 </svelte:head>
 
 <style>
-
     svg { 
         transition: transform 0.1s ease-in;
     }
@@ -73,6 +97,18 @@
     classContent="Box"
     closeButton={false}
 >
+{#if $flash}
+<div class="d-flex mt-4 mx-2">
+    <div class="col-lg-8 col-12 mx-auto">
+        <div class="flash" class:flash-success={$flash.type == "success"} class:flash-error={$flash.type == "error"}>
+            {$flash.message}
+            <button on:click={() => {flash.update(() => null)}} class="flash-close" type="button" aria-label="Close">
+                <svg class="octicon octicon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"></path></svg>
+            </button>
+        </div>
+    </div>
+</div>
+{/if}
 <div class="d-flex my-4 mx-2">
     <div class="col-lg-8 col-12 mx-auto">
         <div class="Box">
@@ -99,7 +135,7 @@
                             <span class="ActionList-item-label d-flex flex-items-center"><img class="mr-1" width="16" src={fighter.icon} alt={fighter.label} />{fighter.label}</span>
                         </span>
                         <!-- 戦闘力 -->
-                        {#if powers && selectedFighter == fighter.id}
+                        {#if $powerCache && selectedFighter == fighter.id}
                         {#await powers}
                         <span class="ActionList-content pl-4" transition:slide="{{dulation: 100}}">
                             <span class="ActionList-item-label">読み込み中です<span class="AnimatedEllipsis"></span></span>
@@ -107,7 +143,7 @@
                         {:then results}
                         <ul class="ActionList ActionList--subGroup" role="list"
                             transition:slide="{{dulation: 100}}">
-                            {#each results as power}
+                            {#each $powerCache[fighter.id] as power}
                             <li class="ActionList-item ActionList-item--subItem pl-4"
                                 on:click={() => showPowerModal(power)}>
                                 <div class="ActionList-content">

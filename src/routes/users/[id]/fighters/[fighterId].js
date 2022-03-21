@@ -1,4 +1,4 @@
-import { getFighters, getPowers, convertPowersToDataset } from "$lib/power";
+import { getFighters, getPowers, convertPowersToDataset, deletePowers } from "$lib/power";
 import { getUser } from "$lib/user";
 
 export async function get({ params }) {
