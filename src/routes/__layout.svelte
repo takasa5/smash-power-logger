@@ -29,12 +29,15 @@
     {/if}
     <div class="Header">
         <div class="Header-item Header-item--full d-table">
-            <a href="/" class="Header-link">SmashPowerLogger</a>
+            <a href="/" class="mr-2 d-inline-flex flex-items-center v-align-middle">
+                <img src="/favicon.png" alt="logo" width="24" height="24" />
+            </a>
+            <a href="/" class="Header-link v-align-middle">SmashPowerLogger</a>
             <a href="/history" class="f6 Link--primary color-fg-on-emphasis v-align-bottom pl-1">0.0.1 β</a>
         </div>
         <div class="Header-item">
             {#if !user }
-            <a href="/login" class="Header-link">ログイン/新規登録</a>
+            <a href="/login" class="Header-link">ログイン/<span class="d-md-inline d-none">新規</span>登録</a>
             {:else}
             <img on:click={openPopover} class="Link avatar avatar-2" src={user["profile_image_url"]} alt={user.name}/>
             {/if}
