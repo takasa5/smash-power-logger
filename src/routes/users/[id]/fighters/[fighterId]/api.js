@@ -26,6 +26,11 @@ export async function get({ params }) {
  * 戦闘力の削除
  */
 export async function del({ request, locals, params }) {
+    if (!locals.user) {
+        return {
+            status: 500
+        }
+    }
     if (locals.user.info.splId != params.id) {
         return {
             status: 403

@@ -108,7 +108,7 @@
     {:else}
         <div class="blankslate">
             <h3 class="blankslate-heading">記録する戦闘力が見つかりません</h3>
-            <p>ヘルプページを参照してください</p>
+            <p><a href="/help">ヘルプページ</a>を参照してください</p>
         </div>
     {/each}
     </div>

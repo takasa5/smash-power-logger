@@ -48,25 +48,30 @@ export async function get({ params, locals }) {
     // TODO: ループの終了条件を整理
     for (const tweet of paginator.tweets) {
         count += 1;
+        // 対象ツイートが1つも見つかっていない場合はさらにツイートを読み込む
+        // NOTE: doneは1度終わるとtrueになるため、追加読み込みは1回だけ（最新20件）
         if (!paginator.done && count == paginator.tweets.length && mediaKeys.length === 0) {
-            console.log("fetchNext");
             await paginator.fetchNext();
         }
-        // TODO: 日付切り捨て
+        // メディアツイートでないツイートは処理中断
         if (!tweet.attachments || !tweet.attachments.media_keys) {
             continue;
         }
-        if (!tweet.text.includes("#SmashBrosSP")) {
+        // ハッシュタグのないツイートは処理中断
+        if (!tweet.text.includes("#SmashBrosSP") || !tweet.text.includes("#NintendoSwitch")) {
             continue;
         }
+        // SmashBrosSPなどのハッシュタグ付きのメディアツイートの画像キーを探してリストに保持
         for (const mediaKey of tweet.attachments.media_keys) {
             mediaList[mediaKey] = tweet.created_at;
             mediaKeys.push(mediaKey);
-            // TODO: 数切り捨て
         }
-        
+        // 画像認識APIの時間制限により大量の画像は処理できないため、打ち切る
+        if (mediaKeys.length > 3) {
+            break;
+        }
     }
-    // TODO: 画像を（古い方から）3枚にするための処理はここでやる必要があるかも
+    // メディアツイートのうち画像ツイートにフィルタリング
     if (mediaKeys.length !== 0) {
         const urlList = paginator.includes.media
                 .filter(e => e.type == "photo")
