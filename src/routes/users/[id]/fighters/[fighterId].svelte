@@ -16,7 +16,7 @@
 <svelte:head>
     <meta property="og:url" content={url}>
     <meta property="og:type" content="article">
-    <meta property="og:image" content={origin + "/static/favicon.png"}>
+    <meta property="og:image" content={origin + "/favicon.png"}>
     <meta property="og:title" content="{twitter_name}の戦闘力グラフ ({fighter_name}) | SmashPowerLogger">
     <meta name="twitter:card" content="summary" />
 	<title>{twitter_name}の戦闘力グラフ ({fighter_name}) | SmashPowerLogger</title>

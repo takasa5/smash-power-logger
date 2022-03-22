@@ -54,7 +54,7 @@
 <svelte:head>
 	<meta property="og:url" content={url}>
 	<meta property="og:type" content="website">
-	<meta property="og:image" content={origin + "/static/favicon.png"}>
+	<meta property="og:image" content={origin + "/favicon.png"}>
 	<meta property="og:title" content="スマブラ戦闘力記録サービス SmashPowerLogger">
 	<meta name="twitter:card" content="summary" />
 
