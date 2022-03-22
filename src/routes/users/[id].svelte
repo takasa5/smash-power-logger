@@ -5,9 +5,18 @@
 
     import { session } from "$app/stores";
     let loginUser = $session;
+
+    import { browser } from "$app/env";
+    let url = browser ? window.location.href : "";
+    let origin = browser ? window.location.origin : "";
 </script>
 
 <svelte:head>
+    <meta property="og:url" content={url}>
+    <meta property="og:type" content="article">
+    <meta property="og:image" content={origin + "/static/favicon.png"}>
+    <meta property="og:title" content="{twitter_name}の戦闘力グラフ | SmashPowerLogger">
+    <meta name="twitter:card" content="summary" />
     <title>{twitter_name}の戦闘力グラフ | SmashPowerLogger</title>
 </svelte:head>
 

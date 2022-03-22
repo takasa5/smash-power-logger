@@ -44,11 +44,21 @@
 			]
 		}
 	];
+
+	import { browser } from "$app/env";
+    let url = browser ? window.location.href : "";
+    let origin = browser ? window.location.origin : "";
 </script>
 
 
 <svelte:head>
-	<title>Smash Power Logger</title>
+	<meta property="og:url" content={url}>
+	<meta property="og:type" content="website">
+	<meta property="og:image" content={origin + "/static/favicon.png"}>
+	<meta property="og:title" content="スマブラ戦闘力記録サービス SmashPowerLogger">
+	<meta name="twitter:card" content="summary" />
+
+	<title>スマブラ戦闘力記録サービス SmashPowerLogger</title>
 </svelte:head>
 
 <div class="p-responsive d-flex flex-justify-center flex-items-center flex-lg-row flex-column">
