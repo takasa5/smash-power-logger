@@ -268,6 +268,7 @@
             <input bind:group={isDisplayRank} value={false} on:change={async () => await updateChart(powers, range, isDisplayRank)} class="radio-input" id="radio-norank" type="radio" name="rank">
             <label class="radio-label" for="radio-norank">なし</label>
         </div>
+        <div class="f6 color-fg-subtle">最新の段位を確認するには<a href="https://kumamate.net/vip/" target="_blank" rel="noopener noreferrer">こちら</a>(外部サイト)</div>
     </div>
 </div>
 {/if}

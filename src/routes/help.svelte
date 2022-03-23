@@ -17,7 +17,7 @@
         <div class="p-responsive">
             SmashPowerLogger は、大乱闘スマッシュブラザーズSPECIALの世界戦闘力を記録するためのWebアプリです。<br>
             SmashPowerLogger を使って戦闘力を記録すると、戦闘力の変化が折れ線グラフによって可視化されるため、<b>実力の変化により敏感に</b>なれます。<br>
-            また、<a href="https://kumamate.net/">クマメイト</a>様のご協力により、VIPボーダーラインおよび<a href="https://kumamate.net/vip/">世界戦闘力の段位</a>が日次で集計され、可視化されます。<br>
+            また、<a href="https://kumamate.net/" target="_blank" rel="noopener noreferrer">クマメイト</a>様のご協力により、VIPボーダーラインおよび<a href="https://kumamate.net/vip/" target="_blank" rel="noopener noreferrer">世界戦闘力の段位</a>が日次で集計され、可視化されます。<br>
             各段位のボーダーラインと自分の戦闘力を比較することによって、<b>世界のプレイヤーに対する自分の実力の変化</b>を知ることもできます。ご活用ください。<br>
             ver 0.0.1 時点では、ユーザーページ機能（戦闘力の記録・共有）のみを提供しています。
         </div>
@@ -28,7 +28,7 @@
             <div class="col-md-6 col-10">
                 <img class="col-12" src="/mario_power.jpeg" alt="マリオの戦闘力スクリーンショット"/>
             </div>
-            スクリーンショットを用意できたら、<a href="https://support.nintendo.co.jp/app/answers/detail/a_id/37589">Switch本体の画像一覧からTwitterへ共有</a>します。<br>
+            スクリーンショットを用意できたら、<a href="https://support.nintendo.co.jp/app/answers/detail/a_id/37589" target="_blank" rel="noopener noreferrer">Switch本体の画像一覧からTwitterへ共有</a>します。<br>
             ツイートがされていることを確認できたら、SmashPowerLoggerのご自身のユーザーページで「戦闘力を記録」ボタンを押します。<br>
             <div class="col-md-4 col-8">
                 <img class="col-12" src="/screenshot_register.png" alt="「戦闘力を記録」ボタン"/>
