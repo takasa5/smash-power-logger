@@ -36,8 +36,8 @@ export async function get({ params, locals }) {
         exclude: "retweets"
     }
     let lastRecordedAt = await getLastRecorded(splId);
-    lastRecordedAt.setSeconds(lastRecordedAt.getSeconds() + 1);
     if (lastRecordedAt) {
+        lastRecordedAt.setSeconds(lastRecordedAt.getSeconds() + 1);
         options["start_time"] = lastRecordedAt.toISOString();
     }
     const paginator = await client.v2.userTimeline(locals.user.info.id, options);
