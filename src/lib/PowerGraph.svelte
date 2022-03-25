@@ -151,6 +151,17 @@
             data: {
                 datasets: datasets
             },
+            plugins: [{
+                id: "custom_canvas_background_color",
+                beforeDraw: (chart) => {
+                const ctx = chart.canvas.getContext('2d');
+                const chartArea = chart.chartArea;
+                ctx.save();
+                ctx.fillStyle = "white";
+                ctx.fillRect(chartArea.left, chartArea.top, chartArea.right - chartArea.left, chartArea.bottom - chartArea.top);
+                ctx.restore();
+            }
+            }],
             options: {
                 plugins: {
                     legend: {
