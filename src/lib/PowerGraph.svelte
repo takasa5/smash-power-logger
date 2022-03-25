@@ -155,9 +155,9 @@
                 id: "custom_canvas_background_color",
                 beforeDraw: (chart) => {
                 const ctx = chart.canvas.getContext('2d');
-                const chartArea = chart.chartArea;
                 ctx.save();
-                ctx.backgroundColor = "white";
+                ctx.fillStyle = "white";
+                ctx.fillRect(0, 0, chart.canvas.width, chart.canvas.height);
                 ctx.restore();
             }
             }],
