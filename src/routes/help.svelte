@@ -23,13 +23,14 @@
         </div>
         <h2 id="how-to-register-power" class="mt-4 mb-2">戦闘力の記録方法</h2>
         <div class="p-responsive">
+            SmashPowerLoggerでは、スクリーンショットを用いて戦闘力を記録します。<br>
             まず、大乱闘スマッシュブラザーズSPECIALの「オンライン > だれかと」モードでファイター選択画面を開きます。<br>
             戦闘力を記録したいファイターにカーソルを合わせ、Switch本体の機能でスクリーンショットを撮ります。<br>
             <div class="col-md-6 col-10">
                 <img class="col-12" src="/mario_power.jpeg" alt="マリオの戦闘力スクリーンショット"/>
             </div>
             スクリーンショットを用意できたら、<a href="https://support.nintendo.co.jp/app/answers/detail/a_id/37589" target="_blank" rel="noopener noreferrer">Switch本体の画像一覧からTwitterへ共有</a>します。<br>
-            ツイートがされていることを確認できたら、SmashPowerLoggerのご自身のユーザーページで「戦闘力を記録」ボタンを押します。<br>
+            ツイートがされていることを確認できたら、SmashPowerLoggerのご自身のユーザーページで「戦闘力を記録」ボタンを押します（ツイート完了から読み込めるようになるまで5秒程度かかります）。<br>
             <div class="col-md-4 col-8">
                 <img class="col-12" src="/screenshot_register.png" alt="「戦闘力を記録」ボタン"/>
             </div>
