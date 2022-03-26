@@ -41,7 +41,7 @@ export async function get({ params, locals }) {
         options["start_time"] = lastRecordedAt.toISOString();
     }
     const paginator = await client.v2.userTimeline(locals.user.info.id, options);
-    // { mediaKey: createdAt } （日時と紐付け用）
+    // { mediaKey: tweet } （日時と紐付け用）
     let mediaList = {};
     let mediaKeys = []; // 検索用
     let count = 0;
@@ -63,11 +63,11 @@ export async function get({ params, locals }) {
         }
         // SmashBrosSPなどのハッシュタグ付きのメディアツイートの画像キーを探してリストに保持
         for (const mediaKey of tweet.attachments.media_keys) {
-            mediaList[mediaKey] = tweet.created_at;
+            mediaList[mediaKey] = tweet;
             mediaKeys.push(mediaKey);
         }
         // 画像認識APIの時間制限により大量の画像は処理できないため、打ち切る
-        if (mediaKeys.length > 3) {
+        if (mediaKeys.length > 4) {
             break;
         }
     }
@@ -77,11 +77,11 @@ export async function get({ params, locals }) {
                 .filter(e => e.type == "photo")
                 .filter(e => mediaKeys.includes(e.media_key))
                 .map(e => {
-                    e.createdAt = mediaList[e.media_key]
+                    e.tweetId = mediaList[e.media_key].id;
+                    e.createdAt = mediaList[e.media_key].created_at;
                     return e;
                 });
         const data = await recognizeImages(splId, urlList);
-    
         // キャラと数値と日付のリストを返す
         return {
             status: 200,
@@ -94,7 +94,7 @@ export async function get({ params, locals }) {
     }
 }
 
-export async function post({ request, params }) {
+export async function post({ request, params, locals }) {
     if (isNaN(params.id)) {
         return {
             status: 404,
@@ -110,6 +110,28 @@ export async function post({ request, params }) {
         return {
             status: 500
         };
+    }
+    if (data[0].deleteFlag) {
+        let client;
+        try {
+            client = getTwitterClient(
+                locals.user.oauth.accessToken,
+                locals.user.oauth.accessSecret
+            );
+        } catch (err) {
+            return {
+                status: 403
+            }
+        }
+        try {
+            for (const elm of data) {
+                await client.v1.deleteTweet(elm.key);
+            }
+        } catch (err) {
+            return {
+                status: 403
+            }
+        }
     }
     return {
         status: 200

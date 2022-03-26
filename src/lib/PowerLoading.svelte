@@ -5,12 +5,12 @@
     const { close } = getContext("simple-modal");
     export let splId;
     let powers = [];
+    let tweetDeleteFlag = window ? window.localStorage.getItem("tweetDeleteFlag") == "true" : false;
 
     async function getPower() {
         const response = await fetch(`/users/${splId}/powers`, {
             method: "GET"
         });
-        console.log(response);
         const res = await response.json();
         powers = res;
         return res;
@@ -22,6 +22,7 @@
         if (powers.length === 0) {
             return;
         }
+        powers.forEach(e => e.deleteFlag = tweetDeleteFlag);
         const response = await fetch(`/users/${splId}/powers`, {
             method: "POST",
             cache: "no-cache",
@@ -35,6 +36,17 @@
             location.reload();
             return;
         }
+        if (response.status == 403) {
+            flash.update(() => {
+                return {
+                    type: "error",
+                    message: "戦闘力の登録に成功しましたが、ツイートの削除に失敗しました"
+                }
+            });
+            close();
+            document.body.scrollIntoView();
+            return;
+        }
         flash.update(() => {
             return {
                 type: "error",
@@ -42,6 +54,7 @@
             }
         });
         close();
+        document.body.scrollIntoView();
     }
 
     async function getPowerDummy() {
@@ -79,6 +92,10 @@
     function deleteData(mediaKey) {
         powers = powers.filter(e => e.key != mediaKey);
     }
+
+    function checkDelete() {
+        window.localStorage.setItem("tweetDeleteFlag", tweetDeleteFlag);
+    }
 </script>
 
 {#await getPower()}
@@ -112,7 +129,17 @@
         </div>
     {/each}
     </div>
-    <div class="d-flex flex-justify-center mt-2">
+    <div class="d-flex flex-justify-center">
+        <form>
+            <div class="form-checkbox">
+            <label>
+                <input bind:checked={tweetDeleteFlag} type="checkbox" on:change={checkDelete} />
+                記録したツイートを削除する
+            </label>
+            </div>
+        </form>
+    </div>
+    <div class="d-flex flex-justify-center">
         <button class="btn btn-secondary mr-2" on:click={close}>
             キャンセル
         </button>
