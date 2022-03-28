@@ -60,7 +60,9 @@
 				新規登録する
 			</a>
 			<div class="color-fg-subtle d-flex flex-justify-center">
-				※登録にはTwitterアカウントが必要です（<a href="/help#rule">利用規約</a>）
+				<div class="col-12 text-center">
+					※登録にはTwitterアカウントが必要です<br class="d-md-none">（<a href="/help#rule">利用規約</a>）
+				</div>
 			</div>
 		</div>
 	</div>
@@ -128,7 +130,9 @@
 			新規登録する
 		</a>
 		<div class="color-fg-subtle d-flex flex-justify-center">
-			※登録にはTwitterアカウントが必要です（<a href="/help#rule">利用規約</a>）
+			<div class="col-12 text-center">
+				※登録にはTwitterアカウントが必要です<br class="d-md-none">（<a href="/help#rule">利用規約</a>）
+			</div>
 		</div>
 	</div>
 </div>

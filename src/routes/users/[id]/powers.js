@@ -58,7 +58,7 @@ export async function get({ params, locals }) {
             continue;
         }
         // ハッシュタグのないツイートは処理中断
-        if (!tweet.text.includes("#SmashBrosSP") || !tweet.text.includes("#NintendoSwitch")) {
+        if (!tweet.text.includes("#SmashBros") || !tweet.text.includes("#NintendoSwitch")) {
             continue;
         }
         // SmashBrosSPなどのハッシュタグ付きのメディアツイートの画像キーを探してリストに保持

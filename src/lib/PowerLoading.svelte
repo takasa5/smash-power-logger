@@ -126,6 +126,10 @@
         <div class="blankslate">
             <h3 class="blankslate-heading">記録する戦闘力が見つかりません</h3>
             <p><a href="/help">ヘルプページ</a>を参照してください</p>
+            <p>
+                現在本サービスはβ版で、一部ファイターでは正常な画像でも認識が失敗することがあります。
+                全ファイターを安定して認識させるために、認識失敗したツイートを<a href="https://twitter.com/chixinossb" target="_blank" rel="noopener noreferrer">Twitterで共有</a>いただけると幸いです。
+            </p>
         </div>
     {/each}
     </div>

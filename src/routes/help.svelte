@@ -54,7 +54,7 @@
             <h3>2. ツイート</h3>
             ver 0.0.1 時点では、SmashPowerLoggerは最大で最新20件より過去のツイートは読み込めません。<br>
             また、一度の記録で読み込めるスクリーンショットの枚数は4枚までです。<br>
-            Twitterにスクリーンショットを共有する際のデフォルトのハッシュタグ（#スマブラSP #SmashBrosSP #NintendoSwitch）は、認識のために必要なので消さずに投稿してください。<br>
+            Twitterにスクリーンショットを共有する際のデフォルトのハッシュタグ（#SmashBrosSP #NintendoSwitch）は、認識のために必要なので消さずに投稿してください。<br>
             <h3>3. SmashPowerLogger</h3>
             上記のどれにも当てはまらないのに記録ができない場合は、システムのエラーが予想されます。<br>
             SmashPowerLoggerをよりよいものにするため、<a href="https://twitter.com/chixinossb">責任者</a>に状況などを詳しく教えていただけると幸いです。<br>
