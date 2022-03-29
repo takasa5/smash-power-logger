@@ -33,7 +33,7 @@
                 <img src="/favicon.png" alt="logo" width="24" height="24" />
             </a>
             <a href="/" class="Header-link v-align-middle">SmashPowerLogger</a>
-            <a href="/history" class="f6 Link--primary color-fg-on-emphasis v-align-bottom pl-1">0.1.1 β</a>
+            <a href="/history" class="f6 Link--primary color-fg-on-emphasis v-align-bottom pl-1">0.2.0 β</a>
         </div>
         <div class="Header-item">
             {#if !user }

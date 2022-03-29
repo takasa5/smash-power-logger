@@ -23,8 +23,6 @@ export async function get({ params }) {
                 status: 404
             };
         }
-        const borderFrom = powers[0].recordedAt.toISOString();
-        const borderTo = powers[powers.length - 1].recordedAt.toISOString();
 
         const datasets = convertPowersToDataset(powers);
         // ファイター情報を取得
@@ -36,8 +34,6 @@ export async function get({ params }) {
                 fighter_name: datasets[0].label,
                 powers: datasets,
                 fighters: fighters,
-                borderFrom,
-                borderTo,
                 ...user
             }
         }

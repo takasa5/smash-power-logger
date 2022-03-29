@@ -10,7 +10,7 @@
 			backgroundColor: "#e92223",
 			borderColor: "#e92223",
 			data: [
-				{ x: from, y: 8198316 },
+				{ x: from, y: 8215534 },
 				{ x: '2022-03-05T10:12:15.000Z', y: 9011423 },
 				{ x: '2022-03-05T20:01:01.000Z', y: 10039521 },
 				{ x: to, y: 10290001 }
@@ -22,7 +22,7 @@
 			backgroundColor: "#5067eb",
 			borderColor: "#5067eb",
 			data: [
-				{ x: from, y: 8210112 },
+				{ x: from, y: 8332219 },
 				{ x: '2022-03-04T23:54:11.000Z', y: 8886267 },
 				{ x: '2022-03-05T12:31:46.000Z', y: 8342219 },
 				{ x: '2022-03-05T23:53:51.000Z', y: 9011123 },
@@ -74,6 +74,7 @@
 			borderFrom={from}
 			borderTo={to}
 			control={false}
+			isDisplayRank={true}
 		/>
 	</div>
 </div>

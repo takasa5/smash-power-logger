@@ -30,6 +30,8 @@
         id={id}
         powers={powers}
         loginUser={loginUser}
-        control={false}
+        control={true}
+        isDisplayRank={true}
+        isMultipleFighter={true}
         />
 </UserPage>

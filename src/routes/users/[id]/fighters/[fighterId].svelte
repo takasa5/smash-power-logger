@@ -4,7 +4,7 @@
     import { session } from "$app/stores";
 
     export let id, twitter_name, twitter_image, fighters, fighter_name;
-    export let powers, borderFrom, borderTo;
+    export let powers;
 
     let loginUser = $session;
 
@@ -32,8 +32,7 @@
         slot="power"
         powers={powers}
         loginUser={loginUser}
-        borderFrom={borderFrom}
-        borderTo={borderTo}
         control={true}
+        isDisplayRank={true}
         />
 </UserPage>

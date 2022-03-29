@@ -1,45 +1,82 @@
 <script>
     import { onMount } from "svelte";
     import Chart from "chart.js/auto";
+    import moment from "moment";
     import "chartjs-adapter-moment";
     import { getRankData, getRanks } from "./kumamateRank";
 
-    export let id, loginUser, powers, borderFrom, borderTo, control;
-    let isDisplayRank = true, range = 10;
+    export let id, loginUser, powers, control, isDisplayRank, isMultipleFighter;
+    let range = 10;
+
+    /**
+     * 戦闘力に対して最新と最古の日付を取得する
+     * @params datasets *ファイターのデータのみを含む*データセット（ボーダーを含んではいけない）
+    */
+    function getEdgeDate(datas) {
+        const fighterDatas = [].concat(...datas.map(e => e.data));
+
+        const from = fighterDatas.reduce((a, b) => 
+            moment(a.x).isBefore(moment(b.x)) ? a : b
+        );
+        const to = fighterDatas.reduce((a, b) => 
+            moment(a.x).isAfter(b.x) ? a : b
+        );
+        return {
+            from: from.x,
+            to: to.x
+        };
+    } 
+
     /**
      * 戦闘力に対して描画範囲内のスマメイトの段を返す
      * @params borders ボーダーのリスト [{id, border, createdAt}]
-     * @params powers 戦闘力のリスト [power, ...]
+     * @params powers 戦闘力のリスト [{x, y}, ...]
     */
     function getNearRanks(borders, powers) {
         if (borders.length == 0 || powers.length == 0) {
             return [];
         }
-        // 描画範囲を取得（戦闘力の最大と最小）
-        const powerMax = Math.max(...powers) + 10000;
-        const powerMin = Math.min(...powers) - 10000;
-        // 各borderの平均値が範囲内であれば描画する
-        const ranks = getRanks().reverse(); // 上から
-        let beforeRank, afterRank;
-        let drawRanks = [];
+        // 最大と最小を取得
+        const max = powers.reduce((a, b) => a.y > b.y ? a : b);
+        const min = powers.reduce((a, b) => a.y < b.y ? a : b);
+        console.log(max, min);
+        // 最大の直前のボーダーを取得
+        const maxBorder = borders.find(
+            e => moment(e.createdAt).isBetween(
+                moment(max.x).subtract(1, "days"),
+                moment(max.x)
+            )
+        ) || borders[0];
+        // 最小の直後のボーダーを取得
+        const minBorder = borders.find(
+            e => moment(e.createdAt).isBetween(
+                moment(min.x),
+                moment(min.x).add(1, "days")
+            )
+        ) || borders[borders.length - 1];
+        console.log(maxBorder, minBorder);
+        const ranks = getRanks().reverse();
+        let upperRank;
+        const drawRanks = [];
         for (const rank of ranks) {
-            const borderSum = borders.map(b => b.border).reduce((a, b) => a + b);
-            const borderAvg = (borderSum * rank) / borders.length;
-            if (borderAvg >= powerMin && borderAvg <= powerMax) {
+            if (maxBorder.border * rank > max.y) {
+                upperRank = rank;
+            } else if (maxBorder.border * rank <= max.y && minBorder.border * rank >= min.y) {
+                if (upperRank) {
+                    drawRanks.push(upperRank);
+                    upperRank = null;
+                }
+                drawRanks.push(rank);
+            } else if (upperRank) {
+                // 上のif文に一度も引っ掛からずにきた場合、一回余分に追加する
+                drawRanks.push(upperRank);
+                upperRank = null;
                 drawRanks.push(rank);
                 continue;
-            } else if (borderAvg < powerMin) {
-                // drawRanksに要素がある状態で描画範囲外になったら終わる
-                afterRank = rank;
+            } else {
+                drawRanks.push(rank);
                 break;
             }
-            beforeRank = rank;
-        }
-        if (drawRanks.length == 0 || drawRanks.length == 1) {
-            drawRanks.unshift(beforeRank);
-            drawRanks.push(afterRank);
-        } else if (drawRanks.length == 2) {
-            drawRanks.unshift(beforeRank);
         }
         return drawRanks;
     }
@@ -85,13 +122,14 @@
     /**
      * データセットにボーダーのデータを追加する。
      * *新しい配列*を返す
+     * @param datasets *ファイターのデータのみを含む*データセット（ボーダーを含んではいけない）
     */
     async function addBorderData(datasets, from, to) {
         const response = await fetch(`/borders?from=${from}&to=${to}`);
         const borders = await response.json(); // [{id, border, createdAt}]
-        // TODO: 複数ファイターがいるときのボーダー取得方法
-        const powers = datasets[0].data.map(e => e.y);
-        const rankDatas = getNearRanks(borders, powers).map(c => {
+        // NOTE: 以下で複数ファイター存在時に対応する
+        const fighterDatas = [].concat(...datasets.map(e => e.data));
+        const rankDatas = getNearRanks(borders, fighterDatas).map(c => {
             const dataset = {};
             const rankData = getRankData(c)
             dataset["label"] = rankData.rank + "段";
@@ -127,7 +165,8 @@
         datasets = addPointStyle(datasets);
         // ボーダー追加
         if (border) {
-            datasets = await addBorderData(datasets, borderFrom, borderTo);
+            const {from, to} = getEdgeDate(datasets);
+            datasets = await addBorderData(datasets, from, to);
         }
         const chart = Chart.getChart("powerChart");
         chart.data.datasets = datasets;
@@ -138,12 +177,13 @@
         if (powers.length === 0) {
             return;
         }
-        let datasets = sliceDatasets(powers, 10);
+        let datasets = sliceDatasets(powers, range);
         // pointStyleを設定する
-        datasets = addPointStyle(powers);
+        datasets = addPointStyle(datasets);
         // ボーダーを取得する
-        if (borderFrom && borderTo) {
-            datasets = await addBorderData(datasets, borderFrom, borderTo);
+        if (isDisplayRank) {
+            const {from, to} = getEdgeDate(datasets);
+            datasets = await addBorderData(datasets, from, to);
         }
         const ctx = document.getElementById("powerChart").getContext("2d");
         new Chart(ctx, {
@@ -169,7 +209,10 @@
                             usePointStyle: true,
                             boxWidth: 30,
                             filter: (d) => {
-                                return (borderFrom && borderTo && !d.text.includes("段")) ? false : true
+                                if (isMultipleFighter) {
+                                    return true;
+                                }
+                                return (isDisplayRank && !d.text.includes("段")) ? false : true
                             },
                             generateLabels: function(chart) {
                                 var data = chart.data;
