@@ -309,7 +309,7 @@
         <div class="radio-group" name="range">
             <input bind:group={range} value={10} on:change={async () => await updateChart(powers, range, isDisplayRank)} class="radio-input" id="radio-recent" type="radio" name="range" checked="checked">
             <label class="radio-label" for="radio-recent">最新10件</label>
-            <input bind:group={range} value={undefined} on:change={async () => await updateChart(powers, range, isDisplayRank)} class="radio-input" id="radio-all" type="radio" name="range">
+            <input disabled={isMultipleFighter} bind:group={range} value={undefined} on:change={async () => await updateChart(powers, range, isDisplayRank)} class="radio-input" id="radio-all" type="radio" name="range">
             <label class="radio-label" for="radio-all">すべて</label>
         </div>
     </div>
