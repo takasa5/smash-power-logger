@@ -124,8 +124,9 @@ export async function post({ request, params, locals }) {
             }
         }
         try {
-            for (const elm of data) {
-                await client.v1.deleteTweet(elm.key);
+            const tweetIdSet = new Set(data.map(e => e.tweetId));
+            for (const id of tweetIdSet) {
+                await client.v1.deleteTweet(id);
             }
         } catch (err) {
             return {

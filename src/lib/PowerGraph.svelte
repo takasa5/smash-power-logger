@@ -210,7 +210,7 @@
                             boxWidth: 30,
                             filter: (d) => {
                                 if (isMultipleFighter) {
-                                    return true;
+                                    return (isDisplayRank && !d.text.includes("段")) ? true : false;
                                 }
                                 return (isDisplayRank && !d.text.includes("段")) ? false : true
                             },

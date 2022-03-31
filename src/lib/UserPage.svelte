@@ -6,7 +6,7 @@
         flash.update(() => null);
     }
 
-    export let id, twitter_name, twitter_image, fighters;
+    export let id, twitter_name, twitter_image, fighters, breadcrumb;
 
     import { writable } from "svelte/store";
     import Modal, { bind } from "svelte-simple-modal";
@@ -34,7 +34,10 @@
         </div>
     </div>
 {/if}
-<div class="d-flex flex-wrap-reverse my-4">
+<div class="d-flex mx-2 mt-4">
+    {@html breadcrumb}
+</div>
+<div class="d-flex flex-wrap-reverse mb-4">
     <div class="col-lg-4 col-12">
         <div class="Box m-2">
             <div class="Box-header h3">
