@@ -203,6 +203,33 @@
                 plugins: {
                     legend: {
                         position: 'bottom',
+                        async onClick(event, item) {
+                            const index = item.datasetIndex;
+                            const ci = this.chart;
+                            if (ci.isDatasetVisible(index)) {
+                                ci.hide(index);
+                                ci.data.datasets[index].hidden = true;
+                                item.hidden = true;
+                            } else {
+                                ci.show(index);
+                                ci.data.datasets[index].hidden = false;
+                                item.hidden = false;
+                            }
+                            const visibleDatas = this.chart.data.datasets.filter(e =>
+                                !e.label.includes("段") 
+                                && !e.hidden
+                            );
+                            if (visibleDatas.length == 0) {
+                                return;
+                            }
+                            let fighterDatas = this.chart.data.datasets.filter(e => !e.label.includes("段"));
+                            // 見えているデータの範囲でボーダー取得
+                            const {from, to} = getEdgeDate(visibleDatas);
+                            const datasets = await addBorderData(visibleDatas, from, to);
+                            // 完全なデータとボーダーを結合
+                            this.chart.data.datasets = fighterDatas.concat(datasets.filter(e => e.label.includes("段")));
+                            this.chart.update();
+                        },
                         labels: {
                             usePointStyle: true,
                             boxWidth: 30,
