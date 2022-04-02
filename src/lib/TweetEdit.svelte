@@ -65,7 +65,7 @@
 
 <div class="d-flex flex-column">
     <div class="col-12 form-control" class:errored={restCount < 0}>
-        <textarea bind:value class="col-12" style="resize: none; border: none; outline: none;"></textarea>
+        <textarea placeholder="ツイートの内容を記入できます" bind:value class="col-12" style="resize: none; border: none; outline: none;"></textarea>
         <div class="color-fg-subtle text-right">{hashTag} {window.location.href}</div>
     </div>
     <div class="col-12 color-fg-subtle text-right">{restCount}</div>

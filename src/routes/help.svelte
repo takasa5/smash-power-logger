@@ -19,27 +19,42 @@
             SmashPowerLogger を使って戦闘力を記録すると、戦闘力の変化が折れ線グラフによって可視化されるため、<b>実力の変化により敏感に</b>なれます。<br>
             また、<a href="https://kumamate.net/" target="_blank" rel="noopener noreferrer">クマメイト</a>様のご協力により、VIPボーダーラインおよび<a href="https://kumamate.net/vip/" target="_blank" rel="noopener noreferrer">世界戦闘力の段位</a>が日次で集計され、可視化されます。<br>
             各段位のボーダーラインと自分の戦闘力を比較することによって、<b>世界のプレイヤーに対する自分の実力の変化</b>を知ることもできます。ご活用ください。<br>
-            ver 0.0.1 時点では、ユーザーページ機能（戦闘力の記録・共有）のみを提供しています。
+            現時点では、ユーザーページ機能（戦闘力の記録・共有）のみを提供しています。
         </div>
         <h2 id="how-to-register-power" class="mt-4 mb-2">戦闘力の記録方法</h2>
         <div class="p-responsive">
             SmashPowerLoggerでは、スクリーンショットを用いて戦闘力を記録します。<br>
             まず、大乱闘スマッシュブラザーズSPECIALの「オンライン > だれかと」モードでファイター選択画面を開きます。<br>
             戦闘力を記録したいファイターにカーソルを合わせ、Switch本体の機能でスクリーンショットを撮ります。<br>
-            <div class="col-md-6 col-10">
+            <div class="col-lg-6 col-10">
                 <img class="col-12" src="/mario_power.jpeg" alt="マリオの戦闘力スクリーンショット"/>
             </div>
+            <h3 class="mt-2">方法1. Twitter経由で記録する</h3>
             スクリーンショットを用意できたら、<a href="https://support.nintendo.co.jp/app/answers/detail/a_id/37589" target="_blank" rel="noopener noreferrer">Switch本体の画像一覧からTwitterへ共有</a>します。<br>
-            ツイートがされていることを確認できたら、SmashPowerLoggerのご自身のユーザーページで「戦闘力を記録」ボタンを押します（ツイート完了から読み込めるようになるまで5秒程度かかります）。<br>
-            <div class="col-md-4 col-8">
-                <img class="col-12" src="/screenshot_register.png" alt="「戦闘力を記録」ボタン"/>
+            ツイートがされていることを確認できたら、SmashPowerLoggerのご自身のユーザーページで「ツイートから戦闘力を記録」ボタンを押します（ツイート完了から読み込めるようになるまで5秒程度かかります）。<br>
+            <div class="col-lg-4 col-8">
+                <img class="col-12" src="/screenshot_register_1.png" alt="「戦闘力を記録」ボタン"/>
             </div>
-            「戦闘力を記録」ボタンを押すと、SmashPowerLoggerはあなたのツイートを読み込み、自動でファイター・戦闘力・日付を認識します。<br>
+            「戦闘力を記録」ボタンを押すと、SmashPowerLoggerはあなたのツイートを読み込み、自動でファイター・戦闘力・日付を認識します（日付はツイートした日時です）。<br>
             意図しないデータがある場合は「記録しない」ボタンを押して除去してください。<br>
             認識結果に満足された場合は「記録する」ボタンを押すことで戦闘力が記録されます。<br>
-            <div class="col-md-6 col-10">
+            「記録したツイートを削除する」にチェックを入れた状態で「記録する」を押すと、記録と同時にツイートが削除されます。<br>
+            <div class="col-lg-6 col-10">
                 <img class="col-12" src="/screenshot_recognize.png" alt="読み込み結果"/>
             </div>
+            <h3 class="mt-2">方法2. スクリーンショットを直接アップロードして記録する</h3>
+            ツイートをしたくない場合、Switchと連携しているアカウントとは別のアカウントで記録したい場合は、スクリーンショットをSmashPowerLoggerに直接アップロードして記録することができます。<br>
+            お使いのデバイスに戦闘力のスクリーンショットを用意し、「画像から戦闘力を記録」ボタンを押します。<br>
+            <div class="col-lg-4 col-8">
+                <img class="col-12" src="/screenshot_register_2.png" alt="「戦闘力を記録」ボタン"/>
+            </div>
+            以下のような画面が表示されます。<br>
+            画像をドラッグ&ドロップするか、灰色の領域をクリック・タップすることで画像をアップロードできます。<br>
+            自動でファイター・戦闘力・日付を認識します（日付はアップロードした日時です）。<br>
+            <div class="col-lg-6 col-10">
+                <img class="col-12" src="/screenshot_upload.png" alt="画像アップロード"/>
+            </div>
+            画像の認識に成功したら、その後は方法1と同様です。<br>
         </div>
         <h2 id="troubleshooting" class="mt-4 mb-2">戦闘力が記録できないときは</h2>
         <div class="p-responsive">
@@ -47,12 +62,12 @@
             <h3>1. スクリーンショット</h3>
             左下にファイター名が、右下に世界戦闘力が写っていることをご確認ください。<br>
             特に、カーソルがいずれかの上にあると認識に失敗してしまうためご注意ください（下図の青枠で囲まれた範囲にカーソルがあると失敗することがあります）。<br>
-            <div class="col-md-6 col-10">
+            <div class="col-lg-6 col-10">
                 <img class="col-12" src="/recognize_zone.png" alt="認識範囲"/>
             </div>
             また、クッパJr.やMiiファイターなど一部のキャラは、ファイターの色を変えたりMiiを選択したりしていない状態のデフォルトの名前以外は認識できませんので、ご了承ください。<br>
             <h3>2. ツイート</h3>
-            ver 0.0.1 時点では、SmashPowerLoggerは最大で最新20件より過去のツイートは読み込めません。<br>
+            現時点では、SmashPowerLoggerは最新20件、前回の記録以降のツイートの少ないほうの数だけツイートを読み込みます。<br>
             また、一度の記録で読み込めるスクリーンショットの枚数は4枚までです。<br>
             Twitterにスクリーンショットを共有する際のデフォルトのハッシュタグ（#SmashBrosSP #NintendoSwitch）は、認識のために必要なので消さずに投稿してください。<br>
             <h3>3. SmashPowerLogger</h3>

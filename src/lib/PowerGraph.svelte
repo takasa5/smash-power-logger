@@ -39,7 +39,6 @@
         // 最大と最小を取得
         const max = powers.reduce((a, b) => a.y > b.y ? a : b);
         const min = powers.reduce((a, b) => a.y < b.y ? a : b);
-        console.log(max, min);
         // 最大の直前のボーダーを取得
         const maxBorder = borders.find(
             e => moment(e.createdAt).isBetween(
@@ -54,7 +53,6 @@
                 moment(min.x).add(1, "days")
             )
         ) || borders[borders.length - 1];
-        console.log(maxBorder, minBorder);
         const ranks = getRanks().reverse();
         let upperRank;
         const drawRanks = [];
