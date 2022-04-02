@@ -79,6 +79,9 @@ export async function get({ params, locals }) {
                 .map(e => {
                     e.tweetId = mediaList[e.media_key].id;
                     e.createdAt = mediaList[e.media_key].created_at;
+                    // URLを整形してオリジナルサイズを取得する
+                    const ext = e.url.split(".").pop();
+                    e.url = e.url.replace("." + ext, "") + `?format=${ext}&name=large`;
                     return e;
                 });
         const data = await recognizeImages(splId, urlList);
