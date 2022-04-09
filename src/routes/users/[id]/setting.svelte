@@ -19,7 +19,9 @@
     import { flash } from "$lib/stores/flash";
     import { powerCache } from "$lib/stores/powerCache";
 
-    export let fighters;
+    export let fighters, publish_flag, twitter_publish_flag;
+    // bind:checkedのために必要
+    let not_publish_flag = !publish_flag;
     let user = $session;
     let powers, selectedFighter;
 
@@ -85,6 +87,20 @@
         tmp[fighterId] = powers;
         powerCache.update(c => Object.assign(c, tmp));
     }
+
+    async function updateConfig(notPubFlag, twPubFlag) {
+        // 更新後の値がとれないため、使用時に否定系を代入する
+        const response = await fetch(`/users/${user.splId}/setting`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                publish_flag: !notPubFlag,
+                twitter_publish_flag: twPubFlag
+            })
+        });
+    }
 </script>
 
 <svelte:head>
@@ -129,6 +145,27 @@
                 </div>
             </div>
             <div class="Box-row">
+                <div class="h4">ユーザー設定</div>
+                <div class="px-2">
+                    <div class="form-checkbox">
+                        <label>
+                        <input on:change={async () => await updateConfig(!not_publish_flag, twitter_publish_flag)} bind:checked={not_publish_flag} type="checkbox" aria-describedby="publish" />
+                        ページを非公開にする
+                        </label>
+                        <p class="note" id="publish">
+                        チェックを入れると、自分以外からユーザーページが見られなくなります
+                        </p>
+                    </div>
+                    <div class="form-checkbox">
+                        <label>
+                        <input on:change={async () => await updateConfig(not_publish_flag, !twitter_publish_flag)} type="checkbox" bind:checked={twitter_publish_flag} aria-describedby="twitter_publish" />
+                        Twitterアカウントを公開する
+                        </label>
+                        <p class="note" id="twitter_publish">
+                        チェックを入れると、ユーザーページにTwitterへのリンクが公開されます
+                        </p>
+                    </div>
+                </div>
                 <div class="h4">データを削除する</div>
                 <div class="color-fg-subtle">※各ファイターの最新10件のみ各個データを削除できます</div>
                 <!-- svelte-ignore a11y-no-redundant-roles -->

@@ -25,7 +25,7 @@ export const handle = async({ event, resolve }) => {
                     path: '/',
                     httpOnly: true,
                     secure: true,
-                    sameSite: 'strict',
+                    sameSite: 'lax',
                     maxAge: 0
                 })
             );
@@ -40,7 +40,7 @@ export const handle = async({ event, resolve }) => {
         path: '/',
         httpOnly: true,
         secure: true,
-        sameSite: 'strict'
+        sameSite: 'lax'
     };
     // セッションIDはなければ必ずcookieにセット
     if (!cookies.sessionId) {
@@ -49,7 +49,6 @@ export const handle = async({ event, resolve }) => {
             "set-cookie",
             cookie.serialize("sessionId", event.locals.sessionId, {
                 ...cookieOptions,
-                sameSite: "lax"
             })
         );
         return response;
@@ -60,7 +59,6 @@ export const handle = async({ event, resolve }) => {
             "set-cookie",
             cookie.serialize("auth", JSON.stringify(event.locals.auth), {
                 ...cookieOptions,
-                sameSite: "Lax", // authはリダイレクトで利用する
                 maxAge: 60
             })
         );

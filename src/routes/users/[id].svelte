@@ -1,7 +1,7 @@
 <script>
     import PowerGraph from "$lib/PowerGraph.svelte";
     import UserPage from "$lib/UserPage.svelte";
-    export let id, twitter_name, twitter_image, fighters, powers;
+    export let id, twitter_name, twitter_image, twitter_username, publish_flag, twitter_publish_flag, fighters, powers;
 
     import { session } from "$app/stores";
     let loginUser = $session;
@@ -37,7 +37,10 @@
     id={id}
     twitter_name={twitter_name}
     twitter_image={twitter_image}
+    {twitter_username}
     fighters={fighters} 
+    {publish_flag}
+    {twitter_publish_flag}
     {breadcrumb}>
     <PowerGraph
         slot="power"

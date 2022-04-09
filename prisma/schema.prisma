@@ -24,11 +24,13 @@ model Power {
 }
 
 model User {
-  id                Int       @id @default(autoincrement())
-  twitter_username  String
-  twitter_image     String
-  twitter_id        String    @unique
-  twitter_name      String
+  id                    Int       @id @default(autoincrement())
+  twitter_username      String
+  twitter_image         String
+  twitter_id            String    @unique
+  twitter_name          String
+  publish_flag          Boolean   @default(true)
+  twitter_publish_flag  Boolean   @default(false)
 
   @@index([id])
   @@index([twitter_id])

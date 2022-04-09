@@ -2,7 +2,7 @@
     import { flash } from "$lib/stores/flash";
     import { getContext } from "svelte";
     const { close } = getContext("simple-modal");
-    export let id;
+    export let id, publish_flag;
 
     let value = "";
     const hashTag = "#SmashPowerLogger"
@@ -12,7 +12,7 @@
     */
     function getRestCount(content) {
         const max = 140;
-        const urlLength = 23;
+        const urlLength = publish_flag ? 23 : 0;
         return max - urlLength - hashTag.length - content.length;
     }
 
@@ -25,8 +25,8 @@
     async function share() {
         disabled = true;
         const text = value.length > 0 
-            ? value + " " + hashTag + " " + window.location.href 
-            : hashTag + " " + window.location.href;
+            ? value + " " + hashTag + (publish_flag ? " " + window.location.href : "") 
+            : hashTag + " " + (publish_flag ? " " + window.location.href : "") ;
         const response = await fetch(`/users/${id}/share`, {
             method: "POST",
             headers: {
@@ -66,7 +66,7 @@
 <div class="d-flex flex-column">
     <div class="col-12 form-control" class:errored={restCount < 0}>
         <textarea placeholder="ツイートの内容を記入できます" bind:value class="col-12" style="resize: none; border: none; outline: none;"></textarea>
-        <div class="color-fg-subtle text-right">{hashTag} {window.location.href}</div>
+        <div class="color-fg-subtle text-right">{hashTag}{(publish_flag ? " " + window.location.href : "")}</div>
     </div>
     <div class="col-12 color-fg-subtle text-right">{restCount}</div>
     <img class="col-8 m-auto" src={base64} alt="添付画像"/>

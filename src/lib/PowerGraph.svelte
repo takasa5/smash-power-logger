@@ -39,6 +39,7 @@
         // 最大と最小を取得
         const max = powers.reduce((a, b) => a.y > b.y ? a : b);
         const min = powers.reduce((a, b) => a.y < b.y ? a : b);
+        // TODO: 1日おきにボーダーが取得できていないと綺麗に出ない
         // 最大の直前のボーダーを取得
         const maxBorder = borders.find(
             e => moment(e.createdAt).isBetween(

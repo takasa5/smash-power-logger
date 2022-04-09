@@ -1,7 +1,7 @@
 import { convertPowersToDataset, getFighters, getRecentPowers } from "$lib/power";
 import { getUser } from "$lib/user";
 
-export async function get({ params }) {
+export async function get({ params, locals }) {
     if (isNaN(params.id)) {
         return {
             status: 404
@@ -16,6 +16,14 @@ export async function get({ params }) {
                 status: 404
             }
         }
+        // 鍵アカウント判定
+        if (!user.publish_flag) {
+            if (!locals.user || locals.user.info.splId != params.id) {
+                return {
+                    status: 403
+                }
+            }
+        }
         // 戦闘力を取得
         const powers = await getRecentPowers(splId);
         const datasets = convertPowersToDataset(powers);
@@ -25,11 +33,9 @@ export async function get({ params }) {
             status: 200,
             body: {
                 id: splId,
-                twitter_name: user.twitter_name,
-                twitter_username: user.twitter_username,
-                twitter_image: user.twitter_image,
                 powers: datasets,
-                fighters: fighters
+                fighters: fighters,
+                ...user
             }
         }
     } catch (err) {

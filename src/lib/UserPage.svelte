@@ -6,7 +6,8 @@
         flash.update(() => null);
     }
 
-    export let id, twitter_name, twitter_image, fighters, breadcrumb;
+    export let id, twitter_name, twitter_image, twitter_username, fighters, breadcrumb;
+    export let publish_flag, twitter_publish_flag;
 
     import { writable } from "svelte/store";
     import Modal, { bind } from "svelte-simple-modal";
@@ -15,7 +16,7 @@
     import ImageUpload from "./ImageUpload.svelte";
     const modal = writable(null);
     const showPowerModal = () => modal.set(bind(PowerLoading, { splId: id }));
-    const showShareModal = () => modal.set(bind(TweetEdit, {id}));
+    const showShareModal = () => modal.set(bind(TweetEdit, {id, publish_flag}));
     const showImageModal = () => modal.set(bind(ImageUpload, { splId: id }));
 </script>
 
@@ -44,10 +45,22 @@
         <div class="Box m-2">
             <div class="Box-header h3">
                 <a href="/users/{id}" class="Link--primary">{twitter_name}</a>
+                {#if !publish_flag}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M4 4v2h-.25A1.75 1.75 0 002 7.75v5.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 13.25v-5.5A1.75 1.75 0 0012.25 6H12V4a4 4 0 10-8 0zm6.5 2V4a2.5 2.5 0 00-5 0v2h5zM12 7.5h.25a.25.25 0 01.25.25v5.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-5.5a.25.25 0 01.25-.25H12z"></path></svg>
+                {/if}
             </div>
             <div class="Box-row d-flex">
                 <img class="col-4 avatar avatar-8 mx-auto" src={twitter_image.replace("_normal", "_bigger")} alt="{twitter_name}" />
-                <div class="col-8">SPL-ID: {id}</div>
+                <div class="col-8">
+                    <div>SPL-ID: {id}</div>
+                    {#if twitter_publish_flag}
+                    <div>
+                    <a class="d-flex flex-items-center" href="https://twitter.com/{twitter_username}" target="_blank" rel="noopener noreferrer">
+                        <img class="mr-1" src="/twitter_logo.svg" width="16" height="16" alt="twitter"/> {twitter_username}
+                    </a>
+                    </div>
+                    {/if}
+                </div>
             </div>
             {#if user && id == user.splId}
             <div class="Box-row d-flex flex-wrap flex-justify-center">

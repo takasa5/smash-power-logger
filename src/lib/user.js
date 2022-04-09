@@ -70,3 +70,15 @@ export async function deleteUser(splId) {
         }
     });
 }
+
+export async function updatePublish(splId, publish_flag, twitter_publish_flag) {
+    await prisma.user.update({
+        where: {
+            id: splId
+        },
+        data: {
+            publish_flag,
+            twitter_publish_flag
+        }
+    });
+}
