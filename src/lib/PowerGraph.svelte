@@ -205,6 +205,7 @@
                     legend: {
                         position: 'bottom',
                         async onClick(event, item) {
+                            console.log(item);
                             const index = item.datasetIndex;
                             const ci = this.chart;
                             if (ci.isDatasetVisible(index)) {
@@ -215,6 +216,9 @@
                                 ci.show(index);
                                 ci.data.datasets[index].hidden = false;
                                 item.hidden = false;
+                            }
+                            if (item.text.includes("段")) {
+                                return;
                             }
                             const visibleDatas = this.chart.data.datasets.filter(e =>
                                 !e.label.includes("段") 
