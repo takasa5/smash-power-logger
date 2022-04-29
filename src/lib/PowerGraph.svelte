@@ -6,7 +6,46 @@
     import { getRankData, getRanks } from "./kumamateRank";
 
     export let id, loginUser, powers, control, isDisplayRank, isMultipleFighter;
+    let rankString;
     let range = 10;
+
+    /**
+     * 現在の段位を算出して返す
+     * @params borders ボーダーのリスト [{id, border, createdAt}]
+     * @params powers 戦闘力のリスト [{x, y}, ...]
+    */
+    function getCurrentRank(borders, powers) {
+        if (borders.length == 0) {
+            return;
+        }
+        const currentPower = powers.reduce((a, b) => 
+            moment(a.x).isAfter(moment(b.x)) ? a : b
+        );
+        const newestBorder = borders[borders.length - 1];
+        const newBorder = borders[borders.length - 2];
+        const deltaX = moment(newestBorder.createdAt).diff(moment(newBorder.createdAt));
+        const deltaY = newestBorder.border - newBorder.border;
+        let currentBorder;
+        let isEstimated = false;
+        if (moment(currentPower.x) > moment(newestBorder.createdAt)) {
+            // 推定値
+            currentBorder = newestBorder.border + (deltaY / deltaX) * (moment(currentPower.x).diff(newestBorder.createdAt));
+            isEstimated = true;
+        } else {
+            currentBorder = newBorder.border + (deltaY / deltaX) * (moment(currentPower.x).diff(newBorder.createdAt));
+        }
+        console.log(currentBorder);
+        const ranks = getRanks().reverse();
+        let currentRank = null;
+        for (const rank of ranks) {
+            currentRank = rank;
+            if (rank * currentBorder < currentPower.y) {
+                break;
+            }
+        }
+        const rankData = getRankData(currentRank);
+        return `現在の段位は <b>${rankData.rank}段：${rankData.label}</b> です${isEstimated ? "<span class='color-fg-subtle'>（推定値）</span>" : ""}`;
+    }
 
     /**
      * 戦闘力に対して最新と最古の日付を取得する
@@ -19,7 +58,7 @@
             moment(a.x).isBefore(moment(b.x)) ? a : b
         );
         const to = fighterDatas.reduce((a, b) => 
-            moment(a.x).isAfter(b.x) ? a : b
+            moment(a.x).isAfter(moment(b.x)) ? a : b
         );
         return {
             from: from.x,
@@ -28,7 +67,7 @@
     } 
 
     /**
-     * 戦闘力に対して描画範囲内のスマメイトの段を返す
+     * 戦闘力に対して描画範囲内のクマメイトの段を返す
      * @params borders ボーダーのリスト [{id, border, createdAt}]
      * @params powers 戦闘力のリスト [{x, y}, ...]
     */
@@ -126,8 +165,11 @@
     async function addBorderData(datasets, from, to) {
         const response = await fetch(`/borders?from=${from}&to=${to}`);
         const borders = await response.json(); // [{id, border, createdAt}]
+
+
         // NOTE: 以下で複数ファイター存在時に対応する
         const fighterDatas = [].concat(...datasets.map(e => e.data));
+        rankString = getCurrentRank(borders, fighterDatas);
         const rankDatas = getNearRanks(borders, fighterDatas).map(c => {
             const dataset = {};
             const rankData = getRankData(c)
@@ -329,6 +371,11 @@
     {/if}
 </div>
 {:else}
+{#if rankString && !isMultipleFighter}
+<div class="p-responsive my-2">
+    {@html rankString}
+</div>
+{/if}
 <div class="m-2" id="chartContainer">
     <canvas id="powerChart"/>
 </div>
