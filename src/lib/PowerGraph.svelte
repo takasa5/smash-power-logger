@@ -34,7 +34,6 @@
         } else {
             currentBorder = newBorder.border + (deltaY / deltaX) * (moment(currentPower.x).diff(newBorder.createdAt));
         }
-        console.log(currentBorder);
         const ranks = getRanks().reverse();
         let currentRank = null;
         for (const rank of ranks) {
@@ -166,7 +165,6 @@
         const response = await fetch(`/borders?from=${from}&to=${to}`);
         const borders = await response.json(); // [{id, border, createdAt}]
 
-
         // NOTE: 以下で複数ファイター存在時に対応する
         const fighterDatas = [].concat(...datasets.map(e => e.data));
         rankString = getCurrentRank(borders, fighterDatas);
@@ -190,6 +188,9 @@
             });
             return dataset;
         });
+        if (rankDatas.length > 1) {
+            rankDatas.forEach(e => {e.data = [e.data[0], e.data[e.data.length - 1]]});
+        }
         return datasets.concat(rankDatas);
     }
 
@@ -199,13 +200,13 @@
         return color + _opacity.toString(16).toUpperCase();
     }
 
-    async function updateChart(originDatasets, range, border) {
+    async function updateChart(originDatasets, range, isDisplayBorder) {
         // データをフィルタリング
         let datasets = sliceDatasets(originDatasets, range);
         // スタイル追加
         datasets = addPointStyle(datasets);
         // ボーダー追加
-        if (border) {
+        if (isDisplayBorder) {
             const {from, to} = getEdgeDate(datasets);
             datasets = await addBorderData(datasets, from, to);
         }
@@ -247,7 +248,6 @@
                     legend: {
                         position: 'bottom',
                         async onClick(event, item) {
-                            console.log(item);
                             const index = item.datasetIndex;
                             const ci = this.chart;
                             if (ci.isDatasetVisible(index)) {
@@ -282,7 +282,10 @@
                             boxWidth: 30,
                             filter: (d) => {
                                 if (isMultipleFighter) {
-                                    return (isDisplayRank && !d.text.includes("段")) ? true : false;
+                                    if (isDisplayRank) {
+                                        return !d.text.includes("段") ? true : false;
+                                    }
+                                    return true;
                                 }
                                 return (isDisplayRank && !d.text.includes("段")) ? false : true
                             },

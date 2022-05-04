@@ -49,7 +49,7 @@
     }
 
     let acceptedFiles = [];
-    let powers;
+    let powers = [];
     let postObjs;
     async function handleFilesSelect(e) {
         const { acceptedFiles: accepted, fileRejections } = e.detail;
@@ -147,7 +147,7 @@
     <button class="btn btn-secondary mr-2" on:click={close}>
         キャンセル
     </button>
-    <button class="btn btn-outline" on:click={registPower} aria-disabled={!powers || disabled} disabled={!powers || disabled}>
+    <button class="btn btn-outline" on:click={registPower} aria-disabled={powers.length == 0 || disabled} disabled={powers.length == 0 || disabled}>
         記録する
     </button>
 </div>
