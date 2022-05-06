@@ -12,17 +12,6 @@ generator client {
   previewFeatures = ["referentialIntegrity", "extendedIndexes"]
 }
 
-model Power {
-  id          Int       @id @default(autoincrement())
-  userId      Int
-  fighterId   String    @db.VarChar(3)
-  power       Int
-  recordedAt  DateTime
-
-  @@index([userId])
-  @@index([userId, fighterId])
-}
-
 model User {
   id                    Int       @id @default(autoincrement())
   twitter_username      String
@@ -31,9 +20,22 @@ model User {
   twitter_name          String
   publish_flag          Boolean   @default(true)
   twitter_publish_flag  Boolean   @default(false)
+  power                 Power[]
 
   @@index([id])
   @@index([twitter_id])
+}
+
+model Power {
+  id          Int       @id @default(autoincrement())
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
+  fighterId   String    @db.VarChar(3)
+  power       Int
+  recordedAt  DateTime
+
+  @@index([userId])
+  @@index([userId, fighterId])
 }
 
 model Border {

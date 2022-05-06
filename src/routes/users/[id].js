@@ -1,4 +1,4 @@
-import { convertPowersToDataset, getFighters, getRecentPowers } from "$lib/power";
+import { convertPowersToDataset, getFighters, getRecentPowersBy } from "$lib/power";
 import { getUser } from "$lib/user";
 
 export async function get({ params, locals }) {
@@ -25,7 +25,7 @@ export async function get({ params, locals }) {
             }
         }
         // 戦闘力を取得
-        const powers = await getRecentPowers(splId);
+        const powers = await getRecentPowersBy(splId);
         const datasets = convertPowersToDataset(powers);
         // ファイター情報を取得
         const fighters = await getFighters(splId);

@@ -27,25 +27,28 @@ export async function registPowers(splId, itemList) {
  * @returns データセット：[{label, src, backgroundColor, borderColor, data: [{x, y}]}]
  */
 export function convertPowersToDataset(powers) {
+    const DELIMITER = "-";
     if (powers.length === 0) {
         return [];
     }
     const fighterMap = {};
     for (const power of powers) {
-        if (Object.keys(fighterMap).includes(power.fighterId)) {
-            fighterMap[power.fighterId].push({
+        const key = power.userId + DELIMITER + power.fighterId;
+        if (Object.keys(fighterMap).includes(key)) {
+            fighterMap[key].push({
                 x: power["recordedAt"],
                 y: power["power"]
             });
         } else {
-            fighterMap[power.fighterId] = [{
+            fighterMap[key] = [{
                 x: power["recordedAt"],
                 y: power["power"]
             }];
         }
     }
     const datasets = [];
-    for (const [fighterId, data] of Object.entries(fighterMap)) {
+    for (const [key, data] of Object.entries(fighterMap)) {
+        const fighterId = key.split(DELIMITER)[1];
         const nt = notation[fighterId];
         const dataset = {};
         dataset["src"] = nt["icon"];
@@ -81,11 +84,28 @@ export async function getPowers(splId, fighterId, limit = undefined) {
 }
 
 /**
+ * 全体のユーザーの最新の戦闘力を取得
+ * @returns [{id, userId, fighterId, power, recordedAt}, ...]
+ */
+export async function getRecentPowers() {
+    const powers = await prisma.power.findMany({
+        orderBy: {
+            recordedAt: "desc"
+        },
+        take: 10,
+        include: {
+            user: true
+        }
+    });
+    return powers.reverse();
+}
+
+/**
  * SPL IDを指定し、そのユーザーの最新の戦闘力を取得
  * @param splId SPL ID
  * @returns [{id, userId, fighterId, power, recordedAt}, ...]
  */
-export async function getRecentPowers(splId) {
+export async function getRecentPowersBy(splId) {
     const powers = await prisma.power.findMany({
         where: {
             userId: splId

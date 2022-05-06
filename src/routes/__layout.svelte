@@ -21,6 +21,7 @@
                 <ul>
                     <li class="Box-row　p-0"><a class="d-block m-lg-2 m-3" href="/users/{user.splId}">マイページ</a></li>
                     <li class="Box-row　p-0"><a class="d-block m-lg-2 m-3" href="/users/{user.splId}/setting">設定</a></li>
+                    <li class="Box-row　p-0"><a class="d-block m-lg-2 m-3" href="/recents">最近記録された戦闘力</a></li>
                     <li class="Box-row　p-0"><a class="d-block m-lg-2 m-3" href="/help">ヘルプ</a></li>
                     <li class="Box-row　p-0"><a class="d-block m-lg-2 m-3" href="/logout">ログアウト</a></li>
                 </ul>
@@ -33,7 +34,7 @@
                 <img src="/favicon.png" alt="logo" width="24" height="24" />
             </a>
             <a href="/" class="Header-link v-align-middle">SmashPowerLogger</a>
-            <a href="/history" class="f6 Link--primary color-fg-on-emphasis v-align-bottom pl-1">0.5.1 β</a>
+            <a href="/history" class="f6 Link--primary color-fg-on-emphasis v-align-bottom pl-1">0.6.0 β</a>
         </div>
         <div class="Header-item">
             {#if !user }

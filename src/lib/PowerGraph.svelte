@@ -5,7 +5,7 @@
     import "chartjs-adapter-moment";
     import { getRankData, getRanks } from "./kumamateRank";
 
-    export let id, loginUser, powers, control, isDisplayRank, isMultipleFighter;
+    export let id, loginUser, powers, control, isDisplayRank, isMultipleFighter, disableLegends;
     let rankString;
     let range = 10;
 
@@ -246,6 +246,7 @@
             options: {
                 plugins: {
                     legend: {
+                        display: !disableLegends,
                         position: 'bottom',
                         async onClick(event, item) {
                             const index = item.datasetIndex;
@@ -330,10 +331,6 @@
                 },
                 scales: {
                     y: {
-                        title: {
-                            display: true,
-                            text: "戦闘力"
-                        },
                         ticks: {
                             callback: function(label, index, labels) {
                                 return Intl.NumberFormat("ja-JP", {
