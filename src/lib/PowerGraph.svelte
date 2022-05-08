@@ -15,7 +15,7 @@
      * @params powers 戦闘力のリスト [{x, y}, ...]
     */
     function getCurrentRank(borders, powers) {
-        if (borders.length == 0) {
+        if (borders.length <= 1) {
             return;
         }
         const currentPower = powers.reduce((a, b) => 
@@ -164,7 +164,6 @@
     async function addBorderData(datasets, from, to) {
         const response = await fetch(`/borders?from=${from}&to=${to}`);
         const borders = await response.json(); // [{id, border, createdAt}]
-
         // NOTE: 以下で複数ファイター存在時に対応する
         const fighterDatas = [].concat(...datasets.map(e => e.data));
         rankString = getCurrentRank(borders, fighterDatas);
