@@ -67,7 +67,7 @@ export async function get({ params, locals }) {
             mediaKeys.push(mediaKey);
         }
         // 画像認識APIの時間制限により大量の画像は処理できないため、打ち切る
-        if (mediaKeys.length > 4) {
+        if (mediaKeys.length > 3) {
             break;
         }
     }

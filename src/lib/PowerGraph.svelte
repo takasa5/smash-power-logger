@@ -97,20 +97,25 @@
         const drawRanks = [];
         for (const rank of ranks) {
             if (maxBorder.border * rank > max.y) {
+                // ボーダーが戦闘力maxより高いとき
                 upperRank = rank;
             } else if (maxBorder.border * rank <= max.y && minBorder.border * rank >= min.y) {
+                // ボーダーが戦闘力min~maxの範囲内のとき
                 if (upperRank) {
+                    // 範囲よりワンランク上のボーダーをpush
                     drawRanks.push(upperRank);
                     upperRank = null;
                 }
+                // 範囲内のボーダーをpush
                 drawRanks.push(rank);
             } else if (upperRank) {
-                // 上のif文に一度も引っ掛からずにきた場合、一回余分に追加する
+                // upperRankを残したまま上のif文に一度も引っ掛からずにきた場合、一回余分に追加する
                 drawRanks.push(upperRank);
                 upperRank = null;
                 drawRanks.push(rank);
                 continue;
             } else {
+                // 範囲外（ワンランク下）のボーダーをpush
                 drawRanks.push(rank);
                 break;
             }
