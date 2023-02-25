@@ -59,7 +59,9 @@
 
 	<title>スマブラ戦闘力記録サービス SmashPowerLogger</title>
 </svelte:head>
-
+<div class="p-responsive flash">
+	2023年2月、Twitter APIの有料化に伴い、SmashPowerLoggerのサービス（戦闘力の認識・登録・共有）は停止します。長らくのご利用ありがとうございました。
+</div>
 <div class="p-responsive d-flex flex-justify-center flex-items-center flex-lg-row flex-column">
 	<div class="col-lg-6 col-12 mt-12 mb-6">
 		<h1 class="col-12 mx-auto d-flex flex-justify-center">

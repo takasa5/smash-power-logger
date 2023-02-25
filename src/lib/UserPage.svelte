@@ -37,6 +37,9 @@
         </div>
     </div>
 {/if}
+<div class="d-flex mx-2 mt-4 flash">
+    2023年2月、Twitter APIの有料化に伴い、SmashPowerLoggerのサービス（戦闘力の認識・登録・共有）は停止します。長らくのご利用ありがとうございました。
+</div>
 <div class="d-flex mx-2 mt-4">
     {@html breadcrumb}
 </div>
@@ -62,7 +65,7 @@
                     {/if}
                 </div>
             </div>
-            {#if user && id == user.splId}
+            <!-- {#if user && id == user.splId}
             <div class="Box-row d-flex flex-wrap flex-justify-center">
                 <button class="btn btn-large btn-block m-1 d-flex flex-justify-center flex-items-center" on:click={showPowerModal}>
                     <img class="mr-1" src="/twitter_logo.svg" width="16" height="16" alt="twitter"/> ツイートから戦闘力を記録
@@ -75,7 +78,7 @@
                     <img class="mr-1" src="/twitter_logo.svg" width="16" height="16" alt="twitter"/> 戦闘力グラフをツイート
                 </button>
             </div>
-            {/if}
+            {/if} -->
             {#if fighters.length > 0}
                 {#each fighters as fighter}
                 <div class="Box-row d-flex">
